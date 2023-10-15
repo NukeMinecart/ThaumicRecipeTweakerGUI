@@ -32,49 +32,22 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="center" hgap="10" styleClass="root" vgap="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nukemincart.thaumicrecipeGUI.ui.home.HomeUIController">
-  <padding><Insets bottom="10" left="25" right="25" top="25" /></padding>
-  
-  <Text id="welcome-text" styleClass="label" text="Thaumic Tweaker" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.columnSpan="2147483647" GridPane.rowIndex="0">
-      <font>
-         <Font size="32.0" />
-      </font></Text>
-  
-  <TextField GridPane.columnIndex="2" GridPane.rowIndex="3" />
-   <TextField GridPane.columnIndex="2" GridPane.rowIndex="2" />
-   <Button mnemonicParsing="false" stylesheets="@HomeUI.css" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-   <MenuButton mnemonicParsing="false" styleClass="button" stylesheets="@HomeUI.css" text="Load" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
-     <items>
-       <MenuItem mnemonicParsing="false" text="From Config" />
-       <MenuItem mnemonicParsing="false" text="From File" />
-     </items>
-   </MenuButton>
-  
-  <stylesheets>
-    <URL value="@HomeUI.css" />
-  </stylesheets>
-   <columnConstraints>
-      <ColumnConstraints />
-      <ColumnConstraints />
-      <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-   </rowConstraints>
-  
-</GridPane>
+<AnchorPane prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #222428;" stylesheets="@HomeUI.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="nukemincart.thaumicrecipeGUI.ui.home.HomeUIController">
+
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="195.0" layoutY="38.0" stylesheets="@HomeUI.css"
+           text="Thaumic Recipe Tweaker">
+        <font>
+          <Font size="31.0"/>
+        </font>
+    </Label>
+    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="29.0" layoutY="1.0" stroke="BLACK"
+               strokeType="INSIDE" style="-fx-fill: #989aa2;" width="750.0"/>
+    <Button fx:id="closeButton" layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" text="X"/>
+</AnchorPane>

@@ -5,17 +5,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class HomeUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("HomeUI.fxml"));
 
-        Scene scene = new Scene(root, 300, 275);
+        Scene scene = new Scene(root, 750, 500);
+
+        stage.initStyle(StageStyle.UNDECORATED);
 
         stage.setTitle("Thaumic Recipe Tweaker Home");
-        stage.setHeight(500);
-        stage.setWidth(750);
         stage.setScene(scene);
         stage.show();
     }
