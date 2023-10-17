@@ -1,7 +1,7 @@
-package nukemincart.thaumicrecipeGUI.ui;
+package main.java.nukeminecart.thaumicrecipe.ui;
 
 import javafx.application.Application;
-import nukemincart.thaumicrecipeGUI.ui.home.HomeUI;
+import main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI;
 
 public class UIManager {
     public static void main(String[] args){
