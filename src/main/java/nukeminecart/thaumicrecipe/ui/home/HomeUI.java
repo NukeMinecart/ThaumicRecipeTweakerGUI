@@ -9,7 +9,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class HomeUI{
     public SplitMenuButton newRecipeButton;
@@ -19,7 +21,7 @@ public class HomeUI{
     private String loadOption = "fromConfig";
     private String newOption = "recipeGroup";
     public static Parent getScene() throws IOException {
-        return FXMLLoader.load(HomeUI.class.getResource("HomeUI.fxml"));
+        return FXMLLoader.load(Objects.requireNonNull(HomeUI.class.getResource("HomeUI.fxml")));
     }
     @FXML
     private void closeScreen() {
@@ -42,6 +44,7 @@ public class HomeUI{
             FileChooser.ExtensionFilter extFilter =
                     new FileChooser.ExtensionFilter("RECIPE files (*.rcp)", "*.rcp");
             chooser.getExtensionFilters().add(extFilter);
+            chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
             chooser.showOpenDialog(UIManager.stage.getOwner());
         } else if (loadOption.equals("fromFolder")) {
 
