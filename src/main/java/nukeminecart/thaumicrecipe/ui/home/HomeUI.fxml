@@ -37,13 +37,22 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #222428;" stylesheets="@HomeUI.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI">
+<AnchorPane prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #222428;" stylesheets="@../Main.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI">
 
-    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="195.0" layoutY="38.0" stylesheets="@HomeUI.css" text="Thaumic Recipe Tweaker">
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="195.0" layoutY="38.0" stylesheets="@../Main.css" text="Thaumic Recipe Tweaker">
         <font>
           <Font size="31.0" />
         </font>
     </Label>
-    <Rectangle fx:id="toolbarRect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #989aa2;" width="750.0" />
+    <Rectangle fx:id="toolbarRect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;" width="750.0" />
     <Button fx:id="closeButton" layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" text="X" />
+   <SplitMenuButton layoutX="58.0" layoutY="312.0" mnemonicParsing="false" prefHeight="23.0" prefWidth="97.0" style="-fx-text-fill: 000000;" stylesheets="@../Main.css" text="Load" textAlignment="CENTER">
+     <items>
+       <MenuItem mnemonicParsing="false" text="Action 1" />
+       <MenuItem mnemonicParsing="false" text="Action 2" />
+     </items>
+      <font>
+         <Font size="16.0" />
+      </font>
+   </SplitMenuButton>
 </AnchorPane>
