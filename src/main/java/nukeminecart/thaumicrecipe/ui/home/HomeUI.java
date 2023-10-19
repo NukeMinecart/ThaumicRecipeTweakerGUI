@@ -4,33 +4,83 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 
 import java.io.IOException;
 
 public class HomeUI{
-    public Button closeButton;
+    public SplitMenuButton newRecipeButton;
+    public SplitMenuButton loadRecipeButton;
     private double x,y;
-    public Rectangle toolbarRect;
 
+    private String loadOption = "fromConfig";
+    private String newOption = "recipeGroup";
     public static Parent getScene() throws IOException {
         return FXMLLoader.load(HomeUI.class.getResource("HomeUI.fxml"));
     }
     @FXML
-    protected void closeScreen() {
+    private void closeScreen() {
         Platform.exit();
     }
-    @FXML public void panePressed(MouseEvent me){
+    @FXML private void panePressed(MouseEvent me){
         x = UIManager.stage.getX() - me.getScreenX();
         y = UIManager.stage.getY() - me.getScreenY();
     }
 
-    @FXML public void paneDragged(MouseEvent me){
+    @FXML private void paneDragged(MouseEvent me){
         UIManager.stage.setX(x + me.getScreenX());
         UIManager.stage.setY(y + me.getScreenY());
     }
 
+    @FXML private void loadRecipe() {
+        if(loadOption.equals("fromOther")) {
+            FileChooser chooser = new FileChooser();
+            chooser.setTitle("Open File");
+            FileChooser.ExtensionFilter extFilter =
+                    new FileChooser.ExtensionFilter("RECIPE files (*.rcp)", "*.rcp");
+            chooser.getExtensionFilters().add(extFilter);
+            chooser.showOpenDialog(UIManager.stage.getOwner());
+        } else if (loadOption.equals("fromFolder")) {
+
+        }else{
+
+        }
+    }
+
+    @FXML private void fromConfig() {
+        loadOption = "fromConfig";
+        loadRecipeButton.setText("Load From Config");
+        loadRecipeButton.setPrefWidth(180);
+
+    }
+
+    @FXML private void fromFolder() {
+        loadOption = "fromFolder";
+        loadRecipeButton.setText("Load From Folder");
+        loadRecipeButton.setPrefWidth(180);
+    }
+
+    @FXML private void fromOther() {
+        loadOption = "fromOther";
+        loadRecipeButton.setText("Load From Other");
+        loadRecipeButton.setPrefWidth(170);
+    }
+
+
+
+    @FXML private void newRecipe() {
+    }
+    @FXML private void newRecipeGroup() {
+        newOption = "recipeGroup";
+        newRecipeButton.setText("New Recipe Group");
+        newRecipeButton.setPrefWidth(180);
+    }
+    @FXML private void newSmallRecipe() {
+        newOption = "smallRecipe";
+        newRecipeButton.setText("New Recipe");
+        newRecipeButton.setPrefWidth(130);
+    }
 }
