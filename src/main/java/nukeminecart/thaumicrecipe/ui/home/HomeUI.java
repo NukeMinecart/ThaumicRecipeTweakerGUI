@@ -4,29 +4,32 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
+import main.java.nukeminecart.thaumicrecipe.ui.Transition;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.minecraftDir;
-import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.separator;
+import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.recipeDir;
 
 public class HomeUI{
-    public SplitMenuButton newRecipeButton;
-    public SplitMenuButton loadRecipeButton;
+    public MenuButton newChoice;
+    public MenuButton loadChoice;
     public MenuButton fileField;
+    public TextField newField;
+    public TextField loadField;
+    public Label loadWarning;
+    public Label newWarning;
     private double x,y;
-    private List<String> fileList;
-
+    private File[] files;
 
     private String loadOption = "fromConfig";
     private String newOption = "recipeGroup";
@@ -57,23 +60,29 @@ public class HomeUI{
             chooser.getExtensionFilters().add(extFilter);
             chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
             File fileChosen = chooser.showOpenDialog(UIManager.stage.getOwner());
-
+            if(fileChosen==null){
+                loadWarning.setText("File not found");
+                Transition.Fade(Duration.millis(10000),1,0,loadWarning);
+            }
 
         } else if (loadOption.equals("fromFolder")) {
-
-
+            if(loadField.getText().isEmpty() || loadField.getText() == null){
+                loadWarning.setText("Filename not valid");
+                Transition.Fade(Duration.millis(10000),1,0,loadWarning);
+            }
         }else{
             
         }
     }
     private void loadRecipeDirectory(){
-        if(minecraftDir != null){
-            File directory = new File(minecraftDir+separator+"thaumicrecipe");
+        if(recipeDir != null){
+            File directory = new File(recipeDir);
             if(!directory.exists()){
-                directory.mkdirs();
+                if(!directory.mkdirs()){
+                    throw new NullPointerException("Could not create directory");
+                }
             }
-
-            fileList.addAll(Arrays.asList(Objects.requireNonNull(directory.list())));
+            files = directory.listFiles();
         }
 
 
@@ -82,8 +91,8 @@ public class HomeUI{
     @FXML private void fromConfig() {
         fileField.setVisible(false);
         loadOption = "fromConfig";
-        loadRecipeButton.setText("Load From Config");
-        loadRecipeButton.setPrefWidth(180);
+        loadChoice.setText("From Config");
+        loadChoice.setPrefWidth(120);
 
     }
 
@@ -91,37 +100,68 @@ public class HomeUI{
         fileField.setVisible(true);
         loadRecipeDirectory();
         fileField.getItems().clear();
-        if(fileList != null) {
-            for (String name : fileList) {
-                fileField.getItems().add(new MenuItem(name));
+        if(files != null) {
+            for (File file : files) {
+                if(file.getName().endsWith(".rcp")) {
+                    MenuItem menuItem = new MenuItem(file.getName());
+                    menuItem.setOnAction(event -> loadField.setText(menuItem.getText()));
+                    fileField.getItems().add(menuItem);
+                }
             }
         }else{
             fileField.getItems().add(new MenuItem("No .rcp files found"));
         }
         loadOption = "fromFolder";
-        loadRecipeButton.setText("Load From Folder");
-        loadRecipeButton.setPrefWidth(180);
+        loadChoice.setText("From Folder");
+        loadChoice.setPrefWidth(120);
     }
 
     @FXML private void fromOther() {
         fileField.setVisible(false);
         loadOption = "fromOther";
-        loadRecipeButton.setText("Load From Other");
-        loadRecipeButton.setPrefWidth(170);
+        loadChoice.setText("From Other");
+        loadChoice.setPrefWidth(120);
     }
 
 
 
     @FXML private void newRecipe() {
+        if(newField.getText().isEmpty() || newField.getText() == null){
+            newWarning.setText("Enter a name for the recipe"+ (newOption.equals("recipeGroup") ? " group" : ""));
+            Transition.Fade(Duration.millis(10000),1,0,newWarning);
+        }
+        try{
+            File testfile = new File(newField.getText());
+            if(!testfile.delete()){
+                throw new NullPointerException("File cannot be deleted");
+            }
+        }catch (Exception e){
+            newWarning.setText("Filename is invalid");
+            Transition.Fade(Duration.millis(10000),1,0,newWarning);
+        }
+        if(newOption.equals("smallRecipe")){
+
+        }else{
+
+        }
     }
     @FXML private void newRecipeGroup() {
         newOption = "recipeGroup";
-        newRecipeButton.setText("New Recipe Group");
-        newRecipeButton.setPrefWidth(180);
+        newChoice.setText("Recipe Group");
+        newChoice.setPrefWidth(130);
     }
     @FXML private void newSmallRecipe() {
         newOption = "smallRecipe";
-        newRecipeButton.setText("New Recipe");
-        newRecipeButton.setPrefWidth(130);
+        newChoice.setText("Recipe");
+        newChoice.setPrefWidth(90);
+    }
+
+    @FXML
+    private void removeLoadWarning() {
+        loadWarning.setText("");
+    }
+    @FXML
+    private void removeNewWarning() {
+        newWarning.setText("");
     }
 }

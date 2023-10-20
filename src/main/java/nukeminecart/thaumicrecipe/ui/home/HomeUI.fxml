@@ -47,27 +47,39 @@
     <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;" styleClass="tool-bar" width="750.0" />
     <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" styleClass="button" text="X" />
    <Separator layoutY="100.0" prefHeight="3.0" prefWidth="757.0" />
-   <SplitMenuButton fx:id="loadRecipeButton" layoutX="13.0" layoutY="325.0" mnemonicParsing="false" onAction="#loadRecipe" prefHeight="35.0" prefWidth="180.0" styleClass="split-menu-button" text="Load From Config" textAlignment="CENTER">
+   <Button layoutX="72.0" layoutY="325.0" mnemonicParsing="false" onAction="#loadRecipe" prefHeight="35.0" prefWidth="62.0" text="Load" textAlignment="CENTER">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Button>
+   <Button layoutX="72.0" layoutY="185.0" mnemonicParsing="false" onAction="#newRecipe" prefHeight="35.0" prefWidth="62.0" text="New" textAlignment="CENTER">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Button>
+   <TextField fx:id="newField" layoutX="280.0" layoutY="185.0" onAction="#removeNewWarning" onKeyTyped="#removeNewWarning" prefHeight="35.0" prefWidth="380.0" promptText="Name" style="-fx-prompt-text-fill: #3D3D3D;" styleClass="text-field" />
+   <TextField fx:id="loadField" layoutX="280.0" layoutY="325.0" onKeyTyped="#removeLoadWarning" prefHeight="35.0" prefWidth="380.0" promptText="Filepath + Name" style="-fx-prompt-text-fill: #3D3D3D;" />
+   <ComboBox visible="false" />
+    <MenuButton fx:id="fileField" layoutX="600.0" layoutY="330.0" prefHeight="25.0" prefWidth="55.0" style="-fx-background-color: transparent;" visible="false" />
+   <MenuButton fx:id="newChoice" layoutX="143.0" layoutY="185.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Recipe Group">
      <items>
-       <MenuItem mnemonicParsing="false" onAction="#fromConfig" text="From Config" />
-       <MenuItem mnemonicParsing="false" onAction="#fromFolder" text="From Folder" />
-         <MenuItem mnemonicParsing="false" onAction="#fromOther" text="From . . . " />
+         <MenuItem mnemonicParsing="false" onAction="#newRecipeGroup" text="Recipe Group" />
+         <MenuItem mnemonicParsing="false" onAction="#newSmallRecipe" text="Recipe" />
      </items>
       <font>
          <Font size="14.0" />
       </font>
-   </SplitMenuButton>
-   <SplitMenuButton fx:id="newRecipeButton" layoutX="10.0" layoutY="186.0" mnemonicParsing="false" onAction="#newRecipe" prefHeight="35.0" prefWidth="180.0" styleClass="split-menu-button" text="New Recipe Group" textAlignment="CENTER">
-      <items>
-         <MenuItem mnemonicParsing="false" onAction="#newRecipeGroup" text="Recipe Group" />
-         <MenuItem mnemonicParsing="false" onAction="#newSmallRecipe" text="Recipe" />
-      </items>
+   </MenuButton>
+   <MenuButton fx:id="loadChoice" layoutX="143.0" layoutY="325.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" text="From Config">
+     <items>
+       <MenuItem mnemonicParsing="false" onAction="#fromConfig" text="From Config" />
+       <MenuItem mnemonicParsing="false" onAction="#fromFolder" text="From Folder" />
+       <MenuItem mnemonicParsing="false" onAction="#fromOther" text="From Other" />
+     </items>
       <font>
          <Font size="14.0" />
       </font>
-   </SplitMenuButton>
-   <TextField layoutX="214.0" layoutY="186.0" prefHeight="35.0" prefWidth="388.0" promptText="Name" />
-   <TextField layoutX="211.0" layoutY="325.0" prefHeight="35.0" prefWidth="388.0" promptText="Filepath" />
-   <ComboBox visible="false" />
-    <MenuButton fx:id="fileField" layoutX="540.0" layoutY="330.0" prefHeight="25.0" prefWidth="55.0" visible="false" />
+   </MenuButton>
+   <Label fx:id="loadWarning" layoutX="280.0" layoutY="290.0" style="-fx-text-fill: #ff0f0f;" />
+   <Label fx:id="newWarning" layoutX="280.0" layoutY="150.0" style="-fx-text-fill: #ff0f0f;" />
 </AnchorPane>
