@@ -40,6 +40,7 @@ public class UIManager extends Application{
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(Objects.requireNonNull(UIManager.class.getResourceAsStream("resources/icon.png"))));
         stage.setTitle("Thaumic Recipe Tweaker Home");
+
         UIManager.loadScreen(scene);
     }
 
