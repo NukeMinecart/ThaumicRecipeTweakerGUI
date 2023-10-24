@@ -47,16 +47,16 @@
     <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;" styleClass="tool-bar" width="750.0" />
     <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" styleClass="button" text="X" />
    <Separator layoutY="100.0" prefHeight="3.0" prefWidth="757.0" />
-   <Button layoutX="72.0" layoutY="325.0" mnemonicParsing="false" onAction="#loadRecipe" prefHeight="35.0" prefWidth="62.0" text="Load" textAlignment="CENTER" >
+   <Button layoutX="72.0" layoutY="325.0" mnemonicParsing="false" onAction="#loadRecipe" prefHeight="35.0" prefWidth="62.0" text="Load" textAlignment="CENTER">
       <font><Font size="14.0" /></font>
        <tooltip><Tooltip text="Load an existing file" /></tooltip>
    </Button>
-   <Button layoutX="72.0" layoutY="185.0" mnemonicParsing="false" onAction="#newRecipe" prefHeight="35.0" prefWidth="62.0" text="New" textAlignment="CENTER" >
+   <Button layoutX="72.0" layoutY="185.0" mnemonicParsing="false" onAction="#newRecipe" prefHeight="35.0" prefWidth="62.0" text="New" textAlignment="CENTER">
       <font><Font size="14.0" /></font>
        <tooltip><Tooltip text="Create a new file" /></tooltip>
    </Button>
    <TextField fx:id="newField" layoutX="280.0" layoutY="185.0" onAction="#removeNewWarning" onKeyTyped="#removeNewWarning" prefHeight="35.0" prefWidth="380.0" promptText="Name" style="-fx-prompt-text-fill: #3D3D3D;" styleClass="text-field" />
-   <TextField fx:id="loadField" layoutX="280.0" layoutY="325.0" onKeyTyped="#removeLoadWarning" prefHeight="35.0" prefWidth="380.0" promptText="Filepath + Name" style="-fx-prompt-text-fill: #3D3D3D;" />
+   <TextField fx:id="loadField" layoutX="280.0" layoutY="325.0" onKeyTyped="#removeLoadWarning" prefHeight="35.0" prefWidth="380.0" promptText="Filepath" style="-fx-prompt-text-fill: #3D3D3D;" />
    <ComboBox visible="false" />
     <MenuButton fx:id="fileField" layoutX="600.0" layoutY="330.0" prefHeight="25.0" prefWidth="55.0" style="-fx-background-color: transparent;" visible="false" />
    <MenuButton fx:id="newChoice" layoutX="143.0" layoutY="185.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Recipe Group">
@@ -71,7 +71,7 @@
    </MenuButton>
    <MenuButton fx:id="loadChoice" layoutX="143.0" layoutY="325.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" text="From Config">
      <items>
-         <MenuItem mnemonicParsing="false" onAction="#fromConfig" text="From Config"/>
+         <MenuItem mnemonicParsing="false" onAction="#fromConfig" text="From Config" />
        <MenuItem mnemonicParsing="false" onAction="#fromFolder" text="From Folder" />
        <MenuItem mnemonicParsing="false" onAction="#fromOther" text="From Other" />
      </items>

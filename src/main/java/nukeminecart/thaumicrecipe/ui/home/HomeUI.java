@@ -9,6 +9,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import main.java.nukeminecart.thaumicrecipe.ui.ErrorWarning;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.RecipeHandler;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.IFileParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,33 +18,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.loadedRecipe;
 import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.recipeDir;
 
 public class HomeUI{
 
     @FXML
-    private MenuButton newChoice;
-    @FXML
-    private MenuButton loadChoice;
+    private MenuButton newChoice, loadChoice, fileField;
 
     @FXML
-    private MenuButton fileField;
+    private TextField newField, loadField;
 
-    @FXML
-    private TextField newField;
-    @FXML
-    private TextField loadField;
-
-    @FXML
-    private Label loadWarning;
-    @FXML
-    private Label newWarning;
+    public Label loadWarning, newWarning;
     private double x,y;
     private File[] files;
     private final List<String> filenames = new ArrayList<>();
-
-    private String loadOption = "fromConfig";
-    private String newOption = "recipeGroup";
+    private String loadOption = "fromConfig", newOption = "recipeGroup";
     public static Parent getScene() throws IOException {
         return FXMLLoader.load(Objects.requireNonNull(HomeUI.class.getResource("HomeUI.fxml")));
     }
@@ -60,7 +51,7 @@ public class HomeUI{
         UIManager.stage.setY(y + me.getScreenY());
     }
 
-    @FXML private void loadRecipe() {
+    @FXML private void loadRecipe(){
         if(loadOption.equals("fromOther")) {
             FileChooser chooser = new FileChooser();
             chooser.setTitle("Open File");
@@ -71,19 +62,37 @@ public class HomeUI{
             chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
             File fileChosen = chooser.showOpenDialog(UIManager.stage.getOwner());
             if(fileChosen==null){
-                ErrorWarning.invalidFileError(loadWarning,"File not found");
-
+                throwLoadWarning("File not found");
+            }else{
+                try {
+                    RecipeHandler.loadOtherRecipe(fileChosen.getPath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
         } else if (loadOption.equals("fromFolder")) {
             if(loadField.getText().isEmpty() || loadField.getText() == null){
-                ErrorWarning.invalidFileError(loadWarning,"Filename is invalid");
+                throwLoadWarning("Filename is invalid");
             }else if(!filenames.contains(loadField.getText())){
-                ErrorWarning.invalidFileError(loadWarning, "File does not exist");
+                throwLoadWarning("File does not exist");
+            }else{
+                try {
+                    RecipeHandler.loadFolderRecipe(loadField.getText());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
-
         }else{
-            
+            if(loadedRecipe!=null){
+                try {
+                    RecipeHandler.loadConfigRecipe();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                throwLoadWarning("No recipe in config");
+            }
         }
     }
     private void loadRecipeDirectory(){
@@ -142,21 +151,38 @@ public class HomeUI{
 
     @FXML private void newRecipe() {
         if(newField.getText().isEmpty() || newField.getText() == null){
-            ErrorWarning.invalidFileError(newWarning,"Recipe " + (newOption.equals("smallRecipe")? "" : "group ")+ "name is blank");
+            throwNewWarning("Recipe " + (newOption.equals("smallRecipe")? "" : "group ")+ "name is blank");
+            return;
         }else {
             try {
-                File testfile = new File(newField.getText());
-                if (!testfile.delete()) {
-                    throw new NullPointerException("File cannot be deleted");
+                File testfile = IFileParser.getFolderFile(newField.getText());
+                boolean deleted;
+                if (!testfile.createNewFile()) {
+                    throw new NullPointerException("File cannot be created");
                 }
+                deleted = testfile.delete();
+                if(!deleted){
+                    throw new NullPointerException("File cannot be deleted");
+
+                }
+
             } catch (Exception e) {
-                ErrorWarning.invalidFileError(newWarning, "Filename is invalid");
+                throwNewWarning("Filename is invalid");
+                return;
             }
         }
         if(newOption.equals("smallRecipe")){
-
+            try {
+                RecipeHandler.newRecipe(newField.getText());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }else{
-
+            try {
+                RecipeHandler.newRecipeGroup(newField.getText());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     @FXML private void newRecipeGroup() {
@@ -180,5 +206,12 @@ public class HomeUI{
     @FXML
     private void removeNewWarning() {
         newWarning.setText("");
+    }
+
+    public void throwNewWarning(String warning){
+        ErrorWarning.invalidFileError(newWarning,warning);
+    }
+    public void throwLoadWarning(String warning){
+        ErrorWarning.invalidFileError(loadWarning,warning);
     }
 }
