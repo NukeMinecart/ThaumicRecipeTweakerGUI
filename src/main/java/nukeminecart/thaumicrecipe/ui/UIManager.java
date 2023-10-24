@@ -12,10 +12,7 @@ import java.util.Objects;
 
 public class UIManager extends Application{
 
-    public static String separator;
-    public static String recipeDir;
-
-    public static String loadedRecipe;
+    public static String separator, recipeDir, loadedRecipe;
     public static void main(String[] args){
         separator = System.getProperty("file.separator");
         recipeDir = args.length > 0 ? args[0]+separator+"thaumicrecipe"+separator : null;
