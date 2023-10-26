@@ -91,7 +91,7 @@ is being used to size a border should also be in pixels.
 
     /* A bright blue for highlighting/accenting objects.  For example: selected
      * text; selected items in menus, lists, trees, and tables; progress bars */
-    -fx-accent: #0096C9;
+    -fx-accent: rgba(139, 0, 0, 0.2);
 
     /* Default buttons color, this is similar to accent but more subtle */
     -fx-default-button: #ABD8ED;
@@ -100,8 +100,8 @@ is being used to size a border should also be in pixels.
      * first color in -fx-background-color for the "focused" pseudo-class. Also
      * typically used with insets of -1.4 to provide a glowing effect.
      */
-    -fx-focus-color: #039ED3;
-    -fx-faint-focus-color: #039ED322;
+    -fx-focus-color: rgba(	139, 0, 0,0.2);
+    -fx-faint-focus-color: rgba(139, 0, 0,.15);
 
     /* The color that is used in styling controls. The default value is based
      * on -fx-base, but is changed by pseudoclasses to change the base color.
@@ -2239,7 +2239,7 @@ is being used to size a border should also be in pixels.
 .tree-view > .virtual-flow > .corner,
 .table-view > .virtual-flow > .corner,
 .tree-table-view > .virtual-flow > .corner {
-    -fx-background-color: derive(-fx-base,-1%);
+    -fx-background-color: derive(-fx-focus-color,-1%);
 }
 /* standard cell */
 .list-cell,
@@ -2255,7 +2255,7 @@ is being used to size a border should also be in pixels.
 .tree-table-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell:filled:selected,
 .table-view:focused > .virtual-flow > .clipped-container > .sheet > .table-row-cell .table-cell:selected,
 .tree-table-view:focused > .virtual-flow > .clipped-container > .sheet > .tree-table-row-cell .tree-table-cell:selected {
-    -fx-background: -fx-selection-bar;
+    -fx-background: derive(-fx-focus-color,50%);
     -fx-table-cell-border-color: derive(-fx-selection-bar, 20%);
 }
 /* Selected when control is not focused */
@@ -2265,7 +2265,7 @@ is being used to size a border should also be in pixels.
 .tree-table-row-cell:filled:selected,
 .table-row-cell:filled > .table-cell:selected,
 .tree-table-row-cell:filled > .tree-table-cell:selected {
-    -fx-background: -fx-selection-bar-non-focused;
+    -fx-background: derive(-fx-focus-color,50%);
     -fx-table-cell-border-color: derive(-fx-selection-bar-non-focused, 20%);
 }
 /* focused cell (keyboard navigation) */
