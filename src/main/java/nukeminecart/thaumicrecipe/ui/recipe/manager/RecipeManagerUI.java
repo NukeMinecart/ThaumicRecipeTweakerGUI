@@ -7,12 +7,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.versions.FileParserV1;
@@ -27,11 +24,10 @@ public class RecipeManagerUI {
 
 
     private static final ObservableList<Recipe> recipes = FXCollections.observableArrayList();
-    private static final ObservableList<HBoxCell> listItems = FXCollections.observableArrayList();
     public static HashMap<String, Recipe> recipeEditorMap = new HashMap<>();
 
     @FXML
-    private ListView<HBoxCell> recipeList;
+    public ListView<Recipe> recipeList;
     @FXML
     private Label title;
     private static String stringTitle;
@@ -51,25 +47,18 @@ public class RecipeManagerUI {
             if(version.equals("1")) {
                 recipes.addAll(new FileParserV1().getRecipesFromString(contents));
             }
-            addListItems(recipes.toArray(new Recipe[0]));
-
         }
         RecipeManagerUI.stringTitle = name.endsWith(".rcp") ? name : name+".rcp";
         UIManager.loadScreen(getScene());
     }
 
+
     @FXML
     public void initialize(){
-        recipeList.setItems(listItems);
+        recipeList.setCellFactory(new RecipeCellFactory());
+        recipeList.setItems(recipes);
         title.setText("Recipe Manager: "+stringTitle);
-        listItems.addListener((ListChangeListener<HBoxCell>) c -> refreshHashMap());
-    }
-    public static void addListItems(Recipe... items){
-        for(Recipe item : items){
-            listItems.add(new HBoxCell(item.getName()));
-            recipes.add(item);
-        }
-        refreshHashMap();
+        recipes.addListener((ListChangeListener<Recipe>) c -> refreshHashMap());
     }
 
     @FXML private void closeScreen() {
@@ -85,7 +74,7 @@ public class RecipeManagerUI {
         UIManager.stage.setY(y + me.getScreenY());
     }
 
-    private static void openEditor(String recipeName){
+    public static void openEditor(String recipeName){
 
     }
     private static void refreshHashMap(){
@@ -93,24 +82,4 @@ public class RecipeManagerUI {
             recipeEditorMap.put(recipe.getName(),recipe);
         }
     }
-
-    public static class HBoxCell extends HBox {
-        Label label = new Label();
-        Button button = new Button();
-
-        HBoxCell(String labelText) {
-            super();
-
-            label.setText(labelText);
-            label.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(label, Priority.ALWAYS);
-
-            button.setText("Edit");
-            button.setOnAction(event -> openEditor(label.getText()));
-
-            this.getChildren().addAll(label, button);
-        }
-    }
-
-
 }
