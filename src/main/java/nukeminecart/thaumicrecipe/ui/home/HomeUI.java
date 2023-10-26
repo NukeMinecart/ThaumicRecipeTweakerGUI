@@ -155,7 +155,7 @@ public class HomeUI{
             return;
         }else {
             try {
-                File testfile = IFileParser.getFolderFile(newField.getText());
+                File testfile = recipeDir==null ? IFileParser.getFolderFile(newField.getText()) : new File(System.getProperty("user.dir"), newField.getText());
                 boolean deleted;
                 if (!testfile.createNewFile()) {
                     throw new NullPointerException("File cannot be created");
@@ -163,7 +163,6 @@ public class HomeUI{
                 deleted = testfile.delete();
                 if(!deleted){
                     throw new NullPointerException("File cannot be deleted");
-
                 }
 
             } catch (Exception e) {
@@ -173,12 +172,14 @@ public class HomeUI{
         }
         if(newOption.equals("smallRecipe")){
             try {
+                RecipeHandler.setLabel(newWarning);
                 RecipeHandler.newRecipe(newField.getText());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }else{
             try {
+                RecipeHandler.setLabel(newWarning);
                 RecipeHandler.newRecipeGroup(newField.getText());
             } catch (IOException e) {
                 throw new RuntimeException(e);
