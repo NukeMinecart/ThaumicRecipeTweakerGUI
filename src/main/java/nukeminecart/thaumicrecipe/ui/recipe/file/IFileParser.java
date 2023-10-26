@@ -49,10 +49,7 @@ public interface IFileParser {
      **/
     Recipe parseRecipe(String line);
     /**
-     * This will sign the recipe after compression with a
-     * version number
+     * This will get all the recipes from a list of strings (lines)
      **/
-    String signRecipe(String recipe);
-
     Recipe[] getRecipesFromString(List<String> contents);
 }

@@ -14,15 +14,17 @@ public class FileParserV1 implements IFileParser {
     public String loadLine(String[] file, int line) {
         return file[line];
     }
-
     @Override
     public String compressRecipe(Recipe recipe) {
         StringBuilder returnRecipe;
-        returnRecipe = new StringBuilder(recipe.getType() + separator);
+        returnRecipe = new StringBuilder(recipe.getName()+separator);
+        returnRecipe.append(recipe.getType()).append(separator);
         for(String ingredient : recipe.getIngredients()){
             returnRecipe.append(ingredient).append(arraySeparator);
         }
         returnRecipe.append(separator);
+        returnRecipe.append(recipe.getOutput()).append(separator);
+
         returnRecipe.append(recipe.getVis()).append(separator);
         returnRecipe.append(recipe.getAspects()).append(separator);
         for(Object shape : recipe.getShape()){
@@ -37,16 +39,12 @@ public class FileParserV1 implements IFileParser {
         String name = compressedRecipe[0];
         String type = compressedRecipe[1];
         String[] ingredients = compressedRecipe[2].split(arraySeparator);
-        int vis = Integer.parseInt(compressedRecipe[3]);
-        String aspects = compressedRecipe[4];
-        String[] shape = compressedRecipe[5].split(arraySeparator);
+        String output = compressedRecipe[3];
+        int vis = Integer.parseInt(compressedRecipe[4]);
+        String aspects = compressedRecipe[5];
+        String[] shape = compressedRecipe[6].split(arraySeparator);
 
-        return new Recipe(name, type, ingredients, vis, aspects, shape);
-    }
-
-    @Override
-    public String signRecipe(String recipe) {
-        return "V1;"+recipe;
+        return new Recipe(name, type, ingredients, output, vis, aspects, shape);
     }
     @Override
     public Recipe[] getRecipesFromString(List<String> contents){
