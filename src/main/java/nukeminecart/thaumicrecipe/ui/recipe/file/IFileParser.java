@@ -19,16 +19,16 @@ public interface IFileParser {
     static File getFolderFile(String name){
         return new File(UIManager.recipeDir+name);
     }
-    static String[] readFile(File file) throws IOException {
-        FileReader fileReader;
-        fileReader = new FileReader(file);
-        BufferedReader reader = new BufferedReader(fileReader);
+    static List<String> readFile(File file) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(file));
         List<String> lines = new ArrayList<>();
-        while (reader.readLine() != null){
-            lines.add(reader.readLine());
+
+        for(String line = reader.readLine(); line!=null; line = reader.readLine()){
+            lines.add(line);
         }
+
         reader.close();
-        return lines.toArray(new String[0]);
+        return lines;
     }
     /**
      * This check if file exists
@@ -54,5 +54,5 @@ public interface IFileParser {
      **/
     String signRecipe(String recipe);
 
-    Recipe[] getRecipesFromString(String[] contents);
+    Recipe[] getRecipesFromString(List<String> contents);
 }
