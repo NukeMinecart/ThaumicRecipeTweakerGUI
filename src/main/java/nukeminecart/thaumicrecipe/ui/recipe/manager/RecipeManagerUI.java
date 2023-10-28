@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.versions.FileParserV1;
 
@@ -23,7 +24,7 @@ public class RecipeManagerUI {
 
 
 
-    private static final ObservableList<Recipe> recipes = FXCollections.observableArrayList();
+    public static ObservableList<Recipe> recipes = FXCollections.observableArrayList();
     public static HashMap<String, Recipe> recipeEditorMap = new HashMap<>();
 
     @FXML
@@ -46,6 +47,7 @@ public class RecipeManagerUI {
             contents.remove(0);
             if(version.equals("1")) {
                 recipes.addAll(new FileParserV1().getRecipesFromString(contents));
+                refreshHashMap();
             }
         }
         RecipeManagerUI.stringTitle = name.endsWith(".rcp") ? name : name+".rcp";
@@ -75,11 +77,19 @@ public class RecipeManagerUI {
     }
 
     public static void openEditor(String recipeName){
-
+        try {
+            RecipeEditorUI.launchEditor(recipeEditorMap.get(recipeName));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     private static void refreshHashMap(){
         for(Recipe recipe: recipes){
             recipeEditorMap.put(recipe.getName(),recipe);
         }
+    }
+    public static void refreshRecipes(){
+        recipes.clear();
+        recipes.addAll(recipeEditorMap.values());
     }
 }

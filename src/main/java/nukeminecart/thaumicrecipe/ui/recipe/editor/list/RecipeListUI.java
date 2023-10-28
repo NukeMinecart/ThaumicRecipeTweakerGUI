@@ -1,4 +1,4 @@
-package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor;
+package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -7,29 +7,28 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
-import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
 import java.io.IOException;
 import java.util.Objects;
 
-public class RecipeEditorUI {
-    private static Recipe recipe;
-    private double x,y;
+public class RecipeListUI {
     @FXML
     private Label title;
-    public static Parent getScene() throws IOException {
-        return FXMLLoader.load(Objects.requireNonNull(RecipeEditorUI.class.getResource("RecipeEditorUI.fxml")));
 
+    public static String type;
+    private double x,y;
+    public static Parent getScene() throws IOException {
+        return FXMLLoader.load(Objects.requireNonNull(RecipeListUI.class.getResource("RecipeListUI.fxml")));
     }
 
-    public static void launchEditor(Recipe recipe) throws IOException {
-        RecipeEditorUI.recipe = recipe;
+    public static void launchEditor(String type, String[] list) throws IOException {
+        RecipeListUI.type = type;
         UIManager.loadScreen(getScene());
     }
 
     @FXML
     public void initialize(){
-        title.setText("Recipe Editor: "+recipe.getName());
+        title.setText("Recipe Editor: "+ type);
     }
 
     @FXML private void closeScreen() {

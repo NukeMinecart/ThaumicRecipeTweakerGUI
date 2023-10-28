@@ -1,10 +1,9 @@
-package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor;
+package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.shape;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
@@ -12,24 +11,20 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import java.io.IOException;
 import java.util.Objects;
 
-public class RecipeEditorUI {
-    private static Recipe recipe;
+public class RecipeShapeUI {
+    public static Recipe recipe;
     private double x,y;
-    @FXML
-    private Label title;
+
     public static Parent getScene() throws IOException {
-        return FXMLLoader.load(Objects.requireNonNull(RecipeEditorUI.class.getResource("RecipeEditorUI.fxml")));
-
+        return FXMLLoader.load(Objects.requireNonNull(RecipeShapeUI.class.getResource("RecipeShapeUI.fxml")));
     }
-
     public static void launchEditor(Recipe recipe) throws IOException {
-        RecipeEditorUI.recipe = recipe;
+        RecipeShapeUI.recipe = recipe;
         UIManager.loadScreen(getScene());
     }
 
     @FXML
     public void initialize(){
-        title.setText("Recipe Editor: "+recipe.getName());
     }
 
     @FXML private void closeScreen() {
