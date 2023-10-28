@@ -2,13 +2,11 @@ package main.java.nukeminecart.thaumicrecipe.ui.recipe.file;
 
 public class Recipe {
 
-    private final String name;
-    private final String[] ingredients;
-    private final String output;
+    private final String name, output, type;
+    private final String[] ingredients, aspects;
     private final int vis;
-    private final String type, aspects;
     private final Object[] shape;
-    public Recipe(String name, String type, String[] ingredients,String output, int vis, String aspects, String... shape){
+    public Recipe(String name, String type, String[] ingredients,String output, int vis, String[] aspects, String... shape){
         this.name = name;
         this.type = type;
         this.ingredients = ingredients;
@@ -21,7 +19,7 @@ public class Recipe {
         return this.name;
     }
 
-    public String getAspects(){
+    public String[] getAspects(){
         return this.aspects;
     }
     public String[] getIngredients(){

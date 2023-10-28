@@ -26,7 +26,10 @@ public class FileParserV1 implements IFileParser {
         returnRecipe.append(recipe.getOutput()).append(separator);
 
         returnRecipe.append(recipe.getVis()).append(separator);
-        returnRecipe.append(recipe.getAspects()).append(separator);
+        for(String aspect : recipe.getAspects()){
+            returnRecipe.append(aspect).append(arraySeparator);
+        }
+        returnRecipe.append(separator);
         for(Object shape : recipe.getShape()){
             returnRecipe.append(shape).append(arraySeparator);
         }
@@ -41,7 +44,7 @@ public class FileParserV1 implements IFileParser {
         String[] ingredients = compressedRecipe[2].split(arraySeparator);
         String output = compressedRecipe[3];
         int vis = Integer.parseInt(compressedRecipe[4]);
-        String aspects = compressedRecipe[5];
+        String[] aspects = compressedRecipe[5].split(arraySeparator);
         String[] shape = compressedRecipe[6].split(arraySeparator);
 
         return new Recipe(name, type, ingredients, output, vis, aspects, shape);
