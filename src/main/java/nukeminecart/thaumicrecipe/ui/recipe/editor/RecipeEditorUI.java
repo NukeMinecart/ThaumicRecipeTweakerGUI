@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.shape.RecipeShapeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
 import java.io.IOException;
@@ -43,5 +44,13 @@ public class RecipeEditorUI {
     @FXML private void paneDragged(MouseEvent me){
         UIManager.stage.setX(x + me.getScreenX());
         UIManager.stage.setY(y + me.getScreenY());
+    }
+
+    @FXML private void test(){
+        try {
+            RecipeShapeUI.launchEditor(recipe);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
