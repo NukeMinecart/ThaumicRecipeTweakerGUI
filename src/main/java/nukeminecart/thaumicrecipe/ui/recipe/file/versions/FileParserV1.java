@@ -19,6 +19,8 @@ public class FileParserV1 implements IFileParser {
         StringBuilder returnRecipe;
         returnRecipe = new StringBuilder(recipe.getName()+separator);
         returnRecipe.append(recipe.getType()).append(separator);
+        returnRecipe.append(recipe.getInput()).append(separator);
+
         for(String ingredient : recipe.getIngredients()){
             returnRecipe.append(ingredient).append(arraySeparator);
         }
@@ -41,13 +43,14 @@ public class FileParserV1 implements IFileParser {
         String[] compressedRecipe = line.split(separator);
         String name = compressedRecipe[0];
         String type = compressedRecipe[1];
-        String[] ingredients = compressedRecipe[2].split(arraySeparator);
-        String output = compressedRecipe[3];
-        int vis = Integer.parseInt(compressedRecipe[4]);
-        String[] aspects = compressedRecipe[5].split(arraySeparator);
-        String[] shape = compressedRecipe[6].split(arraySeparator);
+        String input = compressedRecipe[2];
+        String[] ingredients = compressedRecipe[3].split(arraySeparator);
+        String output = compressedRecipe[4];
+        int vis = Integer.parseInt(compressedRecipe[5]);
+        String[] aspects = compressedRecipe[6].split(arraySeparator);
+        String[] shape = compressedRecipe[7].split(arraySeparator);
 
-        return new Recipe(name, type, ingredients, output, vis, aspects, shape);
+        return new Recipe(name, type, input, ingredients, output, vis, aspects, shape);
     }
     @Override
     public Recipe[] getRecipesFromString(List<String> contents){
