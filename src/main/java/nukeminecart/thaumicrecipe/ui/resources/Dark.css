@@ -89,12 +89,12 @@ is being used to size a border should also be in pixels.
     -fx-mid-text-color: #333;
     -fx-light-text-color: white;
 
-    /* A bright blue for highlighting/accenting objects.  For example: selected
+    /* A bright red for highlighting/accenting objects.  For example: selected
      * text; selected items in menus, lists, trees, and tables; progress bars */
     -fx-accent: rgba(139, 0, 0, 0.2);
 
     /* Default buttons color, this is similar to accent but more subtle */
-    -fx-default-button: #ABD8ED;
+    -fx-default-button: #222428;
 
     /* A bright blue for the focus indicator of objects. Typically used as the
      * first color in -fx-background-color for the "focused" pseudo-class. Also
@@ -726,9 +726,12 @@ is being used to size a border should also be in pixels.
    -fx-padding: 0.333333em; /* 4 -- padding from outside edge to the inner black dot */
 }
 .radio-button > .radio > .dot {
-   -fx-background-color: transparent;
+   -fx-background-color: -fx-faint-focus-color;
    -fx-background-radius: 1.0em; /* large value to make sure this remains circular */
    -fx-padding: 0.333333em; /* 4 -- radius of the inner black dot when selected */
+}
+.radio-button:selected > .radio > .dot {
+  -fx-background-color: #121212;
 }
 
 /*******************************************************************************
@@ -2455,7 +2458,7 @@ is being used to size a border should also be in pixels.
 /* Semi-transparent overlay to indicate the column that is currently being moved */
 .table-view .column-overlay,
 .tree-table-view .column-overlay {
-    -fx-background-color: darkgray;
+    -fx-background-color: -fx-color;
     -fx-opacity: 0.3;
 }
 /* Header Sort Arrows */
