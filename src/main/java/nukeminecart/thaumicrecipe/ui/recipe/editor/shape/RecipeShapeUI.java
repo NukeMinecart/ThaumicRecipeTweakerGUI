@@ -23,6 +23,7 @@ public class RecipeShapeUI {
     @FXML
     private ListView<String> ingredients, craft1, craft2, craft3, craft4, craft5, craft6, craft7, craft8, craft9;
     List<ListView<String>> targetListViews = new ArrayList<>();
+    private boolean largeSize = true;
 
     private double x,y;
 
@@ -68,6 +69,26 @@ public class RecipeShapeUI {
     @FXML private void paneDragged(MouseEvent me){
         UIManager.stage.setX(x + me.getScreenX());
         UIManager.stage.setY(y + me.getScreenY());
+    }
+
+    @FXML private void changeSize(){
+        largeSize = !largeSize;
+        craft3.setVisible(largeSize);
+        craft6.setVisible(largeSize);
+        craft7.setVisible(largeSize);
+        craft8.setVisible(largeSize);
+        craft9.setVisible(largeSize);
+        if(!largeSize){
+            craft1.setLayoutX(328);
+            craft2.setLayoutX(445);
+            craft4.setLayoutX(328);
+            craft5.setLayoutX(445);
+        }else{
+            craft1.setLayoutX(270);
+            craft2.setLayoutX(386.6);
+            craft4.setLayoutX(270);
+            craft5.setLayoutX(386.6);
+        }
     }
 
 
