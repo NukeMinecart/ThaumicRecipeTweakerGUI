@@ -1,13 +1,16 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.shape;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
-import javafx.scene.input.*;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
+import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class RecipeShapeUI {
+public class RecipeShapeUI extends ThaumicRecipeUI {
 
     public static ObservableList<String> ingredientList = FXCollections.observableArrayList();
 
@@ -24,9 +27,6 @@ public class RecipeShapeUI {
     private ListView<String> ingredients, craft1, craft2, craft3, craft4, craft5, craft6, craft7, craft8, craft9;
     List<ListView<String>> targetListViews = new ArrayList<>();
     private boolean largeSize = true;
-
-    private double x,y;
-
     public static Parent getScene() throws IOException {
         return FXMLLoader.load(Objects.requireNonNull(RecipeShapeUI.class.getResource("RecipeShapeUI.fxml")));
     }
@@ -58,18 +58,7 @@ public class RecipeShapeUI {
 
     }
 
-    @FXML private void closeScreen() {
-        Platform.exit();
-    }
-    @FXML private void panePressed(MouseEvent me){
-        x = UIManager.stage.getX() - me.getScreenX();
-        y = UIManager.stage.getY() - me.getScreenY();
-    }
 
-    @FXML private void paneDragged(MouseEvent me){
-        UIManager.stage.setX(x + me.getScreenX());
-        UIManager.stage.setY(y + me.getScreenY());
-    }
 
     @FXML private void changeSize(){
         largeSize = !largeSize;
@@ -89,6 +78,13 @@ public class RecipeShapeUI {
             craft4.setLayoutX(270);
             craft5.setLayoutX(386.6);
         }
+    }
+
+    @FXML private void saveShape(){
+
+    }
+    @FXML private void revertShape(){
+
     }
 
 

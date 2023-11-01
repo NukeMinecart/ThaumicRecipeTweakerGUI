@@ -26,4 +26,14 @@
     <ListView fx:id="ingredients" layoutX="35.0" layoutY="75.0" prefHeight="350.0" prefWidth="147.0" />
     <RadioButton layoutX="395.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeSize" text="Fit in inventory" />
     <Label layoutX="79.0" layoutY="45.0" text="Ingredients" />
+   <Button layoutX="636.0" layoutY="60.0" mnemonicParsing="false" onAction="#saveShape" prefHeight="29.0" prefWidth="80.0" text="Save">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </Button>
+   <Button layoutX="636.0" layoutY="176.0" mnemonicParsing="false" onAction="#revertShape" prefHeight="31.0" prefWidth="80.0" text="Revert">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Button>
 </AnchorPane>
