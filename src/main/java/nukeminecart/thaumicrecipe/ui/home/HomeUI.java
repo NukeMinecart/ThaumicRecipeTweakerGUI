@@ -38,9 +38,9 @@ public class HomeUI extends ThaumicRecipeUI {
     private String loadOption = "fromConfig", newOption = "recipeGroup";
 
     /**
-     * Gets the parent container containing all the HomeUI elements
+     * Gets the {@link Parent} container containing all the HomeUI elements
      *
-     * @return the parent container
+     * @return the {@link Parent} container
      * @throws IOException if HomeUI.fxml if not found
      */
     public static Parent getScene() throws IOException {
