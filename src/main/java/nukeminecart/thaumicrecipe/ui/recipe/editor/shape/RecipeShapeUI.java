@@ -27,10 +27,11 @@ import java.util.Objects;
 public class RecipeShapeUI extends ThaumicRecipeUI {
 
     public static final ObservableList<String> ingredientList = FXCollections.observableArrayList();
-    final List<ListView<String>> targetListViews = new ArrayList<>();
+    private static final List<ListView<String>> targetListViews = new ArrayList<>();
+    public static Recipe recipe;
+    private static boolean largeSize = true;
     @FXML
     private ListView<String> ingredients, craft1, craft2, craft3, craft4, craft5, craft6, craft7, craft8, craft9;
-    private boolean largeSize = true;
 
     /**
      * Gets the {@link Parent} container containing all the RecipeShapeUI elements
@@ -49,8 +50,26 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
      * @throws IOException if RecipeShapeUI.fxml is not found
      */
     public static void launchShapeEditor(Recipe recipe) throws IOException {
+        RecipeShapeUI.recipe = recipe;
+        ingredientList.clear();
+        largeSize = true;
         RecipeShapeUI.ingredientList.addAll(recipe.getIngredients());
         UIManager.loadScreen(getScene());
+        updateShape();
+    }
+
+    /**
+     * Take the shape of the {@link Recipe} and put it into all the {@link ListView}
+     */
+    private static void updateShape() {
+        for (int index = 0; index < recipe.getShape().length; index++) {
+            ObservableList<String> item = targetListViews.get(index).getItems();
+            if (item.isEmpty()) {
+                item.add(Objects.equals(recipe.getShape()[index], "") ? "" : recipe.getShape()[index]);
+            } else {
+                item.set(0, Objects.equals(recipe.getShape()[index], "") ? "" : recipe.getShape()[index]);
+            }
+        }
     }
 
     /**
@@ -59,6 +78,8 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     @FXML
     public void initialize() {
         ingredients.setItems(ingredientList);
+
+        targetListViews.clear();
         targetListViews.add(craft1);
         targetListViews.add(craft2);
         targetListViews.add(craft3);
@@ -74,11 +95,9 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
             listView.setOnDragDetected(event -> dragItem(listView));
             listView.setOnDragOver(event -> allowDrop(listView, event));
             listView.setOnDragDropped(event -> copyItem(listView, event));
+            listView.setItems(FXCollections.observableArrayList());
         }
-
-
     }
-
 
     /**
      * FXML event to change the size of the shape of the {@link Recipe}
@@ -109,7 +128,28 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
      */
     @FXML
     private void saveShape() {
-        //TODO
+        recipe.setShape(getShapeFromLists());
+        returnToEditor();
+    }
+
+    /**
+     * Gets the shape from all the {@link ListView} elements selected
+     *
+     * @return {@link String} array containing the shape of the recipe
+     */
+    private String[] getShapeFromLists() {
+        List<String> shape = new ArrayList<>();
+        for (int index = 0; index < 9; index++) {
+            shape.add(targetListViews.get(index).getItems().isEmpty() ? "" : targetListViews.get(index).getItems().get(0));
+        }
+        if(!largeSize){
+            shape.set(2,"");
+            shape.set(5,"");
+            shape.set(6,"");
+            shape.set(7,"");
+            shape.set(8,"");
+        }
+        return shape.toArray(new String[0]);
     }
 
     /**
@@ -117,7 +157,11 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
      */
     @FXML
     private void returnToEditor() {
-        //TODO
+        try {
+            RecipeEditorUI.launchEditor(recipe);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
