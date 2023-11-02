@@ -7,10 +7,13 @@ import java.util.List;
  */
 public class Recipe {
 
-    private final String name, input, output, type;
-    private final String[] ingredients, aspects;
-    private final int vis;
-    private final String[] shape;
+    private String name;
+    private String input;
+    private String output;
+    private String type;
+    private String[] ingredients, aspects;
+    private int vis;
+    private String[] shape;
 
     /**
      * The constructor to create a new {@link Recipe}
@@ -45,12 +48,30 @@ public class Recipe {
     }
 
     /**
+     * Sets the name of the recipe
+     *
+     * @param name the name as a {@link String}
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
      * Gets the type of recipe
      *
      * @return the type as a {@link String}
      */
     public String getType() {
         return this.type;
+    }
+
+    /**
+     * Sets the type of recipe
+     *
+     * @param type the type as a {@link String}
+     */
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**
@@ -63,12 +84,30 @@ public class Recipe {
     }
 
     /**
+     * Sets the input item of a recipe
+     *
+     * @param input the input item as a {@link String}
+     */
+    public void setInput(String input) {
+        this.input = input;
+    }
+
+    /**
      * Gets the ingredients of a recipe
      *
      * @return the ingredients as a {@link List<String>}
      */
     public String[] getIngredients() {
         return this.ingredients;
+    }
+
+    /**
+     * Sets the ingredients of a recipe
+     *
+     * @param ingredients the ingredients as a varargs {@link String}
+     */
+    public void setIngredients(String... ingredients) {
+        this.ingredients = ingredients;
     }
 
     /**
@@ -81,12 +120,30 @@ public class Recipe {
     }
 
     /**
+     * Sets the output item of a recipe
+     *
+     * @param output the output item as a {@link String}
+     */
+    public void setOutput(String output) {
+        this.output = output;
+    }
+
+    /**
      * Gets the vis cost of a recipe
      *
      * @return the vis cost as a {@link Integer}
      */
     public int getVis() {
         return this.vis;
+    }
+
+    /**
+     * Sets the vis cost of a recipe
+     *
+     * @param vis the vis cost as a {@link Integer}
+     */
+    public void setVis(int vis) {
+        this.vis = vis;
     }
 
     /**
@@ -98,6 +155,14 @@ public class Recipe {
         return this.aspects;
     }
 
+    /**
+     * Sets the aspects of a recipe
+     *
+     * @param aspects the aspects as a varargs {@link String}
+     */
+    public void setAspects(String... aspects) {
+        this.aspects = aspects;
+    }
 
     /**
      * Gets the shape of a recipe
@@ -106,6 +171,15 @@ public class Recipe {
      */
     public String[] getShape() {
         return this.shape;
+    }
+
+    /**
+     * Sets the shape of a recipe
+     *
+     * @param shape the shape as a varargs {@link String}
+     */
+    public void setShape(String... shape) {
+        this.shape = shape;
     }
 
 
