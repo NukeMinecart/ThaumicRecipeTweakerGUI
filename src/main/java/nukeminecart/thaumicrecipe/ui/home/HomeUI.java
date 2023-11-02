@@ -60,20 +60,28 @@ public class HomeUI extends ThaumicRecipeUI {
     @FXML
     private void loadRecipe() {
         if (loadOption.equals("fromOther")) {
-            FileChooser chooser = new FileChooser();
-            chooser.setTitle("Open File");
-
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("RECIPE files (*.rcp)", "*.rcp");
-            chooser.getExtensionFilters().add(extFilter);
-            chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
-            File fileChosen = chooser.showOpenDialog(UIManager.stage.getOwner());
-            if (fileChosen == null) {
-                throwLoadWarning("File not found");
-            } else {
+            if(FileParser.checkExists(new File(loadField.getText()))){
                 try {
-                    RecipeHandler.loadOtherRecipe(fileChosen.getPath());
+                    RecipeHandler.loadOtherRecipe(new File(loadField.getText()).getPath());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
+                }
+            }else {
+                FileChooser chooser = new FileChooser();
+                chooser.setTitle("Open File");
+
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("RECIPE files (*.rcp)", "*.rcp");
+                chooser.getExtensionFilters().add(extFilter);
+                chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+                File fileChosen = chooser.showOpenDialog(UIManager.stage.getOwner());
+                if (fileChosen == null) {
+                    throwLoadWarning("File not found");
+                } else {
+                    try {
+                        RecipeHandler.loadOtherRecipe(fileChosen.getPath());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
