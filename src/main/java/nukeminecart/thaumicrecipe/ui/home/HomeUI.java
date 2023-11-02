@@ -192,14 +192,12 @@ public class HomeUI extends ThaumicRecipeUI {
         }
         if (newOption.equals("largeRecipe")) {
             try {
-                RecipeHandler.setLabel(newWarning);
                 RecipeHandler.newLargeRecipe(newField.getText());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         } else {
             try {
-                RecipeHandler.setLabel(newWarning);
                 RecipeHandler.newRecipeGroup(newField.getText());
             } catch (IOException e) {
                 throw new RuntimeException(e);
