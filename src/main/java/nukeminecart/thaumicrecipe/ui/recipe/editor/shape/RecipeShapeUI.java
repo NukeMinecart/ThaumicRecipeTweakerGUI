@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The class that contains all the controller elements and logic for the RecipeShapeUI parent
+ */
+
 public class RecipeShapeUI extends ThaumicRecipeUI {
 
     public static final ObservableList<String> ingredientList = FXCollections.observableArrayList();

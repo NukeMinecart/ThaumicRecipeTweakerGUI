@@ -12,6 +12,10 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * The class that contains all the controller elements and logic for the RecipeEditorUI parent
+ */
+
 public class RecipeEditorUI extends ThaumicRecipeUI {
     private static Recipe recipe;
     @FXML
