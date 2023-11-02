@@ -21,10 +21,15 @@ import java.util.Objects;
 import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.loadedRecipe;
 import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.recipeDir;
 
+/**
+ * The class that contains all the controller elements and logic for the HomeUI parent
+ */
+
 public class HomeUI extends ThaumicRecipeUI {
 
     private final List<String> filenames = new ArrayList<>();
-    public Label loadWarning, newWarning;
+    @FXML
+    private Label loadWarning, newWarning;
     @FXML
     private MenuButton newChoice, loadChoice, fileField;
     @FXML
