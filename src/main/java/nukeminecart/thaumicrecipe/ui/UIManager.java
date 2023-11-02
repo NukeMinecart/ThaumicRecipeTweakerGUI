@@ -9,21 +9,35 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI;
 
+import java.io.IOException;
 import java.util.Objects;
 
-public class UIManager extends Application{
+/**
+ * The entry class from which all other scene updates get called
+ */
+public class UIManager extends Application {
 
     public static String separator, recipeDir, loadedRecipe;
+    public static Stage stage;
 
-    public static void main(String[] args){
+    /**
+     * The entry point from which the forge mod calls
+     *
+     * @param args the arguments passed to this application
+     */
+    public static void main(String[] args) {
         separator = System.getProperty("file.separator");
-        recipeDir = args.length > 0 ? args[0]+separator+"thaumicrecipe"+separator : null;
+        recipeDir = args.length > 0 ? args[0] + separator + "thaumicrecipe" + separator : null;
         loadedRecipe = args.length > 1 ? args[1] : null;
         launch();
 
     }
-    public static Stage stage;
 
+    /**
+     * Loads a {@link Parent} onto the main stage and displays it
+     *
+     * @param parent the {@link Parent} container to load
+     */
     public static void loadScreen(Parent parent) {
         Scene scene = new Scene(parent, 750, 500);
         Platform.runLater(() -> {
@@ -32,15 +46,24 @@ public class UIManager extends Application{
         });
     }
 
+    /**
+     * The entry point at which the ThaumicRecipeTweakerGUI application starts
+     *
+     * @param stage the primary stage for this application, onto which
+     *              the application scene can be set. The primary stage will be embedded in
+     *              the browser if the application was launched as an applet.
+     *              Applications may create other stages, if needed, but they will not be
+     *              primary stages and will not be embedded in the browser.
+     * @throws IOException if any files that should be gotten are null
+     */
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws IOException {
         UIManager.stage = stage;
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(Objects.requireNonNull(UIManager.class.getResourceAsStream("resources/icon.png"))));
         stage.setTitle("Thaumic Recipe Tweaker Home");
         UIManager.loadScreen(HomeUI.getScene());
     }
-
 
 
 }
