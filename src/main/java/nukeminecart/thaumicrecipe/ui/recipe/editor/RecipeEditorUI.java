@@ -1,11 +1,10 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
+import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.shape.RecipeShapeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
@@ -13,42 +12,48 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import java.io.IOException;
 import java.util.Objects;
 
-public class RecipeEditorUI {
+public class RecipeEditorUI extends ThaumicRecipeUI {
     private static Recipe recipe;
-    private double x,y;
     @FXML
     private Label title;
+
+    /**
+     * Gets the {@link Parent} container containing all the RecipeEditorUI elements
+     *
+     * @return the {@link Parent} container
+     * @throws IOException if RecipeEditorUI.fxml if not found
+     */
     public static Parent getScene() throws IOException {
         return FXMLLoader.load(Objects.requireNonNull(RecipeEditorUI.class.getResource("RecipeEditorUI.fxml")));
 
     }
 
+    /**
+     * Loads the {@link RecipeEditorUI} scene
+     *
+     * @param recipe the recipe to load the editor with
+     * @throws IOException if RecipeShapeUI.fxml is not found
+     */
     public static void launchEditor(Recipe recipe) throws IOException {
         RecipeEditorUI.recipe = recipe;
         UIManager.loadScreen(getScene());
     }
 
+    /**
+     * FXML initialize event
+     */
     @FXML
-    public void initialize(){
-        title.setText("Recipe Editor: "+recipe.getName());
+    public void initialize() {
+        title.setText("Recipe Editor: " + recipe.getName());
     }
 
-    @FXML private void closeScreen() {
-        Platform.exit();
-    }
-    @FXML private void panePressed(MouseEvent me){
-        x = UIManager.stage.getX() - me.getScreenX();
-        y = UIManager.stage.getY() - me.getScreenY();
-    }
-
-    @FXML private void paneDragged(MouseEvent me){
-        UIManager.stage.setX(x + me.getScreenX());
-        UIManager.stage.setY(y + me.getScreenY());
-    }
-
-    @FXML private void test(){
+    /**
+     * Test method for certain not fully implemented features TODO -> REMOVE
+     */
+    @FXML
+    private void test() {
         try {
-            RecipeShapeUI.launchEditor(recipe);
+            RecipeShapeUI.launchShapeEditor(recipe);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
