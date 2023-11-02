@@ -35,7 +35,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     private Label title;
 
     /**
-     * Gets the parent container containing all the RecipeManagerUI elements
+     * Gets the {@link Parent} container containing all the RecipeManagerUI elements
      *
      * @return the {@link Parent} container
      * @throws IOException if RecipeManagerUI.fxml if not found
