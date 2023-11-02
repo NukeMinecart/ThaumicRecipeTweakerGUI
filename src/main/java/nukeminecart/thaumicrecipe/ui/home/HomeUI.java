@@ -10,7 +10,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.Transition;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.RecipeHandler;
-import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.IFileParser;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 
 import java.io.File;
 import java.io.IOException;
@@ -175,7 +175,7 @@ public class HomeUI extends ThaumicRecipeUI {
             return;
         } else {
             try {
-                File testfile = recipeDir == null ? IFileParser.getFolderFile(newField.getText()) : new File(System.getProperty("user.dir"), newField.getText());
+                File testfile = recipeDir == null ? FileParser.getFolderFile(newField.getText()) : new File(System.getProperty("user.dir"), newField.getText());
                 boolean deleted;
                 if (!testfile.createNewFile()) {
                     throw new NullPointerException("File cannot be created");
