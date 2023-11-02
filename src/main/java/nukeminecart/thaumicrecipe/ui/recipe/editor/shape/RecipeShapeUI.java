@@ -12,6 +12,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
 import java.io.IOException;
@@ -21,22 +22,38 @@ import java.util.Objects;
 
 public class RecipeShapeUI extends ThaumicRecipeUI {
 
-    public static ObservableList<String> ingredientList = FXCollections.observableArrayList();
-
+    public static final ObservableList<String> ingredientList = FXCollections.observableArrayList();
+    final List<ListView<String>> targetListViews = new ArrayList<>();
     @FXML
     private ListView<String> ingredients, craft1, craft2, craft3, craft4, craft5, craft6, craft7, craft8, craft9;
-    List<ListView<String>> targetListViews = new ArrayList<>();
     private boolean largeSize = true;
+
+    /**
+     * Gets the {@link Parent} container containing all the RecipeShapeUI elements
+     *
+     * @return the {@link Parent} container
+     * @throws IOException if RecipeShapeUI.fxml if not found
+     */
     public static Parent getScene() throws IOException {
         return FXMLLoader.load(Objects.requireNonNull(RecipeShapeUI.class.getResource("RecipeShapeUI.fxml")));
     }
-    public static void launchEditor(Recipe recipe) throws IOException {
+
+    /**
+     * Loads the shapeEditor scene and adds all the ingredients to a {@link ListView}
+     *
+     * @param recipe the recipe to have its shape edited
+     * @throws IOException if RecipeShapeUI.fxml is not found
+     */
+    public static void launchShapeEditor(Recipe recipe) throws IOException {
         RecipeShapeUI.ingredientList.addAll(recipe.getIngredients());
         UIManager.loadScreen(getScene());
     }
 
+    /**
+     * FXML initialize event
+     */
     @FXML
-    public void initialize(){
+    public void initialize() {
         ingredients.setItems(ingredientList);
         targetListViews.add(craft1);
         targetListViews.add(craft2);
@@ -49,7 +66,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         targetListViews.add(craft9);
         ingredients.setOnDragDetected(event -> dragItem(ingredients));
 
-        for (ListView<String> listView : targetListViews){
+        for (ListView<String> listView : targetListViews) {
             listView.setOnDragDetected(event -> dragItem(listView));
             listView.setOnDragOver(event -> allowDrop(listView, event));
             listView.setOnDragDropped(event -> copyItem(listView, event));
@@ -59,20 +76,23 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     }
 
 
-
-    @FXML private void changeSize(){
+    /**
+     * FXML event to change the size of the shape of the {@link Recipe}
+     */
+    @FXML
+    private void changeSize() {
         largeSize = !largeSize;
         craft3.setVisible(largeSize);
         craft6.setVisible(largeSize);
         craft7.setVisible(largeSize);
         craft8.setVisible(largeSize);
         craft9.setVisible(largeSize);
-        if(!largeSize){
+        if (!largeSize) {
             craft1.setLayoutX(328);
             craft2.setLayoutX(445);
             craft4.setLayoutX(328);
             craft5.setLayoutX(445);
-        }else{
+        } else {
             craft1.setLayoutX(270);
             craft2.setLayoutX(386.6);
             craft4.setLayoutX(270);
@@ -80,24 +100,44 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         }
     }
 
-    @FXML private void saveShape(){
-
+    /**
+     * FXML event to save the shape in the given {@link Recipe}
+     */
+    @FXML
+    private void saveShape() {
+        //TODO
     }
-    @FXML private void revertShape(){
 
+    /**
+     * FXML event to return to {@link RecipeEditorUI}
+     */
+    @FXML
+    private void returnToEditor() {
+        //TODO
     }
 
 
+    /**
+     * Event method called when the {@link ListView} calls its dragDetected
+     *
+     * @param listView the {@link ListView} to enable dragging items
+     */
     private void dragItem(ListView<String> listView) {
         Dragboard db = listView.startDragAndDrop(TransferMode.COPY);
         ClipboardContent content = new ClipboardContent();
         content.putString(listView.getSelectionModel().getSelectedItem());
-        if(listView!=ingredients){
+        if (listView != ingredients) {
             listView.getItems().clear();
         }
         db.setContent(content);
     }
 
+    /**
+     * Event method called when the {@link ListView} has an item dragged over it
+     *
+     * @param listView the {@link ListView} to allow dropping items in this {@link ListView}
+     * @param event    the {@link DragEvent}
+     */
     private void allowDrop(ListView<String> listView, DragEvent event) {
         if (event.getDragboard().hasString()) {
             if (listView.getItems().isEmpty()) {
@@ -110,6 +150,12 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         }
     }
 
+    /**
+     * Event method called when the {@link ListView} has an item dropped over it
+     *
+     * @param listView the {@link ListView} to copy to
+     * @param event    the {@link DragEvent}
+     */
     private void copyItem(ListView<String> listView, DragEvent event) {
         Dragboard db = event.getDragboard();
 
@@ -118,10 +164,8 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
             ObservableList<String> targetList = listView.getItems();
 
             if (targetList.isEmpty()) {
-                // If the target list is empty, just add the dragged item
                 targetList.add(draggedItem);
             } else {
-                // If the target list already has an item, clear it and add the dragged item
                 targetList.clear();
                 targetList.add(draggedItem);
             }
