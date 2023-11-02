@@ -2,10 +2,7 @@ package main.java.nukeminecart.thaumicrecipe.ui.recipe.file;
 
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +58,7 @@ public class FileParser {
      * @param recipe a recipe to compress
      * @return String containing the recipe information
      */
-    public static String compressRecipe(Recipe recipe){
+    public static String compressRecipe(Recipe recipe) {
         StringBuilder returnRecipe;
         returnRecipe = new StringBuilder(recipe.getName() + separator);
         returnRecipe.append(recipe.getType()).append(separator);
@@ -91,7 +88,7 @@ public class FileParser {
      * @return a recipe class
      * @throws ArrayIndexOutOfBoundsException if the line is missing necessary recipe information
      */
-    public static Recipe parseRecipe(String line){
+    public static Recipe parseRecipe(String line) {
         String[] compressedRecipe = line.split(separator);
         String name = compressedRecipe[0];
         String type = compressedRecipe[1];
@@ -111,11 +108,28 @@ public class FileParser {
      * @param contents the list to get recipes from
      * @return an array of recipes
      */
-    public static Recipe[] getRecipesFromString(List<String> contents){
+    public static Recipe[] getRecipesFromString(List<String> contents) {
         List<Recipe> recipes = new ArrayList<>();
         for (String line : contents) {
             recipes.add(parseRecipe(line));
         }
         return recipes.toArray(new Recipe[0]);
+    }
+
+    /**
+     * Writes to the file with each line corresponding to an index in the contents array
+     *
+     * @param savefile the file to save to
+     * @param contents the contents of the file
+     */
+    public static void saveToFile(File savefile, String[] contents) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(savefile));
+
+        for (String line : contents) {
+            writer.write(line);
+            writer.newLine();
+        }
+
+        writer.close();
     }
 }
