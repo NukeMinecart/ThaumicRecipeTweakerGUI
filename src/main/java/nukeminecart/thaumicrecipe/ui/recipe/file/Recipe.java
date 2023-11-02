@@ -16,7 +16,7 @@ public class Recipe {
     private String[] shape;
 
     /**
-     * The constructor to create a new {@link Recipe}
+     * Creates a new {@link Recipe} with the arguments specified
      *
      * @param name        the name
      * @param type        the type
@@ -36,6 +36,20 @@ public class Recipe {
         this.vis = vis;
         this.aspects = aspects;
         this.shape = shape;
+    }
+    /**
+     * Creates a new empty {@link Recipe}
+     *
+     */
+    public Recipe() {
+        this.name = null;
+        this.type = null;
+        this.input = null;
+        this.ingredients = null;
+        this.output = null;
+        this.vis = -1;
+        this.aspects = null;
+        this.shape = null;
     }
 
     /**
