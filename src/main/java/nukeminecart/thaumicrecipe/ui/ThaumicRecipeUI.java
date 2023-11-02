@@ -4,6 +4,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * Base class for all ThaumicRecipeGUI scenes containing a standard "toolbar"
+ */
+
 public class ThaumicRecipeUI {
     private double x, y;
 
