@@ -46,6 +46,13 @@ public class HomeUI extends ThaumicRecipeUI {
     public static Parent getScene() throws IOException {
         return FXMLLoader.load(Objects.requireNonNull(HomeUI.class.getResource("HomeUI.fxml")));
     }
+    /**
+     * FXML initialize method
+     */
+    @FXML
+    private void initialize(){
+        RecipeHandler.homeUI = this;
+    }
 
     /**
      * FXML event to load the recipe from the selected option
