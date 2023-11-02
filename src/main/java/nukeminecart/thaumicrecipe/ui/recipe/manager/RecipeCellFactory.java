@@ -14,16 +14,25 @@ import javafx.scene.layout.Priority;
 import javafx.util.Callback;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
-
-public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Recipe>>{
+/**
+ * Class that contains the cell factory for {@link RecipeManagerUI}
+ */
+public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Recipe>> {
 
     @Override
     public ListCell<Recipe> call(ListView<Recipe> param) {
         return new RecipeCell();
     }
 
+    /**
+     * Recipe Cell formatting and layout
+     */
     public static class RecipeCell extends ListCell<Recipe> {
-        Button button = new Button("Edit");
+        final Button button = new Button("Edit");
+
+        /**
+         * Constructor for {@link RecipeCell}
+         */
         public RecipeCell() {
             setOnDragDetected(event -> {
                 if (!isEmpty()) {
@@ -34,7 +43,9 @@ public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Re
                     event.consume();
                 }
             });
-
+            /*
+            Check when an item is dragged over the list
+             */
             setOnDragOver(new EventHandler<DragEvent>() {
                 @Override
                 public void handle(DragEvent event) {
@@ -44,7 +55,9 @@ public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Re
                     event.consume();
                 }
             });
-
+            /*
+             Check when an item is dropped over the list
+             */
             setOnDragDropped(event -> {
                 Dragboard db = event.getDragboard();
                 boolean success = false;
@@ -74,12 +87,18 @@ public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Re
                 event.consume();
             });
 
+            /*
+             Event for when the "edit" button is pressed
+             */
             button.setOnAction(event -> {
                 String recipeName = getItem().getName();
                 RecipeManagerUI.openEditor(recipeName);
             });
         }
 
+        /*
+         Update an item in the list
+         */
         @Override
         protected void updateItem(Recipe recipe, boolean empty) {
             super.updateItem(recipe, empty);
@@ -87,7 +106,6 @@ public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Re
                 setText(null);
                 setGraphic(null);
             } else {
-                // Create an HBox layout for the label and button
                 Label label = new Label(recipe.getName());
                 label.setMaxWidth(Double.MAX_VALUE);
                 HBox.setHgrow(label, Priority.ALWAYS);
