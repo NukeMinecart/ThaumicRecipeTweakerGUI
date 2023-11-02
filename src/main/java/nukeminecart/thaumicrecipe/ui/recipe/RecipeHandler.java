@@ -1,8 +1,7 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe;
 
-import javafx.scene.control.Label;
-import main.java.nukeminecart.thaumicrecipe.ui.ErrorWarning;
-import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.IFileParser;
+import main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
 import java.io.File;
@@ -11,52 +10,83 @@ import java.util.List;
 
 import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.loadedRecipe;
 
+/**
+ * Class containing methods which either read .rcp files, or create new .rcp files
+ */
+
 public class RecipeHandler {
     public static File file;
-    private static Label newWarning;
+    public static HomeUI homeUI;
+
+    /**
+     * Loads a recipe from the configuration file and launches the {@link RecipeManagerUI}
+     *
+     * @throws IOException if the file does not exist and if {@link RecipeManagerUI} cannot find its associated .fxml file
+     */
+
     public static void loadConfigRecipe() throws IOException {
-        if(loadedRecipe!=null) {
-            file = IFileParser.getFolderFile(loadedRecipe.endsWith(".rcp") ? loadedRecipe : loadedRecipe + ".rcp");
-            List<String> contents = IFileParser.readFile(file);
-            RecipeManagerUI.loadManager(file.getName(),contents);
-        }else{
-            ErrorWarning.invalidFileError(newWarning,"No file in config");
+        if (loadedRecipe != null) {
+            file = FileParser.getFolderFile(loadedRecipe.endsWith(".rcp") ? loadedRecipe : loadedRecipe + ".rcp");
+            List<String> contents = FileParser.readFile(file);
+            RecipeManagerUI.loadManager(file.getName(), contents);
+        } else {
+            homeUI.throwNewWarning("No file in config");
         }
     }
+
+    /**
+     * Loads a recipe from a file in the thaumicrecipe folder and launches the {@link RecipeManagerUI}
+     *
+     * @throws IOException if the file does not exist and if {@link RecipeManagerUI} cannot find its associated .fxml file
+     */
     public static void loadFolderRecipe(String filename) throws IOException {
-        file = IFileParser.getFolderFile(filename);
-        List<String> contents = IFileParser.readFile(file);
-        RecipeManagerUI.loadManager(filename,contents);
+        file = FileParser.getFolderFile(filename);
+        List<String> contents = FileParser.readFile(file);
+        RecipeManagerUI.loadManager(filename, contents);
 
     }
+
+    /**
+     * Loads a recipe from anywhere and launches the {@link RecipeManagerUI}
+     *
+     * @throws IOException if the file does not exist and if {@link RecipeManagerUI} cannot find its associated .fxml file
+     */
     public static void loadOtherRecipe(String path) throws IOException {
         file = new File(path);
-        List<String> contents = IFileParser.readFile(IFileParser.checkExists(file) ? file : null) ;
-        RecipeManagerUI.loadManager(file.getName(),contents);
-    }
-    public static void newRecipeGroup(String name) throws IOException {
-        file = IFileParser.getFolderFile(name.endsWith(".rcp") ? name : name+".rcp");
-        if(file.exists()){
-            ErrorWarning.invalidFileError(newWarning,"File already exists");
-        }else{
-            RecipeManagerUI.loadManager(name,null);
-        }
-    }
-    public static void newRecipe(String name) throws IOException {
-        file = IFileParser.getFolderFile(name.endsWith(".rcp") ? name : name+".rcp");
-        if(file.exists()){
-            ErrorWarning.invalidFileError(newWarning,"File already exists");
-        }else{
-            RecipeManagerUI.loadManager(name,null);
-        }
-    }
-    public static void setLabel(Label newWarning) {
-        RecipeHandler.newWarning=newWarning;
+        List<String> contents = FileParser.readFile(FileParser.checkExists(file) ? file : null);
+        RecipeManagerUI.loadManager(file.getName(), contents);
     }
 
-    public static void saveToFile(File savefile, String[] contents){
-        //TODO
+    /**
+     * Creates a new recipe group with the specified name and launches the {@link RecipeManagerUI}
+     *
+     * @param name the name for the recipe group
+     * @throws IOException if the file already exists and if {@link RecipeManagerUI} cannot find its associated .fxml file
+     */
+    public static void newRecipeGroup(String name) throws IOException {
+        file = FileParser.getFolderFile(name.endsWith(".rcp") ? name : name + ".rcp");
+        if (file.exists()) {
+            homeUI.throwNewWarning("File already exists");
+        } else {
+            RecipeManagerUI.loadManager(name, null);
+        }
     }
+
+    /**
+     * Creates a new recipe collection with the specified name and launches the {@link RecipeManagerUI}
+     *
+     * @param name the name for the recipe collection
+     * @throws IOException if the file already exists and if {@link RecipeManagerUI} cannot find its associated .fxml file
+     */
+    public static void newLargeRecipe(String name) throws IOException {
+        file = FileParser.getFolderFile(name.endsWith(".rcp") ? name : name + ".rcp");
+        if (file.exists()) {
+            homeUI.throwNewWarning("File already exists");
+        } else {
+            RecipeManagerUI.loadManager(name, null);
+        }
+    }
+
 
 }
 
