@@ -7,11 +7,13 @@ import javafx.scene.control.Label;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.shape.RecipeShapeUI;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
 import java.io.IOException;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.loadedEditorRecipe;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.editorRecipe;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.originalRecipe;
 
 /**
  * The class that contains all the controller elements and logic for the RecipeEditorUI parent
@@ -46,7 +48,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      */
     @FXML
     public void initialize() {
-        title.setText("Recipe Editor: " + loadedEditorRecipe.getName());
+        title.setText("Recipe Editor: " + editorRecipe.getName());
     }
 
     /**
@@ -56,6 +58,32 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void test() {
         try {
             new RecipeShapeUI().launchShapeEditor();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Returns to the {@link RecipeManagerUI} scene without saving the recipe
+     */
+    @FXML
+    private void returnToManager() {
+        try {
+            RecipeManagerUI.recipeEditorMap.put(originalRecipe.getName(), originalRecipe);
+            new RecipeManagerUI().loadManager();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Returns to the {@link RecipeManagerUI} scene while saving the recipe in the editor
+     */
+    @FXML
+    private void saveRecipeAndReturn() {
+        try {
+            RecipeManagerUI.recipeEditorMap.put(editorRecipe.getName(), editorRecipe);
+            new RecipeManagerUI().loadManager();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

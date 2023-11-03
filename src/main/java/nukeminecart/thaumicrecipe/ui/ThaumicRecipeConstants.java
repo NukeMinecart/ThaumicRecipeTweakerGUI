@@ -6,7 +6,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 public class ThaumicRecipeConstants {
     public static String separator, recipeDirectory, loadedRecipe, MOD_ID, stringArraySeparator, stringSeparator;
     public static String fileExistsWarning, noFileInConfigWarning;
-    public static Recipe loadedEditorRecipe;
+    public static Recipe editorRecipe, originalRecipe;
     public static int stageWidth, stageHeight;
     public static HomeUI instanceHomeUI;
 
@@ -16,7 +16,8 @@ public class ThaumicRecipeConstants {
      * @param recipe the recipe to set the currently loaded recipe to
      */
     public static void changeEditorRecipe(Recipe recipe) {
-        loadedEditorRecipe = recipe;
+        editorRecipe = recipe;
+        originalRecipe = recipe;
     }
 
     /**

@@ -36,6 +36,37 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     private Label title;
 
     /**
+     * Updates the recipeEditorMap {@link HashMap} with the key as the name of the recipe and the values as the {@link Recipe} from the recipes {@link ObservableList}
+     */
+    private static void refreshHashMap() {
+        for (Recipe recipe : recipes) {
+            recipeEditorMap.put(recipe.getName(), recipe);
+        }
+    }
+
+    /**
+     * Updates the recipes {@link ObservableList} with the values from the recipeEditorMap {@link HashMap}
+     */
+    public static void refreshRecipes() {
+        recipes.clear();
+        recipes.addAll(recipeEditorMap.values());
+    }
+
+    /**
+     * Loads the {@link RecipeEditorUI} and passes it the recipe to be displayed
+     *
+     * @param recipeName the recipe name to load the recipe editor with
+     */
+    public static void openEditor(String recipeName) {
+        try {
+            ThaumicRecipeConstants.changeEditorRecipe(recipeEditorMap.get(recipeName));
+            new RecipeEditorUI().launchEditor();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Gets the {@link Parent} container containing all the RecipeManagerUI elements
      *
      * @return the {@link Parent} container
@@ -62,34 +93,11 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     }
 
     /**
-     * Loads the {@link RecipeEditorUI} and passes it the recipe to be displayed
-     *
-     * @param recipeName the recipe name to load the recipe editor with
+     * Load the {@link RecipeManagerUI} scene and refresh the recipes from the hashmap
      */
-    public void openEditor(String recipeName) {
-        try {
-            ThaumicRecipeConstants.changeEditorRecipe(recipeEditorMap.get(recipeName));
-            new RecipeEditorUI().launchEditor();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Updates the recipeEditorMap {@link HashMap} with the key as the name of the recipe and the values as the {@link Recipe} from the recipes {@link ObservableList}
-     */
-    private static void refreshHashMap() {
-        for (Recipe recipe : recipes) {
-            recipeEditorMap.put(recipe.getName(), recipe);
-        }
-    }
-
-    /**
-     * Updates the recipes {@link ObservableList} with the values from the recipeEditorMap {@link HashMap}
-     */
-    public static void refreshRecipes() {
-        recipes.clear();
-        recipes.addAll(recipeEditorMap.values());
+    public void loadManager() throws IOException {
+        UIManager.loadScreen(getScene());
+        refreshRecipes();
     }
 
     /**

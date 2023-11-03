@@ -92,7 +92,7 @@ public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Re
              */
             button.setOnAction(event -> {
                 String recipeName = getItem().getName();
-                new RecipeManagerUI().openEditor(recipeName);
+                RecipeManagerUI.openEditor(recipeName);
             });
         }
 

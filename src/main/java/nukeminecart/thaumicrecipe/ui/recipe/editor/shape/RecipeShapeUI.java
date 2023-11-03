@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.loadedEditorRecipe;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.editorRecipe;
 
 /**
  * The class that contains all the controller elements and logic for the RecipeShapeUI parent
@@ -52,7 +52,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     public void launchShapeEditor() throws IOException {
         ingredientList.clear();
         largeSize = true;
-        RecipeShapeUI.ingredientList.addAll(loadedEditorRecipe.getIngredients());
+        RecipeShapeUI.ingredientList.addAll(editorRecipe.getIngredients());
         UIManager.loadScreen(getScene());
         updateShape();
     }
@@ -61,12 +61,12 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
      * Take the shape of the {@link Recipe} and put it into all the {@link ListView}
      */
     private void updateShape() {
-        for (int index = 0; index < loadedEditorRecipe.getShape().length; index++) {
+        for (int index = 0; index < editorRecipe.getShape().length; index++) {
             ObservableList<String> item = targetListViews.get(index).getItems();
             if (item.isEmpty()) {
-                item.add(Objects.equals(loadedEditorRecipe.getShape()[index], "") ? "" : loadedEditorRecipe.getShape()[index]);
+                item.add(Objects.equals(editorRecipe.getShape()[index], "") ? "" : editorRecipe.getShape()[index]);
             } else {
-                item.set(0, Objects.equals(loadedEditorRecipe.getShape()[index], "") ? "" : loadedEditorRecipe.getShape()[index]);
+                item.set(0, Objects.equals(editorRecipe.getShape()[index], "") ? "" : editorRecipe.getShape()[index]);
             }
         }
     }
@@ -127,7 +127,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
      */
     @FXML
     private void saveShape() {
-        loadedEditorRecipe.setShape(getShapeFromLists());
+        editorRecipe.setShape(getShapeFromLists());
         returnToEditor();
     }
 
