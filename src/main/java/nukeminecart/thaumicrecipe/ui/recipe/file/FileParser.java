@@ -1,17 +1,15 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe.file;
 
-import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 
 /**
  * A class used for all reading of files and changing of a {@link String} to a {@link Recipe}
  */
 public class FileParser {
-    private static final String separator = "-=-";
-    private static final String arraySeparator = "-";
 
     /**
      * Locates a file from the thaumicrecipe folder and returns the corresponding {@link java.io.File}
@@ -20,7 +18,7 @@ public class FileParser {
      * @return a file with the
      */
     public static File getFolderFile(String name) {
-        return new File(UIManager.recipeDir + name);
+        return new File(recipeDirectory + name);
     }
 
     /**
@@ -60,23 +58,23 @@ public class FileParser {
      */
     public static String compressRecipe(Recipe recipe) {
         StringBuilder returnRecipe;
-        returnRecipe = new StringBuilder(recipe.getName() + separator);
-        returnRecipe.append(recipe.getType()).append(separator);
-        returnRecipe.append(recipe.getInput()).append(separator);
+        returnRecipe = new StringBuilder(recipe.getName() + stringSeparator);
+        returnRecipe.append(recipe.getType()).append(stringSeparator);
+        returnRecipe.append(recipe.getInput()).append(stringSeparator);
 
         for (String ingredient : recipe.getIngredients()) {
-            returnRecipe.append(ingredient).append(arraySeparator);
+            returnRecipe.append(ingredient).append(stringArraySeparator);
         }
-        returnRecipe.append(separator);
-        returnRecipe.append(recipe.getOutput()).append(separator);
+        returnRecipe.append(stringSeparator);
+        returnRecipe.append(recipe.getOutput()).append(stringSeparator);
 
-        returnRecipe.append(recipe.getVis()).append(separator);
+        returnRecipe.append(recipe.getVis()).append(stringSeparator);
         for (String aspect : recipe.getAspects()) {
-            returnRecipe.append(aspect).append(arraySeparator);
+            returnRecipe.append(aspect).append(stringArraySeparator);
         }
-        returnRecipe.append(separator);
+        returnRecipe.append(stringSeparator);
         for (Object shape : recipe.getShape()) {
-            returnRecipe.append(shape).append(arraySeparator);
+            returnRecipe.append(shape).append(stringArraySeparator);
         }
         return returnRecipe.toString();
     }
@@ -89,15 +87,15 @@ public class FileParser {
      * @throws ArrayIndexOutOfBoundsException if the line is missing necessary recipe information
      */
     public static Recipe parseRecipe(String line) {
-        String[] compressedRecipe = line.split(separator);
+        String[] compressedRecipe = line.split(stringSeparator);
         String name = compressedRecipe[0];
         String type = compressedRecipe[1];
         String input = compressedRecipe[2];
-        String[] ingredients = compressedRecipe[3].split(arraySeparator);
+        String[] ingredients = compressedRecipe[3].split(stringArraySeparator);
         String output = compressedRecipe[4];
         int vis = Integer.parseInt(compressedRecipe[5]);
-        String[] aspects = compressedRecipe[6].split(arraySeparator);
-        String[] shape = compressedRecipe[7].split(arraySeparator);
+        String[] aspects = compressedRecipe[6].split(stringArraySeparator);
+        String[] shape = compressedRecipe[7].split(stringArraySeparator);
 
         return new Recipe(name, type, input, ingredients, output, vis, aspects, shape);
     }

@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.loadedRecipe;
-import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.recipeDir;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 
 /**
  * The class that contains all the controller elements and logic for the HomeUI parent
@@ -43,15 +42,16 @@ public class HomeUI extends ThaumicRecipeUI {
      * @return the {@link Parent} container
      * @throws IOException if HomeUI.fxml if not found
      */
-    public static Parent getScene() throws IOException {
+    public Parent getScene() throws IOException {
         return FXMLLoader.load(Objects.requireNonNull(HomeUI.class.getResource("HomeUI.fxml")));
     }
+
     /**
      * FXML initialize method
      */
     @FXML
-    private void initialize(){
-        RecipeHandler.homeUI = this;
+    private void initialize() {
+        instanceHomeUI = this;
     }
 
     /**
@@ -60,13 +60,13 @@ public class HomeUI extends ThaumicRecipeUI {
     @FXML
     private void loadRecipe() {
         if (loadOption.equals("fromOther")) {
-            if(FileParser.checkExists(new File(loadField.getText()))){
+            if (FileParser.checkExists(new File(loadField.getText()))) {
                 try {
                     RecipeHandler.loadOtherRecipe(new File(loadField.getText()).getPath());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            }else {
+            } else {
                 FileChooser chooser = new FileChooser();
                 chooser.setTitle("Open File");
 
@@ -114,8 +114,8 @@ public class HomeUI extends ThaumicRecipeUI {
      * Gets the files in the thaumicrecipe directory or creates a new directory in the minecraft folder
      */
     private void loadRecipeDirectory() {
-        if (recipeDir != null) {
-            File directory = new File(recipeDir);
+        if (recipeDirectory != null) {
+            File directory = new File(recipeDirectory);
             if (!directory.exists()) {
                 if (!directory.mkdirs()) {
                     throw new NullPointerException("Could not create directory");
@@ -183,7 +183,7 @@ public class HomeUI extends ThaumicRecipeUI {
             return;
         } else {
             try {
-                File testfile = recipeDir == null ? FileParser.getFolderFile(newField.getText()) : new File(System.getProperty("user.dir"), newField.getText());
+                File testfile = recipeDirectory == null ? FileParser.getFolderFile(newField.getText()) : new File(System.getProperty("user.dir"), newField.getText());
                 boolean deleted;
                 if (!testfile.createNewFile()) {
                     throw new NullPointerException("File cannot be created");

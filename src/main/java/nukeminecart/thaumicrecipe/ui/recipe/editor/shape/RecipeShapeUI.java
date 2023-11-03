@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.loadedEditorRecipe;
+
 /**
  * The class that contains all the controller elements and logic for the RecipeShapeUI parent
  */
@@ -28,7 +30,6 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
 
     public static final ObservableList<String> ingredientList = FXCollections.observableArrayList();
     private static final List<ListView<String>> targetListViews = new ArrayList<>();
-    public static Recipe recipe;
     private static boolean largeSize = true;
     @FXML
     private ListView<String> ingredients, craft1, craft2, craft3, craft4, craft5, craft6, craft7, craft8, craft9;
@@ -39,21 +40,19 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
      * @return the {@link Parent} container
      * @throws IOException if RecipeShapeUI.fxml if not found
      */
-    public static Parent getScene() throws IOException {
+    public Parent getScene() throws IOException {
         return FXMLLoader.load(Objects.requireNonNull(RecipeShapeUI.class.getResource("RecipeShapeUI.fxml")));
     }
 
     /**
      * Loads the shapeEditor scene and adds all the ingredients to a {@link ListView}
      *
-     * @param recipe the recipe to have its shape edited
      * @throws IOException if RecipeShapeUI.fxml is not found
      */
-    public static void launchShapeEditor(Recipe recipe) throws IOException {
-        RecipeShapeUI.recipe = recipe;
+    public void launchShapeEditor() throws IOException {
         ingredientList.clear();
         largeSize = true;
-        RecipeShapeUI.ingredientList.addAll(recipe.getIngredients());
+        RecipeShapeUI.ingredientList.addAll(loadedEditorRecipe.getIngredients());
         UIManager.loadScreen(getScene());
         updateShape();
     }
@@ -61,13 +60,13 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     /**
      * Take the shape of the {@link Recipe} and put it into all the {@link ListView}
      */
-    private static void updateShape() {
-        for (int index = 0; index < recipe.getShape().length; index++) {
+    private void updateShape() {
+        for (int index = 0; index < loadedEditorRecipe.getShape().length; index++) {
             ObservableList<String> item = targetListViews.get(index).getItems();
             if (item.isEmpty()) {
-                item.add(Objects.equals(recipe.getShape()[index], "") ? "" : recipe.getShape()[index]);
+                item.add(Objects.equals(loadedEditorRecipe.getShape()[index], "") ? "" : loadedEditorRecipe.getShape()[index]);
             } else {
-                item.set(0, Objects.equals(recipe.getShape()[index], "") ? "" : recipe.getShape()[index]);
+                item.set(0, Objects.equals(loadedEditorRecipe.getShape()[index], "") ? "" : loadedEditorRecipe.getShape()[index]);
             }
         }
     }
@@ -128,7 +127,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
      */
     @FXML
     private void saveShape() {
-        recipe.setShape(getShapeFromLists());
+        loadedEditorRecipe.setShape(getShapeFromLists());
         returnToEditor();
     }
 
@@ -142,12 +141,12 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         for (int index = 0; index < 9; index++) {
             shape.add(targetListViews.get(index).getItems().isEmpty() ? "" : targetListViews.get(index).getItems().get(0));
         }
-        if(!largeSize){
-            shape.set(2,"");
-            shape.set(5,"");
-            shape.set(6,"");
-            shape.set(7,"");
-            shape.set(8,"");
+        if (!largeSize) {
+            shape.set(2, "");
+            shape.set(5, "");
+            shape.set(6, "");
+            shape.set(7, "");
+            shape.set(8, "");
         }
         return shape.toArray(new String[0]);
     }
@@ -158,7 +157,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     @FXML
     private void returnToEditor() {
         try {
-            RecipeEditorUI.launchEditor(recipe);
+            new RecipeEditorUI().launchEditor();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

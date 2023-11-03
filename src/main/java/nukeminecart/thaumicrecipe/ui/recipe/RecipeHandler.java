@@ -1,6 +1,5 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe;
 
-import main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
@@ -8,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.loadedRecipe;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 
 /**
  * Class containing methods which either read .rcp files, or create new .rcp files
@@ -16,7 +15,6 @@ import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.loadedRecipe;
 
 public class RecipeHandler {
     public static File file;
-    public static HomeUI homeUI;
 
     /**
      * Loads a recipe from the configuration file and launches the {@link RecipeManagerUI}
@@ -30,7 +28,7 @@ public class RecipeHandler {
             List<String> contents = FileParser.readFile(file);
             RecipeManagerUI.loadManager(file.getName(), contents);
         } else {
-            homeUI.throwNewWarning("No file in config");
+            instanceHomeUI.throwNewWarning(noFileInConfigWarning);
         }
     }
 
@@ -66,7 +64,7 @@ public class RecipeHandler {
     public static void newRecipeGroup(String name) throws IOException {
         file = FileParser.getFolderFile(name.endsWith(".rcp") ? name : name + ".rcp");
         if (file.exists()) {
-            homeUI.throwNewWarning("File already exists");
+            instanceHomeUI.throwNewWarning(fileExistsWarning);
         } else {
             RecipeManagerUI.loadManager(name, null);
         }
@@ -81,7 +79,7 @@ public class RecipeHandler {
     public static void newLargeRecipe(String name) throws IOException {
         file = FileParser.getFolderFile(name.endsWith(".rcp") ? name : name + ".rcp");
         if (file.exists()) {
-            homeUI.throwNewWarning("File already exists");
+            instanceHomeUI.throwNewWarning(fileExistsWarning);
         } else {
             RecipeManagerUI.loadManager(name, null);
         }

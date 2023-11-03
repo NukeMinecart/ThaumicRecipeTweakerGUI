@@ -37,9 +37,9 @@ public class Recipe {
         this.aspects = aspects;
         this.shape = shape;
     }
+
     /**
      * Creates a new empty {@link Recipe}
-     *
      */
     public Recipe() {
         this.name = null;

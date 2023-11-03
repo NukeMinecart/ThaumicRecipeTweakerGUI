@@ -25,7 +25,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
      * @return the {@link Parent} container
      * @throws IOException if RecipeListUI.fxml if not found
      */
-    public static Parent getScene() throws IOException {
+    public Parent getScene() throws IOException {
         return FXMLLoader.load(Objects.requireNonNull(RecipeListUI.class.getResource("RecipeListUI.fxml")));
     }
 
@@ -34,7 +34,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
      *
      * @throws IOException if RecipeListUI.fxml is not found
      */
-    public static void launchListEditor(String type, String[] list) throws IOException {
+    public void launchListEditor(String type, String[] list) throws IOException {
         RecipeListUI.type = type;
         UIManager.loadScreen(getScene());
     }

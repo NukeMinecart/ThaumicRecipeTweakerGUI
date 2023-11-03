@@ -7,17 +7,17 @@ import javafx.scene.control.Label;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.shape.RecipeShapeUI;
-import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.loadedEditorRecipe;
 
 /**
  * The class that contains all the controller elements and logic for the RecipeEditorUI parent
  */
 
 public class RecipeEditorUI extends ThaumicRecipeUI {
-    private static Recipe recipe;
     @FXML
     private Label title;
 
@@ -27,7 +27,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      * @return the {@link Parent} container
      * @throws IOException if RecipeEditorUI.fxml if not found
      */
-    public static Parent getScene() throws IOException {
+    public Parent getScene() throws IOException {
         return FXMLLoader.load(Objects.requireNonNull(RecipeEditorUI.class.getResource("RecipeEditorUI.fxml")));
 
     }
@@ -38,8 +38,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      * @param recipe the recipe to load the editor with
      * @throws IOException if RecipeShapeUI.fxml is not found
      */
-    public static void launchEditor(Recipe recipe) throws IOException {
-        RecipeEditorUI.recipe = recipe;
+    public void launchEditor() throws IOException {
         UIManager.loadScreen(getScene());
     }
 
@@ -48,7 +47,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      */
     @FXML
     public void initialize() {
-        title.setText("Recipe Editor: " + recipe.getName());
+        title.setText("Recipe Editor: " + loadedEditorRecipe.getName());
     }
 
     /**
@@ -57,7 +56,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
     private void test() {
         try {
-            RecipeShapeUI.launchShapeEditor(recipe);
+            new RecipeShapeUI().launchShapeEditor();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

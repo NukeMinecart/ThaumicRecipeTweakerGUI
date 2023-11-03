@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
  */
 
 public class ThaumicRecipeUI {
-    private double x, y;
+    private double offsetX, offsetY;
 
     /**
      * FXML event to close the screen
@@ -26,8 +26,8 @@ public class ThaumicRecipeUI {
      */
     @FXML
     private void panePressed(MouseEvent me) {
-        x = UIManager.stage.getX() - me.getScreenX();
-        y = UIManager.stage.getY() - me.getScreenY();
+        offsetX = UIManager.stage.getX() - me.getScreenX();
+        offsetY = UIManager.stage.getY() - me.getScreenY();
     }
 
     /**
@@ -37,7 +37,7 @@ public class ThaumicRecipeUI {
      */
     @FXML
     private void paneDragged(MouseEvent me) {
-        UIManager.stage.setX(x + me.getScreenX());
-        UIManager.stage.setY(y + me.getScreenY());
+        UIManager.stage.setX(offsetX + me.getScreenX());
+        UIManager.stage.setY(offsetY + me.getScreenY());
     }
 }

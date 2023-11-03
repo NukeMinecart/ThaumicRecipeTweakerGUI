@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
@@ -68,7 +69,8 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      */
     public static void openEditor(String recipeName) {
         try {
-            RecipeEditorUI.launchEditor(recipeEditorMap.get(recipeName));
+            ThaumicRecipeConstants.changeEditorRecipe(recipeEditorMap.get(recipeName));
+            new RecipeEditorUI().launchEditor();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

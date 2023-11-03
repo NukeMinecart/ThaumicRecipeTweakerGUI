@@ -12,12 +12,14 @@ import main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI;
 import java.io.IOException;
 import java.util.Objects;
 
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.stageHeight;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.stageWidth;
+
 /**
  * The entry class from which all other scene updates get called
  */
 public class UIManager extends Application {
 
-    public static String separator, recipeDir, loadedRecipe;
     public static Stage stage;
 
     /**
@@ -26,9 +28,7 @@ public class UIManager extends Application {
      * @param args the arguments passed to this application
      */
     public static void main(String[] args) {
-        separator = System.getProperty("file.separator");
-        recipeDir = args.length > 0 ? args[0] + separator + "thaumicrecipe" + separator : null;
-        loadedRecipe = args.length > 1 ? args[1] : null;
+        new ThaumicRecipeConstants().initializeConstants(args);
         launch();
 
     }
@@ -39,7 +39,7 @@ public class UIManager extends Application {
      * @param parent the {@link Parent} container to load
      */
     public static void loadScreen(Parent parent) {
-        Scene scene = new Scene(parent, 750, 500);
+        Scene scene = new Scene(parent, stageWidth, stageHeight);
         Platform.runLater(() -> {
             stage.setScene(scene);
             stage.show();
@@ -62,7 +62,7 @@ public class UIManager extends Application {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(Objects.requireNonNull(UIManager.class.getResourceAsStream("resources/icon.png"))));
         stage.setTitle("Thaumic Recipe Tweaker Home");
-        UIManager.loadScreen(HomeUI.getScene());
+        UIManager.loadScreen(new HomeUI().getScene());
     }
 
 
