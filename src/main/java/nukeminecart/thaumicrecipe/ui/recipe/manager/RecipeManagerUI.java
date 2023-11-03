@@ -41,8 +41,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      * @return the {@link Parent} container
      * @throws IOException if RecipeManagerUI.fxml if not found
      */
-    public static Parent getScene() throws IOException {
-
+    public Parent getScene() throws IOException {
         return FXMLLoader.load(Objects.requireNonNull(RecipeManagerUI.class.getResource("RecipeManagerUI.fxml")));
     }
 
@@ -53,7 +52,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      * @param contents the contents of the file
      * @throws IOException if getScene returns an invalid {@link Parent}
      */
-    public static void loadManager(String name, List<String> contents) throws IOException {
+    public void loadManager(String name, List<String> contents) throws IOException {
         if (contents != null && contents.size() > 1) {
             recipes.addAll(FileParser.getRecipesFromString(contents));
             refreshHashMap();
@@ -67,7 +66,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      *
      * @param recipeName the recipe name to load the recipe editor with
      */
-    public static void openEditor(String recipeName) {
+    public void openEditor(String recipeName) {
         try {
             ThaumicRecipeConstants.changeEditorRecipe(recipeEditorMap.get(recipeName));
             new RecipeEditorUI().launchEditor();

@@ -26,7 +26,7 @@ public class RecipeHandler {
         if (loadedRecipe != null) {
             file = FileParser.getFolderFile(loadedRecipe.endsWith(".rcp") ? loadedRecipe : loadedRecipe + ".rcp");
             List<String> contents = FileParser.readFile(file);
-            RecipeManagerUI.loadManager(file.getName(), contents);
+            new RecipeManagerUI().loadManager(file.getName(), contents);
         } else {
             instanceHomeUI.throwNewWarning(noFileInConfigWarning);
         }
@@ -40,7 +40,7 @@ public class RecipeHandler {
     public static void loadFolderRecipe(String filename) throws IOException {
         file = FileParser.getFolderFile(filename);
         List<String> contents = FileParser.readFile(file);
-        RecipeManagerUI.loadManager(filename, contents);
+        new RecipeManagerUI().loadManager(filename, contents);
 
     }
 
@@ -52,7 +52,7 @@ public class RecipeHandler {
     public static void loadOtherRecipe(String path) throws IOException {
         file = new File(path);
         List<String> contents = FileParser.readFile(FileParser.checkExists(file) ? file : null);
-        RecipeManagerUI.loadManager(file.getName(), contents);
+        new RecipeManagerUI().loadManager(file.getName(), contents);
     }
 
     /**
@@ -66,7 +66,7 @@ public class RecipeHandler {
         if (file.exists()) {
             instanceHomeUI.throwNewWarning(fileExistsWarning);
         } else {
-            RecipeManagerUI.loadManager(name, null);
+            new RecipeManagerUI().loadManager(name, null);
         }
     }
 
@@ -81,7 +81,7 @@ public class RecipeHandler {
         if (file.exists()) {
             instanceHomeUI.throwNewWarning(fileExistsWarning);
         } else {
-            RecipeManagerUI.loadManager(name, null);
+            new RecipeManagerUI().loadManager(name, null);
         }
     }
 
