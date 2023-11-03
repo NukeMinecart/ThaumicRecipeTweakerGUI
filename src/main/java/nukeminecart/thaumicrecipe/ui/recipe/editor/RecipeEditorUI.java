@@ -35,7 +35,6 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     /**
      * Loads the {@link RecipeEditorUI} scene
      *
-     * @param recipe the recipe to load the editor with
      * @throws IOException if RecipeShapeUI.fxml is not found
      */
     public void launchEditor() throws IOException {
