@@ -16,9 +16,12 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.instanceRecipeManagerUI;
 
 /**
  * The class that contains all the controller elements and logic for the RecipeManagerUI parent
@@ -38,7 +41,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     /**
      * Updates the recipeEditorMap {@link HashMap} with the key as the name of the recipe and the values as the {@link Recipe} from the recipes {@link ObservableList}
      */
-    private static void refreshHashMap() {
+    private void refreshHashMap() {
         for (Recipe recipe : recipes) {
             recipeEditorMap.put(recipe.getName(), recipe);
         }
@@ -47,9 +50,9 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     /**
      * Updates the recipes {@link ObservableList} with the values from the recipeEditorMap {@link HashMap}
      */
-    public static void refreshRecipes() {
-        recipes.clear();
-        recipes.addAll(recipeEditorMap.values());
+    private void refreshRecipes() {
+        recipes.setAll(recipeEditorMap.values());
+        //TODO FIX WARNING ERROR
     }
 
     /**
@@ -84,6 +87,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      * @throws IOException if getScene returns an invalid {@link Parent}
      */
     public void loadManager(String name, List<String> contents) throws IOException {
+        instanceRecipeManagerUI = this;
         if (contents != null && contents.size() > 1) {
             recipes.addAll(FileParser.getRecipesFromString(contents));
             refreshHashMap();

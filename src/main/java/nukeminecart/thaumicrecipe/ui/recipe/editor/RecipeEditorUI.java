@@ -12,8 +12,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 import java.io.IOException;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.editorRecipe;
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.originalRecipe;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 
 /**
  * The class that contains all the controller elements and logic for the RecipeEditorUI parent
@@ -70,7 +69,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void returnToManager() {
         try {
             RecipeManagerUI.recipeEditorMap.put(originalRecipe.getName(), originalRecipe);
-            new RecipeManagerUI().loadManager();
+            instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -83,7 +82,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void saveRecipeAndReturn() {
         try {
             RecipeManagerUI.recipeEditorMap.put(editorRecipe.getName(), editorRecipe);
-            new RecipeManagerUI().loadManager();
+            instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
