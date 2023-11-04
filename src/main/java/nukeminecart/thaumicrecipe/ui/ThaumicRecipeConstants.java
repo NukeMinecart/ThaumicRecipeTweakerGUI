@@ -2,6 +2,7 @@ package main.java.nukeminecart.thaumicrecipe.ui;
 
 import main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
 public class ThaumicRecipeConstants {
     public static String separator, recipeDirectory, loadedRecipe, MOD_ID, stringArraySeparator, stringSeparator;
@@ -9,6 +10,7 @@ public class ThaumicRecipeConstants {
     public static Recipe editorRecipe, originalRecipe;
     public static int stageWidth, stageHeight;
     public static HomeUI instanceHomeUI;
+    public static RecipeManagerUI instanceRecipeManagerUI;
 
     /**
      * Change the recipe that is currently loaded in the editor
