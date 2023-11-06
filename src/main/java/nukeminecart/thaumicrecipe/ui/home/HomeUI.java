@@ -9,7 +9,8 @@ import javafx.util.Duration;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.Transition;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
-import main.java.nukeminecart.thaumicrecipe.ui.recipe.RecipeHandler;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.RecipeFileHandler;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.RecipeService;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 
 import java.io.File;
@@ -18,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.instanceHomeUI;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.recipeDirectory;
 
 /**
  * The class that contains all the controller elements and logic for the HomeUI parent
@@ -62,7 +64,7 @@ public class HomeUI extends ThaumicRecipeUI {
         if (loadOption.equals("fromOther")) {
             if (FileParser.checkExists(new File(loadField.getText()))) {
                 try {
-                    RecipeHandler.loadOtherRecipe(new File(loadField.getText()).getPath());
+                    RecipeFileHandler.loadOtherRecipe(new File(loadField.getText()).getPath());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -74,39 +76,13 @@ public class HomeUI extends ThaumicRecipeUI {
                 chooser.getExtensionFilters().add(extFilter);
                 chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
                 File fileChosen = chooser.showOpenDialog(UIManager.stage.getOwner());
-                if (fileChosen == null) {
-                    throwLoadWarning("File not found");
-                } else {
-                    try {
-                        RecipeHandler.loadOtherRecipe(fileChosen.getPath());
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
+                RecipeService.loadOtherRecipe(this, fileChosen.getPath());
             }
 
         } else if (loadOption.equals("fromFolder")) {
-            if (loadField.getText().isEmpty() || loadField.getText() == null) {
-                throwLoadWarning("Filename is invalid");
-            } else if (!filenames.contains(loadField.getText())) {
-                throwLoadWarning("File does not exist");
-            } else {
-                try {
-                    RecipeHandler.loadFolderRecipe(loadField.getText());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            RecipeService.loadFolderRecipe(this, loadField.getText(), filenames);
         } else {
-            if (loadedRecipe != null) {
-                try {
-                    RecipeHandler.loadConfigRecipe();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                throwLoadWarning("No recipe in config");
-            }
+            RecipeService.loadConfigRecipe(this);
         }
     }
 
@@ -178,35 +154,16 @@ public class HomeUI extends ThaumicRecipeUI {
      */
     @FXML
     private void newRecipe() {
-        if (newField.getText().isEmpty() || newField.getText() == null) {
-            throwNewWarning("Recipe " + (newOption.equals("smallRecipe") ? "" : "group ") + "name is blank");
-            return;
-        } else {
-            try {
-                File testfile = recipeDirectory == null ? FileParser.getFolderFile(newField.getText()) : new File(System.getProperty("user.dir"), newField.getText());
-                boolean deleted;
-                if (!testfile.createNewFile()) {
-                    throw new NullPointerException("File cannot be created");
-                }
-                deleted = testfile.delete();
-                if (!deleted) {
-                    throw new NullPointerException("File cannot be deleted");
-                }
-
-            } catch (Exception e) {
-                throwNewWarning("Filename is invalid");
-                return;
-            }
-        }
+        if (!RecipeService.checkNewErrors(this, newField.getText(), newOption)) return;
         if (newOption.equals("largeRecipe")) {
             try {
-                RecipeHandler.newLargeRecipe(newField.getText());
+                RecipeFileHandler.newLargeRecipe(newField.getText());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         } else {
             try {
-                RecipeHandler.newRecipeGroup(newField.getText());
+                RecipeFileHandler.newRecipeGroup(newField.getText());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
