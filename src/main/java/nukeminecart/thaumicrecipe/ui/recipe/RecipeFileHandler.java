@@ -13,7 +13,7 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
  * Class containing methods which either read .rcp files, or create new .rcp files
  */
 
-public class RecipeHandler {
+public class RecipeFileHandler {
     public static File file;
 
     /**
