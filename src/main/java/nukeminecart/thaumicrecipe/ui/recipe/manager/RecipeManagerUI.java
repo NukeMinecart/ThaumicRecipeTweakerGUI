@@ -38,6 +38,20 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     private Label title;
 
     /**
+     * Loads the {@link RecipeEditorUI} and passes it the recipe to be displayed
+     *
+     * @param recipeName the recipe name to load the recipe editor with
+     */
+    public static void openEditor(String recipeName) {
+        try {
+            ThaumicRecipeConstants.changeEditorRecipe(recipeEditorMap.get(recipeName));
+            new RecipeEditorUI().launchEditor();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Updates the recipeEditorMap {@link HashMap} with the key as the name of the recipe and the values as the {@link Recipe} from the recipes {@link ObservableList}
      */
     private void refreshHashMap() {
@@ -50,22 +64,10 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      * Updates the recipes {@link ObservableList} with the values from the recipeEditorMap {@link HashMap}
      */
     private void refreshRecipes() {
+        recipeList.setCellFactory(new RecipeCellFactory());
+        recipeList.setItems(recipes);
         recipes.setAll(recipeEditorMap.values());
-        //TODO FIX WARNING ERROR
-    }
-
-    /**
-     * Loads the {@link RecipeEditorUI} and passes it the recipe to be displayed
-     *
-     * @param recipeName the recipe name to load the recipe editor with
-     */
-    public static void openEditor(String recipeName) {
-        try {
-            ThaumicRecipeConstants.changeEditorRecipe(recipeEditorMap.get(recipeName));
-            new RecipeEditorUI().launchEditor();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        //TODO FIX WARNING MESSAGES
     }
 
     /**
@@ -91,7 +93,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
             recipes.addAll(FileParser.getRecipesFromString(contents));
             refreshHashMap();
         }
-        RecipeManagerUI.stringTitle = name.endsWith(".rcp") ? name : name + ".rcp";
+        stringTitle = name.endsWith(".rcp") ? name : name + ".rcp";
         UIManager.loadScreen(getScene());
     }
 
@@ -99,8 +101,8 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      * Load the {@link RecipeManagerUI} scene and refresh the recipes from the hashmap
      */
     public void loadManager() throws IOException {
+        instanceRecipeManagerUI = this;
         UIManager.loadScreen(getScene());
-        refreshRecipes();
     }
 
     /**
@@ -108,8 +110,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      */
     @FXML
     public void initialize() {
-        recipeList.setCellFactory(new RecipeCellFactory());
-        recipeList.setItems(recipes);
+        refreshRecipes();
         title.setText("Recipe Manager: " + stringTitle);
         recipes.addListener((ListChangeListener<Recipe>) c -> refreshHashMap());
     }
