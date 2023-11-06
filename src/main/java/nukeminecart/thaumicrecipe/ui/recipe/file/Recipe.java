@@ -41,8 +41,8 @@ public class Recipe {
     /**
      * Creates a new empty {@link Recipe}
      */
-    public Recipe() {
-        this.name = null;
+    public Recipe(String name) {
+        this.name = name;
         this.type = null;
         this.input = null;
         this.ingredients = null;
