@@ -54,6 +54,7 @@ public class Recipe {
 
     /**
      * Copies the current {@link Recipe}
+     *
      * @return the copied {@link Recipe}
      */
     public Recipe copy() {

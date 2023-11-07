@@ -23,7 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.cachedScenes;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.instanceRecipeManagerUI;
 
 /**
  * The class that contains all the controller elements and logic for the RecipeManagerUI parent
@@ -83,16 +84,17 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
 
     /**
      * Gets the cached {@link Scene} from {@link ThaumicRecipeConstants}
+     *
      * @return the cached {@link Scene}
      */
-    public Scene getCachedScene(){
+    public Scene getCachedScene() {
         return cachedScenes.get("manager");
     }
 
     /**
      * Loads the RecipeManager scene and adds all the recipes to the listView
      *
-     * @param name     the name of the file
+     * @param name         the name of the file
      * @param fileContents the contents of the file
      * @throws IOException if getScene returns an invalid {@link Parent}
      */

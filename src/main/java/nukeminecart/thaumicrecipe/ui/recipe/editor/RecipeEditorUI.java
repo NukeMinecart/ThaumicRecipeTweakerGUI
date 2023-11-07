@@ -67,6 +67,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
             throw new RuntimeException(e);
         }
     }
+
     /**
      * Returns to the {@link RecipeManagerUI} scene without saving the recipe
      */
