@@ -1,11 +1,13 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe.manager;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
@@ -14,13 +16,14 @@ import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.cell.RecipeCellFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.instanceRecipeManagerUI;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 
 /**
  * The class that contains all the controller elements and logic for the RecipeManagerUI parent
@@ -45,6 +48,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     public static void openEditor(String recipeName) {
         try {
             ThaumicRecipeConstants.changeEditorRecipe(recipeEditorMap.get(recipeName));
+            recipeEditorMap.remove(recipeName);
             new RecipeEditorUI().launchEditor();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -64,10 +68,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      * Updates the recipes {@link ObservableList} with the values from the recipeEditorMap {@link HashMap}
      */
     private void refreshRecipes() {
-        recipeList.setCellFactory(new RecipeCellFactory());
-        recipeList.setItems(recipes);
         recipes.setAll(recipeEditorMap.values());
-        //TODO FIX WARNING MESSAGES
     }
 
     /**
@@ -81,28 +82,37 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     }
 
     /**
-     * Loads the RecipeManager scene and adds all the recipes to the listView
-     *
-     * @param name     the name of the file
-     * @param contents the contents of the file
-     * @throws IOException if getScene returns an invalid {@link Parent}
+     * Gets the cached {@link Scene} from {@link ThaumicRecipeConstants}
+     * @return the cached {@link Scene}
      */
-    public void loadManager(String name, List<String> contents) throws IOException {
-        instanceRecipeManagerUI = this;
-        if (contents != null && contents.size() > 1) {
-            recipes.addAll(FileParser.getRecipesFromString(contents));
-            refreshHashMap();
-        }
-        stringTitle = name.endsWith(".rcp") ? name : name + ".rcp";
-        UIManager.loadScreen(getScene());
+    public Scene getCachedScene(){
+        return cachedScenes.get("manager");
     }
 
     /**
-     * Load the {@link RecipeManagerUI} scene and refresh the recipes from the hashmap
+     * Loads the RecipeManager scene and adds all the recipes to the listView
+     *
+     * @param name     the name of the file
+     * @param fileContents the contents of the file
+     * @throws IOException if getScene returns an invalid {@link Parent}
+     */
+    public void loadManager(String name, List<String> fileContents) throws IOException {
+        instanceRecipeManagerUI = this;
+        if (fileContents != null && fileContents.size() > 1) {
+            recipes.addAll(FileParser.getRecipesFromString(fileContents));
+            refreshHashMap();
+        }
+        stringTitle = name.endsWith(".rcp") ? name : name + ".rcp";
+        UIManager.loadScreen(getScene(), "manager");
+    }
+
+    /**
+     * Load the {@link RecipeManagerUI} scene and refresh the recipes from the {@link HashMap}
      */
     public void loadManager() throws IOException {
         instanceRecipeManagerUI = this;
-        UIManager.loadScreen(getScene());
+        UIManager.loadScreen(getCachedScene());
+        Platform.runLater(this::refreshRecipes);
     }
 
     /**
@@ -110,9 +120,11 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      */
     @FXML
     public void initialize() {
-        refreshRecipes();
+        recipeList.setCellFactory(new RecipeCellFactory());
+        recipeList.setItems(recipes);
         title.setText("Recipe Manager: " + stringTitle);
         recipes.addListener((ListChangeListener<Recipe>) c -> refreshHashMap());
+        refreshRecipes();
     }
 
 
