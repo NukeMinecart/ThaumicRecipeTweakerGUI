@@ -36,7 +36,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     public void launchListEditor(String type, String[] list) throws IOException {
         RecipeListUI.type = type;
-        UIManager.loadScreen(getScene());
+        UIManager.loadScreen(getScene(), "shape");
     }
 
     /**

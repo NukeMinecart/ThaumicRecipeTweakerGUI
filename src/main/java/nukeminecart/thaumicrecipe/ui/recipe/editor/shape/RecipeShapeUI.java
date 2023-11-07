@@ -53,7 +53,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         ingredientList.clear();
         largeSize = true;
         RecipeShapeUI.ingredientList.addAll(editorRecipe.getIngredients());
-        UIManager.loadScreen(getScene());
+        UIManager.loadScreen(getScene(), "shape");
         updateShape();
     }
 

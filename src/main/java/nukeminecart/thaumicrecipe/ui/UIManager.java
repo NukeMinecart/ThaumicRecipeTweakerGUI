@@ -34,12 +34,24 @@ public class UIManager extends Application {
     }
 
     /**
-     * Loads a {@link Parent} onto the main stage and displays it
+     * Loads a {@link Parent} onto the main {@link Stage} and displays it
      *
      * @param parent the {@link Parent} container to load
      */
-    public static void loadScreen(Parent parent) {
+    public static void loadScreen(Parent parent, String name) {
         Scene scene = new Scene(parent, stageWidth, stageHeight);
+        ThaumicRecipeConstants.cachedScenes.put(name,scene);
+        Platform.runLater(() -> {
+            stage.setScene(scene);
+            stage.show();
+        });
+    }
+
+    /**
+     * Loads a {@link Scene} onto the main {@link Stage} and displays it}
+     * @param scene the {@link Scene} to display
+     */
+    public static void loadScreen(Scene scene) {
         Platform.runLater(() -> {
             stage.setScene(scene);
             stage.show();
@@ -62,7 +74,7 @@ public class UIManager extends Application {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.getIcons().add(new Image(Objects.requireNonNull(UIManager.class.getResourceAsStream("resources/icon.png"))));
         stage.setTitle("Thaumic Recipe Tweaker Home");
-        UIManager.loadScreen(new HomeUI().getScene());
+        UIManager.loadScreen(new HomeUI().getScene(), "home");
     }
 
 
