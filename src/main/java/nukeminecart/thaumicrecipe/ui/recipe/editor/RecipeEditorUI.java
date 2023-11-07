@@ -4,21 +4,27 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.shape.RecipeShapeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.editorRecipe;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.originalRecipe;
 
 /**
  * The class that contains all the controller elements and logic for the RecipeEditorUI parent
  */
 
 public class RecipeEditorUI extends ThaumicRecipeUI {
+    @FXML
+    private TextField nameField;
     @FXML
     private Label title;
 
@@ -39,7 +45,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      * @throws IOException if RecipeShapeUI.fxml is not found
      */
     public void launchEditor() throws IOException {
-        UIManager.loadScreen(getScene());
+        UIManager.loadScreen(getScene(), "editor");
     }
 
     /**
@@ -61,7 +67,6 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
             throw new RuntimeException(e);
         }
     }
-
     /**
      * Returns to the {@link RecipeManagerUI} scene without saving the recipe
      */
@@ -69,7 +74,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void returnToManager() {
         try {
             RecipeManagerUI.recipeEditorMap.put(originalRecipe.getName(), originalRecipe);
-            instanceRecipeManagerUI.loadManager();
+            System.out.println(Arrays.toString(originalRecipe.getShape()));
+            ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -81,8 +87,10 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
     private void saveRecipeAndReturn() {
         try {
+            editorRecipe.setName(nameField.getText());
             RecipeManagerUI.recipeEditorMap.put(editorRecipe.getName(), editorRecipe);
-            instanceRecipeManagerUI.loadManager();
+            System.out.println(Arrays.toString(editorRecipe.getShape()));
+            ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
