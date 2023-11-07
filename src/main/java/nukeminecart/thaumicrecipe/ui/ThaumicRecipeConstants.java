@@ -1,8 +1,11 @@
 package main.java.nukeminecart.thaumicrecipe.ui;
 
+import javafx.scene.Scene;
 import main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
+
+import java.util.HashMap;
 
 public class ThaumicRecipeConstants {
     public static String separator, recipeDirectory, loadedRecipe, MOD_ID, stringArraySeparator, stringSeparator;
@@ -11,15 +14,16 @@ public class ThaumicRecipeConstants {
     public static int stageWidth, stageHeight;
     public static HomeUI instanceHomeUI;
     public static RecipeManagerUI instanceRecipeManagerUI;
+    public static HashMap<String, Scene> cachedScenes;
 
     /**
-     * Change the recipe that is currently loaded in the editor
+     * Change the {@link Recipe} that is currently loaded in the editor
      *
      * @param recipe the recipe to set the currently loaded recipe to
      */
     public static void changeEditorRecipe(Recipe recipe) {
-        editorRecipe = recipe;
-        originalRecipe = recipe;
+        editorRecipe = recipe.copy();
+        originalRecipe = recipe.copy();
     }
 
     /**
@@ -38,5 +42,6 @@ public class ThaumicRecipeConstants {
         stageHeight = 500;
         fileExistsWarning = "File already exist";
         noFileInConfigWarning = "No file in config";
+        cachedScenes = new HashMap<>();
     }
 }
