@@ -30,8 +30,9 @@
             <MenuItem mnemonicParsing="false" text="Action 2"/>
         </items>
     </MenuButton>
-    <Button layoutX="74.0" layoutY="341.0" mnemonicParsing="false" onAction="#test" text="Shape"/>
+    <Button layoutX="226.0" layoutY="248.0" mnemonicParsing="false" onAction="#openShapeEditor" text="Shape"/>
     <CheckBox layoutX="50.0" layoutY="175.0" mnemonicParsing="false" text="Shapeless"/>
     <Button layoutX="48.0" layoutY="260.0" mnemonicParsing="false" onAction="#returnToManager" text="Return"/>
     <Button layoutX="146.0" layoutY="260.0" mnemonicParsing="false" onAction="#saveRecipeAndReturn" text="Save"/>
+    <Button layoutX="117.0" layoutY="361.0" mnemonicParsing="false" onAction="#test" text="List"/>
 </AnchorPane>
