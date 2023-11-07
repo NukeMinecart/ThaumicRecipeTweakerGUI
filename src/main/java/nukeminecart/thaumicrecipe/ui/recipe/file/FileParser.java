@@ -26,6 +26,7 @@ public class FileParser {
      *
      * @param file the file to read
      * @return a list of the lines in the file
+     * @throws IOException if the file cannot be read, found, and if an i/o exception occurs
      */
     public static List<String> readFile(File file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -119,6 +120,7 @@ public class FileParser {
      *
      * @param savefile the file to save to
      * @param contents the contents of the file
+     * @throws IOException if the file cannot be written to, doesn't exist, and if a i/o error occurs
      */
     public static void saveToFile(File savefile, String[] contents) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(savefile));
