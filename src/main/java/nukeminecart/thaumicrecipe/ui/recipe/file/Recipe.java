@@ -53,6 +53,14 @@ public class Recipe {
     }
 
     /**
+     * Copies the current {@link Recipe}
+     * @return the copied {@link Recipe}
+     */
+    public Recipe copy() {
+        return new Recipe(name, type, input, ingredients, output, vis, aspects, shape);
+    }
+
+    /**
      * Gets the name of the recipe
      *
      * @return the name as a {@link String}
