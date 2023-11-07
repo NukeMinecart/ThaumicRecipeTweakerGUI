@@ -1,7 +1,9 @@
-package main.java.nukeminecart.thaumicrecipe.ui.recipe.manager;
+package main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.cell;
 
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -9,15 +11,25 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.util.Callback;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
+
+import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Class that contains the cell factory for {@link RecipeManagerUI}
  */
 public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Recipe>> {
+
+    private static Recipe recipe;
+    @FXML
+    private Label recipeName;
+
+    private static Parent getScene() throws IOException {
+        return FXMLLoader.load(Objects.requireNonNull(RecipeCellFactory.class.getResource("RecipeCell.fxml")));
+    }
 
     @Override
     public ListCell<Recipe> call(ListView<Recipe> param) {
@@ -25,10 +37,25 @@ public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Re
     }
 
     /**
+     * Launches the {@link main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI} with the recipe in the cell
+     */
+    @FXML
+    private void launchEditor() {
+        RecipeManagerUI.openEditor(recipeName.getText());
+    }
+
+    /**
+     * FXML initialize method
+     */
+    @FXML
+    private void initialize() {
+        recipeName.setText(recipe.getName());
+    }
+
+    /**
      * Recipe Cell formatting and layout
      */
     public static class RecipeCell extends ListCell<Recipe> {
-        final Button button = new Button("Edit");
 
         /**
          * Constructor for {@link RecipeCell}
@@ -86,14 +113,6 @@ public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Re
                 event.setDropCompleted(success);
                 event.consume();
             });
-
-            /*
-             Event for when the "edit" button is pressed
-             */
-            button.setOnAction(event -> {
-                String recipeName = getItem().getName();
-                RecipeManagerUI.openEditor(recipeName);
-            });
         }
 
         /*
@@ -106,14 +125,15 @@ public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Re
                 setText(null);
                 setGraphic(null);
             } else {
-                Label label = new Label(recipe.getName());
-                label.setMaxWidth(Double.MAX_VALUE);
-                HBox.setHgrow(label, Priority.ALWAYS);
-
-                HBox content = new HBox(label, button);
-                HBox.setHgrow(content, Priority.ALWAYS);
-                setGraphic(content);
+                try {
+                    RecipeCellFactory.recipe = recipe;
+                    setGraphic(RecipeCellFactory.getScene());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
+
+
     }
 }
