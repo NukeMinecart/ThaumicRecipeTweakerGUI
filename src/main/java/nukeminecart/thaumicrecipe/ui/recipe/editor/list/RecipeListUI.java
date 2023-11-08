@@ -56,47 +56,48 @@ public class RecipeListUI extends ThaumicRecipeUI {
 
     /**
      * Display a search {@link Pattern} onto the listview
+     *
      * @param searchTerm the {@link String} to search for
      */
-    private void displaySearchPattern(String searchTerm){
-        if(ingredientsList.isEmpty() || aspectList.isEmpty()){
+    private void displaySearchPattern(String searchTerm) {
+        if (ingredientsList.isEmpty() || aspectList.isEmpty()) {
             try {
                 getListsFromFile();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
-        ingredientsList.put("baubles","thaumcraft");
-        ingredientsList.put("silver_amulet","thaumcraft");
-        ingredientsList.put("gold_nugget","minecraft");
-        ingredientsList.put("painting","minecraft");
-
 
         searchList.getItems().clear();
-        for (String item : ingredientsList.keySet()){
-            if(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find()) addToListView(item);
+        for (String item : ingredientsList.keySet()) {
+            if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find()) addToListView(item);
         }
     }
 
     /**
      * Add an item to the {@link ListView}
+     *
      * @param item the item to add as a {@link String}
      */
-    private void addToListView(String item){
-        Platform.runLater(() -> {searchList.getItems().add(item); searchList.getItems().sort(Comparator.comparing(String::toString));});
+    private void addToListView(String item) {
+        Platform.runLater(() -> {
+            searchList.getItems().add(item);
+            searchList.getItems().sort(Comparator.comparing(String::toString));
+        });
     }
 
     /**
      * Gets the {@link List} from a {@link File} in the thaumicrecipe folder
+     *
      * @throws IOException if the {@link FileParser} has an error
      */
     private void getListsFromFile() throws IOException {
-        File ingredientsFile = new File(recipeDirectory,"ingredients.lst");
-        if(ingredientsFile.exists()){
+        File ingredientsFile = new File(recipeDirectory, "ingredients.lst");
+        if (ingredientsFile.exists()) {
             ingredientsList = FileParser.parseList(ingredientsFile);
         }
-        File aspectsFile = new File(recipeDirectory,"aspects.lst");
-        if(aspectsFile.exists()){
+        File aspectsFile = new File(recipeDirectory, "aspects.lst");
+        if (aspectsFile.exists()) {
             aspectList = FileParser.parseList(aspectsFile);
         }
     }
