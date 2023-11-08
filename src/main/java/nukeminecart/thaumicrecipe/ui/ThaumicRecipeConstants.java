@@ -15,6 +15,8 @@ public class ThaumicRecipeConstants {
     public static HomeUI instanceHomeUI;
     public static RecipeManagerUI instanceRecipeManagerUI;
     public static HashMap<String, Scene> cachedScenes;
+    public static HashMap<String, String> aspectList;
+    public static HashMap<String, String> ingredientsList;
 
     /**
      * Change the {@link Recipe} that is currently loaded in the editor
@@ -43,5 +45,7 @@ public class ThaumicRecipeConstants {
         fileExistsWarning = "File already exist";
         noFileInConfigWarning = "No file in config";
         cachedScenes = new HashMap<>();
+        aspectList = new HashMap<>();
+        ingredientsList = new HashMap<>();
     }
 }
