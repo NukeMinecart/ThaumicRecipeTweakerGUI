@@ -2,6 +2,7 @@ package main.java.nukeminecart.thaumicrecipe.ui.recipe.file;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
@@ -38,6 +39,20 @@ public class FileParser {
 
         reader.close();
         return lines;
+    }
+    /**
+     * Parses a {@link List} file
+     * @param file the file to parse to a list
+     * @return a {@link java.util.HashMap} of the file contents separated
+     */
+    public static HashMap<String, String> parseList(File file) throws IOException {
+        HashMap<String, String> list = new HashMap<>();
+        List<String> lines = readFile(file);
+        for (String line: lines){
+            String[] splitLine = line.split(stringArraySeparator);
+            list.put(splitLine[0], splitLine[1]);
+        }
+        return list;
     }
 
     /**
