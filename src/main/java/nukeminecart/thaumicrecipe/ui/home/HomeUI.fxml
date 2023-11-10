@@ -1,72 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="500.0" prefWidth="750.0"
+            style="-fx-background-color: #222428;" stylesheets="@../resources/Dark.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI">
 
-<AnchorPane prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #222428;"
-            stylesheets="@../resources/Dark.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI">
-
-    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="195.0" layoutY="38.0" styleClass="label" text="Thaumic Recipe Tweaker">
+    <Label alignment="CENTER" contentDisplay="CENTER" layoutX="195.0" layoutY="38.0" styleClass="label"
+           text="Thaumic Recipe Tweaker">
         <font>
-            <Font size="31.0" />
+            <Font size="31.0"/>
         </font>
     </Label>
 
-    <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;" styleClass="tool-bar" width="750.0" />
-    <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" styleClass="button" text="X" />
-    <Label layoutX="14.0" layoutY="5.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" prefHeight="20.0" prefWidth="353.0" text="Home">
+    <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged"
+               onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;"
+               styleClass="tool-bar" width="750.0"/>
+    <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" styleClass="button" text="X"/>
+    <Label layoutX="14.0" layoutY="5.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" prefHeight="20.0"
+           prefWidth="353.0" text="Home">
         <font>
-            <Font name="Arial" size="14.0" />
+            <Font name="Arial" size="14.0"/>
         </font>
     </Label>
-    <Separator layoutY="100.0" prefHeight="3.0" prefWidth="757.0" />
-    <Button layoutX="72.0" layoutY="325.0" mnemonicParsing="false" onAction="#loadRecipe" prefHeight="35.0" prefWidth="62.0" text="Load" textAlignment="CENTER">
+    <Separator layoutY="100.0" prefHeight="3.0" prefWidth="757.0"/>
+    <Button layoutX="72.0" layoutY="325.0" mnemonicParsing="false" onAction="#loadRecipe" prefHeight="35.0"
+            prefWidth="62.0" text="Load" textAlignment="CENTER">
         <font>
-            <Font size="14.0" />
+            <Font size="14.0"/>
         </font>
         <tooltip>
-            <Tooltip text="Load an existing file" />
+            <Tooltip text="Load an existing file"/>
         </tooltip>
     </Button>
-    <Button layoutX="72.0" layoutY="185.0" mnemonicParsing="false" onAction="#newRecipe" prefHeight="35.0" prefWidth="62.0" text="New" textAlignment="CENTER">
+    <Button layoutX="72.0" layoutY="185.0" mnemonicParsing="false" onAction="#newRecipe" prefHeight="35.0"
+            prefWidth="62.0" text="New" textAlignment="CENTER">
         <font>
-            <Font size="14.0" />
+            <Font size="14.0"/>
         </font>
         <tooltip>
-            <Tooltip text="Create a new file" />
+            <Tooltip text="Create a new file"/>
         </tooltip>
     </Button>
-    <TextField fx:id="newField" layoutX="280.0" layoutY="185.0" onAction="#removeNewWarning" onKeyTyped="#removeNewWarning" prefHeight="35.0" prefWidth="380.0" promptText="Name" style="-fx-prompt-text-fill: #3D3D3D;" styleClass="text-field" />
-    <TextField fx:id="loadField" layoutX="280.0" layoutY="325.0" onKeyTyped="#removeLoadWarning" prefHeight="35.0" prefWidth="380.0" promptText="Filepath" style="-fx-prompt-text-fill: #3D3D3D;" text="C:\Users\bradl\AppData\Roaming\.minecraft\essential_mod\forge\1.12.2\1.12.2 Forge\thaumicrecipe\test.rcp" />
-    <ComboBox visible="false" />
-    <MenuButton fx:id="fileField" layoutX="600.0" layoutY="330.0" prefHeight="25.0" prefWidth="55.0" style="-fx-background-color: transparent;" visible="false" />
-    <MenuButton fx:id="newChoice" layoutX="143.0" layoutY="185.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="130.0" text="Recipe Group">
+    <TextField fx:id="newField" layoutX="280.0" layoutY="185.0" onAction="#removeNewWarning"
+               onKeyTyped="#removeNewWarning" prefHeight="35.0" prefWidth="380.0" promptText="Name"
+               style="-fx-prompt-text-fill: #3D3D3D;" styleClass="text-field"/>
+    <TextField fx:id="loadField" layoutX="280.0" layoutY="325.0" onKeyTyped="#removeLoadWarning" prefHeight="35.0"
+               prefWidth="380.0" promptText="Filepath" style="-fx-prompt-text-fill: #3D3D3D;"
+               text="C:\Users\bradl\AppData\Roaming\.minecraft\essential_mod\forge\1.12.2\1.12.2 Forge\thaumicrecipe\test.rcp"/>
+    <ComboBox visible="false"/>
+    <MenuButton fx:id="fileField" layoutX="600.0" layoutY="330.0" prefHeight="25.0" prefWidth="55.0"
+                style="-fx-background-color: transparent;" visible="false"/>
+    <MenuButton fx:id="newChoice" layoutX="143.0" layoutY="185.0" mnemonicParsing="false" prefHeight="35.0"
+                prefWidth="130.0" text="Recipe Group">
         <items>
-            <MenuItem mnemonicParsing="false" onAction="#changeToRecipeGroup" text="Recipe Group" />
-            <MenuItem mnemonicParsing="false" onAction="#changeToLargeRecipe" text="Recipe" />
+            <MenuItem mnemonicParsing="false" onAction="#changeToRecipeGroup" text="Recipe Group"/>
+            <MenuItem mnemonicParsing="false" onAction="#changeToLargeRecipe" text="Recipe"/>
         </items>
         <tooltip>
-            <Tooltip text="New recipe grouping" />
+            <Tooltip text="New recipe grouping"/>
         </tooltip>
         <font>
-            <Font size="14.0" />
+            <Font size="14.0"/>
         </font>
     </MenuButton>
-    <MenuButton fx:id="loadChoice" layoutX="143.0" layoutY="325.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="120.0" text="From Config">
+    <MenuButton fx:id="loadChoice" layoutX="143.0" layoutY="325.0" mnemonicParsing="false" prefHeight="35.0"
+                prefWidth="120.0" text="From Config">
         <items>
-            <MenuItem mnemonicParsing="false" onAction="#changeToConfig" text="From Config" />
-            <MenuItem mnemonicParsing="false" onAction="#changeToFolder" text="From Folder" />
-            <MenuItem mnemonicParsing="false" onAction="#changeToOther" text="From Other" />
+            <MenuItem mnemonicParsing="false" onAction="#changeToConfig" text="From Config"/>
+            <MenuItem mnemonicParsing="false" onAction="#changeToFolder" text="From Folder"/>
+            <MenuItem mnemonicParsing="false" onAction="#changeToOther" text="From Other"/>
         </items>
         <tooltip>
-            <Tooltip text="Loading from configuration file" />
+            <Tooltip text="Loading from configuration file"/>
         </tooltip>
         <font>
-            <Font size="14.0" />
+            <Font size="14.0"/>
         </font>
     </MenuButton>
-    <Label fx:id="loadWarning" layoutX="280.0" layoutY="290.0" style="-fx-text-fill: #ff0f0f;" />
-    <Label fx:id="newWarning" layoutX="280.0" layoutY="150.0" style="-fx-text-fill: #ff0f0f;" />
+    <Label fx:id="loadWarning" layoutX="280.0" layoutY="290.0" style="-fx-text-fill: #ff0f0f;"/>
+    <Label fx:id="newWarning" layoutX="280.0" layoutY="150.0" style="-fx-text-fill: #ff0f0f;"/>
 </AnchorPane>

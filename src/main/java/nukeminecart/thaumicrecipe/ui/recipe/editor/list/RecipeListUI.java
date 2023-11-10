@@ -198,6 +198,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
 
     /**
      * FXML event to save the list and return to the {@link RecipeEditorUI}
+     *
      * @param actionEvent the {@link ActionEvent}
      */
 

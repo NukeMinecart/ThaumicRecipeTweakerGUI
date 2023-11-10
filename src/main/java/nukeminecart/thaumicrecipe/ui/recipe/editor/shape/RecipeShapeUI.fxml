@@ -1,42 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="500.0" prefWidth="750.0"
+            style="-fx-background-color: #222428;" stylesheets="@../../../resources/Dark.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.shape.RecipeShapeUI">
 
-<AnchorPane prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #222428;" stylesheets="@../../../resources/Dark.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.shape.RecipeShapeUI">
-
-    <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;" styleClass="tool-bar" width="750.0" />
-    <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" styleClass="button" text="X" />
-    <Label layoutX="14.0" layoutY="5.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" prefHeight="20.0" prefWidth="147.0" text="Recipe Editor: Shape">
+    <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged"
+               onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;"
+               styleClass="tool-bar" width="750.0"/>
+    <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" styleClass="button" text="X"/>
+    <Label layoutX="14.0" layoutY="5.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" prefHeight="20.0"
+           prefWidth="147.0" text="Recipe Editor: Shape">
         <font>
-            <Font name="Arial" size="14.0" />
+            <Font name="Arial" size="14.0"/>
         </font>
     </Label>
-    <ListView fx:id="craft1" fixedCellSize="112.0" layoutX="270.0" layoutY="75.0" prefHeight="116.6" prefWidth="116.6" />
-    <ListView fx:id="craft2" fixedCellSize="112.0" layoutX="386.6" layoutY="75.0" prefHeight="116.6" prefWidth="116.6" />
-    <ListView fx:id="craft3" fixedCellSize="112.0" layoutX="503.2" layoutY="75.0" prefHeight="116.6" prefWidth="116.6" />
-    <ListView fx:id="craft4" fixedCellSize="112.0" layoutX="270.0" layoutY="191.6" prefHeight="116.6" prefWidth="116.6" />
-    <ListView fx:id="craft5" fixedCellSize="112.0" layoutX="386.6" layoutY="191.6" prefHeight="116.6" prefWidth="116.6" />
-    <ListView fx:id="craft6" fixedCellSize="112.0" layoutX="503.2" layoutY="191.6" prefHeight="116.6" prefWidth="116.6" />
-    <ListView fx:id="craft7" fixedCellSize="112.0" layoutX="270.0" layoutY="308.2" prefHeight="116.6" prefWidth="116.6" />
-    <ListView fx:id="craft8" fixedCellSize="112.0" layoutX="386.6" layoutY="308.2" prefHeight="116.6" prefWidth="116.6" />
-    <ListView fx:id="craft9" fixedCellSize="112.0" layoutX="503.2" layoutY="308.2" prefHeight="116.6" prefWidth="116.6" />
-    <ListView fx:id="ingredients" layoutX="35.0" layoutY="75.0" prefHeight="350.0" prefWidth="147.0" />
-    <RadioButton layoutX="395.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeSize" text="Fit in inventory" />
+    <ListView fx:id="craft1" fixedCellSize="112.0" layoutX="270.0" layoutY="75.0" prefHeight="116.6" prefWidth="116.6"/>
+    <ListView fx:id="craft2" fixedCellSize="112.0" layoutX="386.6" layoutY="75.0" prefHeight="116.6" prefWidth="116.6"/>
+    <ListView fx:id="craft3" fixedCellSize="112.0" layoutX="503.2" layoutY="75.0" prefHeight="116.6" prefWidth="116.6"/>
+    <ListView fx:id="craft4" fixedCellSize="112.0" layoutX="270.0" layoutY="191.6" prefHeight="116.6"
+              prefWidth="116.6"/>
+    <ListView fx:id="craft5" fixedCellSize="112.0" layoutX="386.6" layoutY="191.6" prefHeight="116.6"
+              prefWidth="116.6"/>
+    <ListView fx:id="craft6" fixedCellSize="112.0" layoutX="503.2" layoutY="191.6" prefHeight="116.6"
+              prefWidth="116.6"/>
+    <ListView fx:id="craft7" fixedCellSize="112.0" layoutX="270.0" layoutY="308.2" prefHeight="116.6"
+              prefWidth="116.6"/>
+    <ListView fx:id="craft8" fixedCellSize="112.0" layoutX="386.6" layoutY="308.2" prefHeight="116.6"
+              prefWidth="116.6"/>
+    <ListView fx:id="craft9" fixedCellSize="112.0" layoutX="503.2" layoutY="308.2" prefHeight="116.6"
+              prefWidth="116.6"/>
+    <ListView fx:id="ingredients" layoutX="35.0" layoutY="75.0" prefHeight="350.0" prefWidth="147.0"/>
+    <RadioButton layoutX="395.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeSize" text="Fit in inventory"/>
     <Label layoutX="71.0" layoutY="43.0" text="Ingredients">
-      <font>
-         <Font size="15.0" />
-      </font></Label>
-    <Button layoutX="636.0" layoutY="75.0" mnemonicParsing="false" onAction="#saveShape" prefHeight="29.0" prefWidth="80.0" text="Save">
         <font>
-            <Font size="15.0" />
+            <Font size="15.0"/>
+        </font>
+    </Label>
+    <Button layoutX="636.0" layoutY="75.0" mnemonicParsing="false" onAction="#saveShape" prefHeight="29.0"
+            prefWidth="80.0" text="Save">
+        <font>
+            <Font size="15.0"/>
         </font>
     </Button>
-    <Button layoutX="636.0" layoutY="192.0" mnemonicParsing="false" onAction="#returnToEditor" prefHeight="31.0" prefWidth="80.0" text="Return">
+    <Button layoutX="636.0" layoutY="192.0" mnemonicParsing="false" onAction="#returnToEditor" prefHeight="31.0"
+            prefWidth="80.0" text="Return">
         <font>
-            <Font size="14.0" />
+            <Font size="14.0"/>
         </font>
     </Button>
 </AnchorPane>
