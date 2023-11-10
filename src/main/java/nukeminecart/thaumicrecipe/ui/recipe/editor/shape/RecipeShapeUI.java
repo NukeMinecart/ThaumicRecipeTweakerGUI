@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
@@ -20,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.cachedScenes;
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.editorRecipe;
 
 /**
@@ -53,7 +51,11 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         ingredientList.clear();
         largeSize = true;
         RecipeShapeUI.ingredientList.addAll(editorRecipe.getIngredients());
-        UIManager.loadScreen(getScene(), "shape");
+        if (!cachedScenes.containsKey("shape")) {
+            UIManager.loadScreen(getScene(), "shape");
+        } else {
+            UIManager.loadScreen(cachedScenes.get("shape"));
+        }
         updateShape();
     }
 
@@ -61,6 +63,9 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
      * Take the shape of the {@link Recipe} and put it into all the {@link ListView}
      */
     private void updateShape() {
+        for (ListView<String> listView : targetListViews) {
+            listView.getItems().clear();
+        }
         for (int index = 0; index < editorRecipe.getShape().length; index++) {
             ObservableList<String> item = targetListViews.get(index).getItems();
             if (item.isEmpty()) {
@@ -95,6 +100,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
             listView.setOnDragOver(event -> allowDrop(listView, event));
             listView.setOnDragDropped(event -> copyItem(listView, event));
             listView.setItems(FXCollections.observableArrayList());
+            listView.setOnMouseClicked(event -> handleDoubleClick(event, listView));
         }
     }
 
@@ -163,6 +169,20 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         }
     }
 
+    /**
+     * Remove an item in the {@link ListView} when double-clicked
+     *
+     * @param event    the {@link MouseEvent}
+     * @param listView the {@link ListView} to enable double-clicking to clear
+     */
+    private void handleDoubleClick(MouseEvent event, ListView<String> listView) {
+        if (event.getClickCount() == 2) {
+            String selectedItem = listView.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                listView.getItems().remove(selectedItem);
+            }
+        }
+    }
 
     /**
      * Event method called when the {@link ListView} calls its dragDetected
@@ -188,10 +208,8 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     private void allowDrop(ListView<String> listView, DragEvent event) {
         if (event.getDragboard().hasString()) {
             if (listView.getItems().isEmpty()) {
-                // If the target list is empty, allow copy
                 event.acceptTransferModes(TransferMode.COPY);
             } else {
-                // If the target list already has an item, allow copy and clear
                 event.acceptTransferModes(TransferMode.COPY, TransferMode.MOVE);
             }
         }
