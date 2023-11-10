@@ -1,15 +1,19 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.*;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 
 import java.io.File;
@@ -28,9 +32,9 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 public class RecipeListUI extends ThaumicRecipeUI {
     private static String type;
     @FXML
-    private ListView<String> searchList;
+    private ListView<String> searchList, currentList;
     @FXML
-    private Label title, warningLabel;
+    private Label title, listName;
     @FXML
     private TextField searchField;
 
@@ -100,6 +104,83 @@ public class RecipeListUI extends ThaumicRecipeUI {
         if (aspectsFile.exists()) {
             aspectList = FileParser.parseList(aspectsFile);
         }
+        ingredientsList.put("test", "test");
+    }
+
+    /**
+     * Set up the drag and drop between two {@link ListView}
+     *
+     * @param source the source of the drag
+     * @param target the target of the drag
+     */
+    private void setUpDragAndDrop(ListView<String> source, ListView<String> target) {
+        source.setOnDragDetected(event -> onDragDetected(event, source));
+        target.setOnDragOver(event -> allowDragOver(event, target));
+        target.setOnDragDropped(event -> handleDrop(event, target));
+        target.setOnMouseClicked(event -> handleDoubleClick(event, target));
+    }
+
+    /**
+     * Remove an item in the {@link ListView} when double-clicked
+     *
+     * @param event    the {@link MouseEvent}
+     * @param listView the {@link ListView} to enable double-clicking to clear
+     */
+    private void handleDoubleClick(MouseEvent event, ListView<String> listView) {
+        if (event.getClickCount() == 2) {
+            String selectedItem = listView.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                listView.getItems().remove(selectedItem);
+            }
+        }
+    }
+
+    /**
+     * Start the drag when the user starts dragging
+     *
+     * @param event    the {@link MouseEvent}
+     * @param listView the {@link ListView} to drag from
+     */
+    private void onDragDetected(MouseEvent event, ListView<String> listView) {
+        if (!listView.getSelectionModel().isEmpty()) {
+            Dragboard db = listView.startDragAndDrop(TransferMode.COPY);
+            ClipboardContent cc = new ClipboardContent();
+            cc.putString(listView.getSelectionModel().getSelectedItem());
+            db.setContent(cc);
+            event.consume();
+        }
+    }
+
+
+    /**
+     * Allow the drop and display the result
+     *
+     * @param event    the {@link DragEvent}
+     * @param listView the {@link ListView} to allow the drag over for
+     */
+    private void allowDragOver(DragEvent event, ListView<String> listView) {
+        if (event.getGestureSource() != listView && event.getDragboard().hasString()) {
+            event.acceptTransferModes(TransferMode.COPY);
+        }
+        event.consume();
+    }
+
+    /**
+     * Handle the drop event
+     *
+     * @param event    the {@link DragEvent}
+     * @param listView the {@link ListView} to allow the drop for
+     */
+
+    private void handleDrop(DragEvent event, ListView<String> listView) {
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+        if (db.hasString()) {
+            listView.getItems().add(db.getString());
+            success = true;
+        }
+        event.setDropCompleted(success);
+        event.consume();
     }
 
     /**
@@ -108,8 +189,31 @@ public class RecipeListUI extends ThaumicRecipeUI {
     @FXML
     public void initialize() {
         title.setText("Recipe Editor: " + type);
+        setUpDragAndDrop(searchList, currentList);
         searchList.setItems(FXCollections.observableArrayList());
+        listName.setText("Current " + StringUtils.capitalize(type));
         searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
         displaySearchPattern("");
+    }
+
+    /**
+     * FXML event to save the list and return to the {@link RecipeEditorUI}
+     * @param actionEvent the {@link ActionEvent}
+     */
+
+    public void saveList(ActionEvent actionEvent) {
+        //TODO
+    }
+
+    /**
+     * FXML event to return to {@link RecipeEditorUI}
+     */
+    @FXML
+    private void returnToEditor() {
+        try {
+            new RecipeEditorUI().launchEditor();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
