@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
@@ -28,8 +27,6 @@ import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.stage;
  */
 
 public class RecipeEditorUI extends ThaumicRecipeUI {
-    @FXML
-    private ImageView shapeImage;
     @FXML
     private TextField nameField, visField, inputField, outputField;
     @FXML
