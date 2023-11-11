@@ -18,12 +18,12 @@
             <Font name="Arial" size="14.0"/>
         </font>
     </Label>
-    <ListView layoutX="312.0" layoutY="79.0" prefHeight="307.0" prefWidth="145.0"/>
+    <ListView fx:id="ingredientsListview" layoutX="312.0" layoutY="79.0" prefHeight="307.0" prefWidth="145.0"/>
     <TextField fx:id="nameField" layoutX="14.0" layoutY="79.0" promptText="Name"/>
-    <TextField layoutX="163.0" layoutY="79.0" promptText="Input"/>
-    <TextField layoutX="14.0" layoutY="201.0" promptText="Output"/>
-    <TextField layoutX="163.0" layoutY="201.0" promptText="Vis"/>
-    <ListView layoutX="457.0" layoutY="79.0" prefHeight="307.0" prefWidth="145.0"/>
+    <TextField fx:id="inputField" layoutX="163.0" layoutY="79.0" promptText="Input"/>
+    <TextField fx:id="outputField" layoutX="14.0" layoutY="201.0" promptText="Output"/>
+    <TextField fx:id="visField" layoutX="163.0" layoutY="201.0" promptText="Vis"/>
+    <ListView fx:id="aspectListview" layoutX="457.0" layoutY="79.0" prefHeight="307.0" prefWidth="145.0"/>
     <MenuButton layoutX="114.0" layoutY="140.0" mnemonicParsing="false" text="Type">
         <items>
             <MenuItem mnemonicParsing="false" text="Action 1"/>
@@ -35,4 +35,6 @@
     <Button layoutX="48.0" layoutY="260.0" mnemonicParsing="false" onAction="#returnToManager" text="Return"/>
     <Button layoutX="146.0" layoutY="260.0" mnemonicParsing="false" onAction="#saveRecipeAndReturn" text="Save"/>
     <Button layoutX="117.0" layoutY="361.0" mnemonicParsing="false" onAction="#test" text="List"/>
+    <Button layoutX="212.0" layoutY="330.0" mnemonicParsing="false" onAction="#openOutputItemSearch" text="Output"/>
+    <Button layoutX="212.0" layoutY="292.0" mnemonicParsing="false" onAction="#openInputItemSearch" text="Input"/>
 </AnchorPane>

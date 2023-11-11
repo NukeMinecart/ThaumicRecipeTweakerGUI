@@ -2,6 +2,7 @@ package main.java.nukeminecart.thaumicrecipe.ui;
 
 import javafx.scene.Scene;
 import main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
@@ -14,6 +15,7 @@ public class ThaumicRecipeConstants {
     public static int stageWidth, stageHeight;
     public static HomeUI instanceHomeUI;
     public static RecipeManagerUI instanceRecipeManagerUI;
+    public static RecipeEditorUI instanceRecipeEditorUI;
     public static HashMap<String, Scene> cachedScenes;
     public static HashMap<String, String> aspectList;
     public static HashMap<String, String> ingredientsList;

@@ -3,7 +3,6 @@ package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list;
 import com.sun.xml.internal.ws.util.StringUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -55,7 +54,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     public void launchListEditor(String type) throws IOException {
         RecipeListUI.type = type;
-        UIManager.loadScreen(getScene(), "shape");
+        UIManager.loadScreen(getScene(), "list");
     }
 
     /**
@@ -73,7 +72,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
         }
 
         searchList.getItems().clear();
-        for (String item : ingredientsList.keySet()) {
+        for (String item : type.equals("ingredients") ? ingredientsList.keySet() : aspectList.keySet()) {
             if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find()) addToListView(item);
         }
     }
@@ -188,7 +187,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     @FXML
     public void initialize() {
-        title.setText("Recipe Editor: " + type);
+        title.setText("Recipe Editor: " + StringUtils.capitalize(type));
         setUpDragAndDrop(searchList, currentList);
         searchList.setItems(FXCollections.observableArrayList());
         listName.setText("Current " + StringUtils.capitalize(type));
@@ -199,11 +198,15 @@ public class RecipeListUI extends ThaumicRecipeUI {
     /**
      * FXML event to save the list and return to the {@link RecipeEditorUI}
      *
-     * @param actionEvent the {@link ActionEvent}
      */
 
-    public void saveList(ActionEvent actionEvent) {
-        //TODO
+    public void saveList() {
+        if(type.equals("ingredients")){
+            editorRecipe.setIngredients(currentList.getItems().toArray(new String[0]));
+        }else{
+            editorRecipe.setAspects(currentList.getItems().toArray(new String[0]));
+        }
+        returnToEditor();
     }
 
     /**
@@ -212,7 +215,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
     @FXML
     private void returnToEditor() {
         try {
-            new RecipeEditorUI().launchEditor();
+            instanceRecipeEditorUI.launchEditor();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
