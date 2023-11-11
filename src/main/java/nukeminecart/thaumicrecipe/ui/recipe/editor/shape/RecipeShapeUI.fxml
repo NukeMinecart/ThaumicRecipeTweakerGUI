@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="500.0" prefWidth="750.0"
@@ -12,6 +12,37 @@
     <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged"
                onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;"
                styleClass="tool-bar" width="750.0"/>
+    <GridPane fx:id="shapeGrid" layoutX="270.0" layoutY="75.0" prefHeight="350.0" prefWidth="350.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <children>
+            <ListView fx:id="craft1" fixedCellSize="112.0" prefHeight="116.6" prefWidth="7.0"/>
+            <ListView fx:id="craft2" fixedCellSize="112.0" layoutX="386.6" layoutY="75.0" prefHeight="116.6"
+                      prefWidth="116.6" GridPane.columnIndex="1"/>
+            <ListView fx:id="craft3" fixedCellSize="112.0" layoutX="503.2" layoutY="75.0" prefHeight="116.6"
+                      prefWidth="116.6" GridPane.columnIndex="2"/>
+            <ListView fx:id="craft4" fixedCellSize="112.0" layoutX="270.0" layoutY="191.6" prefHeight="116.6"
+                      prefWidth="116.6" GridPane.rowIndex="1"/>
+            <ListView fx:id="craft5" fixedCellSize="112.0" layoutX="386.6" layoutY="191.6" prefHeight="116.6"
+                      prefWidth="116.6" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <ListView fx:id="craft6" fixedCellSize="112.0" layoutX="503.2" layoutY="191.6" prefHeight="116.6"
+                      prefWidth="116.6" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+            <ListView fx:id="craft7" fixedCellSize="112.0" layoutX="270.0" layoutY="308.2" prefHeight="116.6"
+                      prefWidth="116.6" GridPane.rowIndex="2"/>
+            <ListView fx:id="craft8" fixedCellSize="112.0" layoutX="386.6" layoutY="308.2" prefHeight="116.6"
+                      prefWidth="116.6" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <ListView fx:id="craft9" fixedCellSize="112.0" layoutX="503.2" layoutY="308.2" prefHeight="116.6"
+                      prefWidth="116.6" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        </children>
+    </GridPane>
     <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" styleClass="button" text="X"/>
     <Label layoutX="14.0" layoutY="5.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" prefHeight="20.0"
            prefWidth="147.0" text="Recipe Editor: Shape">
@@ -19,21 +50,7 @@
             <Font name="Arial" size="14.0"/>
         </font>
     </Label>
-    <ListView fx:id="craft1" fixedCellSize="112.0" layoutX="270.0" layoutY="75.0" prefHeight="116.6" prefWidth="116.6"/>
-    <ListView fx:id="craft2" fixedCellSize="112.0" layoutX="386.6" layoutY="75.0" prefHeight="116.6" prefWidth="116.6"/>
-    <ListView fx:id="craft3" fixedCellSize="112.0" layoutX="503.2" layoutY="75.0" prefHeight="116.6" prefWidth="116.6"/>
-    <ListView fx:id="craft4" fixedCellSize="112.0" layoutX="270.0" layoutY="191.6" prefHeight="116.6"
-              prefWidth="116.6"/>
-    <ListView fx:id="craft5" fixedCellSize="112.0" layoutX="386.6" layoutY="191.6" prefHeight="116.6"
-              prefWidth="116.6"/>
-    <ListView fx:id="craft6" fixedCellSize="112.0" layoutX="503.2" layoutY="191.6" prefHeight="116.6"
-              prefWidth="116.6"/>
-    <ListView fx:id="craft7" fixedCellSize="112.0" layoutX="270.0" layoutY="308.2" prefHeight="116.6"
-              prefWidth="116.6"/>
-    <ListView fx:id="craft8" fixedCellSize="112.0" layoutX="386.6" layoutY="308.2" prefHeight="116.6"
-              prefWidth="116.6"/>
-    <ListView fx:id="craft9" fixedCellSize="112.0" layoutX="503.2" layoutY="308.2" prefHeight="116.6"
-              prefWidth="116.6"/>
+
     <ListView fx:id="ingredients" layoutX="35.0" layoutY="75.0" prefHeight="350.0" prefWidth="147.0"/>
     <RadioButton layoutX="395.0" layoutY="45.0" mnemonicParsing="false" onAction="#changeSize" text="Fit in inventory"/>
     <Label layoutX="71.0" layoutY="43.0" text="Ingredients">

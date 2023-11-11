@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
@@ -27,6 +28,8 @@ import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.stage;
  */
 
 public class RecipeEditorUI extends ThaumicRecipeUI {
+    @FXML
+    private ImageView shapeImage;
     @FXML
     private TextField nameField, visField, inputField, outputField;
     @FXML
@@ -83,7 +86,6 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         nameField.setText(editorRecipe.getName());
         ingredientsListview.setItems(FXCollections.observableArrayList(editorRecipe.getIngredients()));
         aspectListview.setItems(FXCollections.observableArrayList(editorRecipe.getAspects()));
-
     }
 
     /**
@@ -126,13 +128,26 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     }
 
     /**
-     * Test method for certain not fully implemented features TODO -> REMOVE
+     * FXML event to open the {@link RecipeListUI} with the aspects parameter
      */
     @FXML
-    private void test() {
+    private void openIngredientsList() {
         try {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             new RecipeListUI().launchListEditor("ingredients");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * FXML event to open the {@link RecipeListUI} with the aspects parameter
+     */
+    @FXML
+    private void openAspectsList() {
+        try {
+            cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
+            new RecipeListUI().launchListEditor("aspects");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -145,7 +160,6 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void returnToManager() {
         try {
             RecipeManagerUI.recipeEditorMap.put(originalRecipe.getName(), originalRecipe);
-            System.out.println(Arrays.toString(originalRecipe.getShape()));
             ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {
             throw new RuntimeException(e);

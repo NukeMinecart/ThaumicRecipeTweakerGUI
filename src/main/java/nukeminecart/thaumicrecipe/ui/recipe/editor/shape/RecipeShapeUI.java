@@ -4,9 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ListView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.*;
+import javafx.scene.layout.GridPane;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
@@ -31,6 +35,8 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     private static boolean largeSize = true;
     @FXML
     private ListView<String> ingredients, craft1, craft2, craft3, craft4, craft5, craft6, craft7, craft8, craft9;
+    @FXML
+    private GridPane shapeGrid;
 
     /**
      * Gets the {@link Parent} container containing all the RecipeShapeUI elements
