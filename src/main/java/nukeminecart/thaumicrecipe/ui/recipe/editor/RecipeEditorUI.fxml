@@ -26,23 +26,26 @@
                promptText="Output"/>
     <TextField fx:id="visField" layoutX="49.0" layoutY="327.0" prefHeight="25.0" prefWidth="177.0" promptText="Vis"/>
     <ListView fx:id="aspectListview" layoutX="569.0" layoutY="97.0" prefHeight="307.0" prefWidth="145.0"/>
-    <MenuButton layoutX="265.0" layoutY="67.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Type">
+    <MenuButton fx:id="typeDropdown" layoutX="260.0" layoutY="67.0" mnemonicParsing="false" prefHeight="27.0"
+                prefWidth="83.0" text="Normal">
         <items>
-            <MenuItem mnemonicParsing="false" text="Normal"/>
-            <MenuItem mnemonicParsing="false" text="Arcane"/>
-            <MenuItem mnemonicParsing="false" text="Crucible"/>
-            <MenuItem mnemonicParsing="false" text="Infusion"/>
+            <MenuItem mnemonicParsing="false" onAction="#changeToNormalType" text="Normal"/>
+            <MenuItem mnemonicParsing="false" onAction="#changeToArcaneType" text="Arcane"/>
+            <MenuItem mnemonicParsing="false" onAction="#changeToCrucibleType" text="Crucible"/>
+            <MenuItem mnemonicParsing="false" onAction="#changeToInfusionType" text="Infusion"/>
         </items>
         <font>
             <Font size="13.0"/>
         </font>
     </MenuButton>
-    <Button layoutX="274.0" layoutY="238.0" mnemonicParsing="false" onAction="#openShapeEditor" text="Shape">
+    <Button fx:id="shapeButton" layoutX="274.0" layoutY="238.0" mnemonicParsing="false" onAction="#openShapeEditor"
+            text="Shape">
         <font>
             <Font size="13.0"/>
         </font>
     </Button>
-    <CheckBox layoutX="261.0" layoutY="155.0" mnemonicParsing="false" text="Shapeless">
+    <CheckBox fx:id="shapelessCheckbox" layoutX="261.0" layoutY="155.0" mnemonicParsing="false"
+              onAction="#changeShapeless" text="Shapeless">
         <font>
             <Font size="13.0"/>
         </font>
@@ -57,7 +60,8 @@
             <Font size="15.0"/>
         </font>
     </Button>
-    <Button layoutX="610.0" layoutY="48.0" mnemonicParsing="false" onAction="#openAspectsList" text="Aspects">
+    <Button fx:id="aspectsButton" layoutX="674.0" layoutY="97.0" mnemonicParsing="false" onAction="#openAspectsList"
+            text="Edit">
         <font>
             <Font size="13.0"/>
         </font>
@@ -68,15 +72,51 @@
             <Font size="13.0"/>
         </font>
     </Button>
-    <Button layoutX="157.0" layoutY="151.0" mnemonicParsing="false" onAction="#openInputItemSearch" prefHeight="27.0"
-            prefWidth="67.0" text="Input">
+    <Button fx:id="inputButton" layoutX="157.0" layoutY="151.0" mnemonicParsing="false" onAction="#openInputItemSearch"
+            prefHeight="27.0" prefWidth="67.0" text="Input">
         <font>
             <Font size="13.0"/>
         </font>
     </Button>
-    <Button layoutX="406.0" layoutY="48.0" mnemonicParsing="false" onAction="#openIngredientsList" text="Ingredients">
+    <Button fx:id="ingredientsButton" layoutX="480.0" layoutY="97.0" mnemonicParsing="false"
+            onAction="#openIngredientsList" text="Edit">
         <font>
             <Font size="13.0"/>
         </font>
     </Button>
+    <Label layoutX="49.0" layoutY="40.0" text="Recipe Name">
+        <font>
+            <Font size="13.0"/>
+        </font>
+    </Label>
+    <Label fx:id="inputLabel" layoutX="49.0" layoutY="125.0" text="Input Item">
+        <font>
+            <Font size="13.0"/>
+        </font>
+    </Label>
+    <Label fx:id="visLabel" layoutX="49.0" layoutY="302.0" text="Vis Amount">
+        <font>
+            <Font size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="47.0" layoutY="212.0" text="Output Item">
+        <font>
+            <Font size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="260.0" layoutY="39.0" text="Recipe Type">
+        <font>
+            <Font size="13.0"/>
+        </font>
+    </Label>
+    <Label fx:id="ingredientsLabel" layoutX="397.0" layoutY="55.0" text="Ingredients">
+        <font>
+            <Font size="16.0"/>
+        </font>
+    </Label>
+    <Label fx:id="aspectLabel" layoutX="614.0" layoutY="55.0" text="Aspects">
+        <font>
+            <Font size="16.0"/>
+        </font>
+    </Label>
 </AnchorPane>

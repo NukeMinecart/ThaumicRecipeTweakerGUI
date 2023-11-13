@@ -193,17 +193,17 @@ public class RecipeListUI extends ThaumicRecipeUI {
         listName.setText("Current " + StringUtils.capitalize(type));
         searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
         displaySearchPattern("");
+        currentList.setItems(FXCollections.observableArrayList(type.equals("ingredients") ? editorRecipe.getIngredients() : editorRecipe.getAspects()));
     }
 
     /**
      * FXML event to save the list and return to the {@link RecipeEditorUI}
-     *
      */
 
     public void saveList() {
-        if(type.equals("ingredients")){
+        if (type.equals("ingredients")) {
             editorRecipe.setIngredients(currentList.getItems().toArray(new String[0]));
-        }else{
+        } else {
             editorRecipe.setAspects(currentList.getItems().toArray(new String[0]));
         }
         returnToEditor();
@@ -214,10 +214,6 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     @FXML
     private void returnToEditor() {
-        try {
-            instanceRecipeEditorUI.launchEditor();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        instanceRecipeEditorUI.launchEditorFromList();
     }
 }

@@ -50,9 +50,9 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
     public void launchItemSearch(String searchType) throws IOException {
         RecipeSearchUI.searchType = searchType;
         if (!cachedScenes.containsKey("search")) {
-            UIManager.loadScreen(getScene(), "search");
+            UIManager.loadScreen(getScene(), "search-" + searchType);
         } else {
-            UIManager.loadScreen(cachedScenes.get("search"));
+            UIManager.loadScreen(cachedScenes.get("search-" + searchType));
         }
     }
 
