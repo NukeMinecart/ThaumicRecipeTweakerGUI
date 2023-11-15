@@ -25,7 +25,7 @@ public class Recipe {
      * @param output      the output item
      * @param vis         the vis cost
      * @param aspects     a list of aspects
-     * @param shape       a string object containing the shape
+     * @param shape       a {@link String} containing the shape
      */
     public Recipe(String name, String type, String input, String[] ingredients, String output, int vis, String[] aspects, String... shape) {
         this.name = name;

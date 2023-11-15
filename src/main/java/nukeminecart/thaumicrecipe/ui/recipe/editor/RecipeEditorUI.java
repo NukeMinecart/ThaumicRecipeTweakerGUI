@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
@@ -77,6 +78,9 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         }
     }
 
+    /**
+     * Launch the {@link RecipeEditorUI} from the {@link RecipeListUI} since the {@link Scene} needs to update with new values
+     */
     public void launchEditorFromList() {
         try {
             UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName());
@@ -96,9 +100,14 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         visField.setText(String.valueOf(editorRecipe.getVis()));
         outputField.setText(editorRecipe.getOutput());
         nameField.setText(editorRecipe.getName());
-        ingredientsListview.setItems(FXCollections.observableArrayList(editorRecipe.getIngredients()));
-        aspectListview.setItems(FXCollections.observableArrayList(editorRecipe.getAspects()));
+        if (editorRecipe.getIngredients() != null)
+            ingredientsListview.setItems(FXCollections.observableArrayList(editorRecipe.getIngredients()));
+        if (editorRecipe.getAspects() != null)
+            aspectListview.setItems(FXCollections.observableArrayList(editorRecipe.getAspects()));
+        if (editorRecipe.getType() == null) editorRecipe.setType("normal");
         switch (editorRecipe.getType()) {
+            default:
+                changeToNormalType();
             case "normal":
                 changeToNormalType();
                 break;
@@ -180,12 +189,13 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     }
 
     /**
-     * Returns to the {@link RecipeManagerUI} scene without saving the recipe
+     * Returns to the {@link RecipeManagerUI} scene without saving the {@link Recipe}
      */
     @FXML
     private void returnToManager() {
         try {
-            RecipeManagerUI.recipeEditorMap.put(originalRecipe.getName(), originalRecipe);
+            if (editorRecipeExisted) RecipeManagerUI.recipeEditorMap.put(originalRecipe.getName(), originalRecipe);
+            else cachedScenes.remove("editor-" + editorRecipe.getName());
             ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -193,20 +203,49 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     }
 
     /**
-     * Returns to the {@link RecipeManagerUI} scene while saving the recipe in the editor
+     * Returns to the {@link RecipeManagerUI} scene while saving the {@link Recipe} in the editor
      */
     @FXML
     private void saveRecipeAndReturn() {
-        //TODO Only save the recipe info that needs to be saved
+        if (checkIfEmpty(nameField.getText(), outputField.getText())) return;
+        switch (editorRecipe.getType()) {
+            case "normal":
+                if (!ingredientsListview.getItems().isEmpty() && editorRecipe.getShape() != null) return;
+            case "arcane":
+                if (!checkIfEmpty(visField.getText()) && !ingredientsListview.getItems().isEmpty() && !aspectListview.getItems().isEmpty() && editorRecipe.getShape() != null)
+                    return;
+            case "crucible":
+                if (!checkIfEmpty(inputField.getText()) && !aspectListview.getItems().isEmpty()) return;
+            case "infusion":
+                if (!checkIfEmpty(inputField.getText()) && !ingredientsListview.getItems().isEmpty() && !aspectListview.getItems().isEmpty())
+                    return;
+        }
         try {
             if (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))
                 editorRecipe.setShape(shapelessCheckbox.isSelected() ? new String[0] : editorRecipe.getShape());
             editorRecipe.setName(nameField.getText());
+            //TODO ADD VIS FIELD
             RecipeManagerUI.recipeEditorMap.put(editorRecipe.getName(), editorRecipe);
             ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Check if any of the given {@link String} are empty
+     *
+     * @param strings the {@link String} to check
+     * @return if any {@link String} are empty
+     */
+
+    private boolean checkIfEmpty(String... strings) {
+        for (String string : strings) {
+            if (string == null || string.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

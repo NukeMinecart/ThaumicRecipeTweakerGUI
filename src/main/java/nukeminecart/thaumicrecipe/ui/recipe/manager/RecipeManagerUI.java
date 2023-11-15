@@ -10,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
@@ -23,8 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.cachedScenes;
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.instanceRecipeManagerUI;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 
 /**
  * The class that contains all the controller elements and logic for the RecipeManagerUI parent
@@ -37,9 +38,11 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     public static final HashMap<String, Recipe> recipeEditorMap = new HashMap<>();
     private static String stringTitle;
     @FXML
-    public ListView<Recipe> recipeList;
+    private ListView<Recipe> recipeList;
     @FXML
-    private Label title;
+    private TextField nameField;
+    @FXML
+    private Label title, recipeListLabel, nameLabel;
 
     /**
      * Loads the {@link RecipeEditorUI} and passes it the recipe to be displayed
@@ -126,8 +129,36 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
         recipeList.setItems(recipes);
         title.setText("Recipe Manager: " + stringTitle);
         recipes.addListener((ListChangeListener<Recipe>) c -> refreshHashMap());
+        recipeListLabel.setText("Recipes in " + stringTitle);
+        nameField.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                if (nameField.getText().isEmpty()) return;
+
+                changeEditorRecipe(new Recipe(nameField.getText()));
+                editorRecipeExisted = false;
+                nameField.setVisible(false);
+                nameLabel.setVisible(false);
+                nameField.setText("");
+                try {
+                    new RecipeEditorUI().launchEditor();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        });
         refreshRecipes();
     }
 
+    /**
+     * FXML event to make the nameField visible to add a {@link Recipe}
+     */
+
+    @FXML
+    private void addRecipe() {
+        nameField.setVisible(true);
+        nameLabel.setVisible(true);
+
+    }
 
 }

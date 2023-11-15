@@ -12,6 +12,7 @@ public class ThaumicRecipeConstants {
     public static String separator, recipeDirectory, loadedRecipe, MOD_ID, stringArraySeparator, stringSeparator;
     public static String fileExistsWarning, noFileInConfigWarning;
     public static Recipe editorRecipe, originalRecipe;
+    public static boolean editorRecipeExisted;
     public static int stageWidth, stageHeight;
     public static HomeUI instanceHomeUI;
     public static RecipeManagerUI instanceRecipeManagerUI;

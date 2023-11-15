@@ -18,6 +18,8 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 import java.io.IOException;
 import java.util.Objects;
 
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.editorRecipeExisted;
+
 /**
  * Class that contains the cell factory for {@link RecipeManagerUI}
  */
@@ -41,6 +43,7 @@ public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Re
      */
     @FXML
     private void launchEditor() {
+        editorRecipeExisted = true;
         RecipeManagerUI.openEditor(recipeName.getText());
     }
 
