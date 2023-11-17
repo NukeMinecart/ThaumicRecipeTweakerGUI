@@ -110,7 +110,7 @@ public class HomeUI extends ThaumicRecipeUI {
     private void changeToConfig() {
         fileField.setVisible(false);
         loadOption = "fromConfig";
-        changeLoadOption("From Config", "Loading from configuration file");
+        changeLoadOption("From Config", "Load from the configuration file");
     }
 
     /**
@@ -135,7 +135,7 @@ public class HomeUI extends ThaumicRecipeUI {
             fileField.getItems().add(new MenuItem("No .rcp files found"));
         }
         loadOption = "fromFolder";
-        changeLoadOption("From Folder", "Loading from the Thaumicrecipe folder");
+        changeLoadOption("From Folder", "Load from the Thaumicrecipe folder");
 
     }
 
@@ -146,7 +146,7 @@ public class HomeUI extends ThaumicRecipeUI {
     private void changeToOther() {
         fileField.setVisible(false);
         loadOption = "fromOther";
-        changeLoadOption("From Other", "Loading from other location");
+        changeLoadOption("From Other", "Load from other file location");
     }
 
     /**
@@ -155,9 +155,17 @@ public class HomeUI extends ThaumicRecipeUI {
     @FXML
     private void newRecipe() {
         if (!RecipeService.checkNewErrors(this, newField.getText(), newOption)) return;
-        if (newOption.equals("largeRecipe")) {
+        if (newOption.equals("recipeCluster")) {
             try {
-                RecipeFileHandler.newLargeRecipe(newField.getText());
+                FileChooser chooser = new FileChooser();
+                chooser.setTitle("Open Multiple Files");
+
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("RECIPE files (*.rcp)", "*.rcp");
+                chooser.getExtensionFilters().add(extFilter);
+                chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+                List<File> filesChosen = chooser.showOpenMultipleDialog(UIManager.stage.getOwner());
+
+                RecipeFileHandler.newRecipeCluster(newField.getText(), filesChosen);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -176,7 +184,7 @@ public class HomeUI extends ThaumicRecipeUI {
     @FXML
     private void changeToRecipeGroup() {
         newOption = "recipeGroup";
-        changeNewOption("Recipe", 130, "New recipe grouping");
+        changeNewOption("Recipe Group", "Create a new recipe grouping");
     }
 
     /**
@@ -184,20 +192,19 @@ public class HomeUI extends ThaumicRecipeUI {
      */
     @FXML
     private void changeToLargeRecipe() {
-        newOption = "largeRecipe";
-        changeNewOption("Recipe Collection", 170, "New recipe collection");
+        newOption = "recipeCluster";
+        changeNewOption("Recipe Cluster", "Import several recipes");
     }
 
     /**
      * Set the text, width, and tooltip of the new recipe menu
      *
      * @param text    the text displayed on the menu
-     * @param width   the width to resize the menu
      * @param tooltip the tooltip to display
      */
-    private void changeNewOption(String text, int width, String tooltip) {
+    private void changeNewOption(String text, String tooltip) {
         newChoice.setText(text);
-        newChoice.setPrefWidth(width);
+        newChoice.setPrefWidth(130);
         newChoice.setTooltip(new Tooltip(tooltip));
     }
 

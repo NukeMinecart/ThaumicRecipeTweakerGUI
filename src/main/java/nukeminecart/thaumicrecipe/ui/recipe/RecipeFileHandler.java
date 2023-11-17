@@ -5,6 +5,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
@@ -73,15 +74,22 @@ public class RecipeFileHandler {
     /**
      * Creates a new recipe collection with the specified name and launches the {@link RecipeManagerUI}
      *
-     * @param name the name for the recipe collection
+     * @param name  the name for the recipe collection
+     * @param files
      * @throws IOException if the file already exists and if {@link RecipeManagerUI} cannot find its associated .fxml file
      */
-    public static void newLargeRecipe(String name) throws IOException {
+    public static void newRecipeCluster(String name, List<File> files) throws IOException {
         file = FileParser.getFolderFile(name.endsWith(".rcp") ? name : name + ".rcp");
         if (file.exists()) {
             instanceHomeUI.throwNewWarning(fileExistsWarning);
         } else {
-            new RecipeManagerUI().loadManager(name, null);
+            List<String> contents = new ArrayList<>();
+            if(!files.isEmpty()) {
+                for (File file : files) {
+                    contents.addAll(FileParser.readFile(FileParser.checkExists(file) ? file : null));
+                }
+            }
+            new RecipeManagerUI().loadManager(name, contents);
         }
     }
 

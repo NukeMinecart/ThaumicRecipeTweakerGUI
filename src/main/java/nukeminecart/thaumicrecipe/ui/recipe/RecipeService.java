@@ -78,7 +78,7 @@ public class RecipeService {
 
     public static boolean checkNewErrors(HomeUI homeUI, String name, String option) {
         if (name.isEmpty()) {
-            homeUI.throwNewWarning("Recipe " + (option.equals("smallRecipe") ? "" : "group ") + "name is blank");
+            homeUI.throwNewWarning("Recipe " + (option.equals("recipeCluster") ? "cluster " : "group ") + "name is blank");
             return false;
         }
         try {
