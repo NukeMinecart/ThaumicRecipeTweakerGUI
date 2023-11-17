@@ -72,11 +72,11 @@ public class RecipeFileHandler {
     }
 
     /**
-     * Creates a new recipe collection with the specified name and launches the {@link RecipeManagerUI}
+     * Creates a new {@link main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe} collection with the specified name and launches the {@link RecipeManagerUI}
      *
      * @param name  the name for the recipe collection
-     * @param files
-     * @throws IOException if the file already exists and if {@link RecipeManagerUI} cannot find its associated .fxml file
+     * @param files the {@link List} of {@link File} to read and import from
+     * @throws IOException if the {@link File} already exists and if {@link RecipeManagerUI} cannot find its associated .fxml {@link File}
      */
     public static void newRecipeCluster(String name, List<File> files) throws IOException {
         file = FileParser.getFolderFile(name.endsWith(".rcp") ? name : name + ".rcp");
