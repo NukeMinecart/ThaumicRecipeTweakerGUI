@@ -111,7 +111,6 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         if (ingredientsFile.exists()) {
             ingredientsList = FileParser.parseList(ingredientsFile);
         }
-        ingredientsList.put("test", "test");
     }
 
     /**
