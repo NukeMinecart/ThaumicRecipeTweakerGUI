@@ -159,11 +159,11 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     private void allowDragOver(DragEvent event, ListView<String> listView) {
         if (event.getGestureSource() != listView && event.getDragboard().hasString()) {
-            if(type.equals("ingredients") && (editorRecipe.getType().equals("normal")||editorRecipe.getType().equals("arcane"))){
-                if(listView.getItems().size()<9){
+            if (type.equals("ingredients") && (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))) {
+                if (listView.getItems().size() < 9) {
                     event.acceptTransferModes(TransferMode.COPY);
                 }
-            }else{
+            } else {
                 event.acceptTransferModes(TransferMode.COPY);
             }
         }
@@ -217,11 +217,11 @@ public class RecipeListUI extends ThaumicRecipeUI {
     @FXML
     private void handleAddDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
-            if(type.equals("ingredients") && (editorRecipe.getType().equals("normal")||editorRecipe.getType().equals("arcane"))) {
+            if (type.equals("ingredients") && (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))) {
                 if (currentList.getItems().size() < 9) {
                     currentList.getItems().add(searchList.getSelectionModel().getSelectedItem());
                 }
-            }else{
+            } else {
                 currentList.getItems().add(searchList.getSelectionModel().getSelectedItem());
             }
         }
@@ -252,16 +252,17 @@ public class RecipeListUI extends ThaumicRecipeUI {
      * FXML event to clear the items in the current {@link ListView}
      */
     @FXML
-    private void clearItems(){
+    private void clearItems() {
         currentList.getItems().clear();
     }
+
     /**
      * FXML event to remove the last added item in the current {@link ListView}
      */
     @FXML
-    private void removeLastItem(){
+    private void removeLastItem() {
         ObservableList<String> items = currentList.getItems();
-        if(!items.isEmpty()) {
+        if (!items.isEmpty()) {
             items.remove(items.size() - 1);
         }
     }

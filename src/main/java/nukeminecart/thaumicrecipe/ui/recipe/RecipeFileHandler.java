@@ -84,7 +84,7 @@ public class RecipeFileHandler {
             instanceHomeUI.throwNewWarning(fileExistsWarning);
         } else {
             List<String> contents = new ArrayList<>();
-            if(!files.isEmpty()) {
+            if (!files.isEmpty()) {
                 for (File file : files) {
                     contents.addAll(FileParser.readFile(FileParser.checkExists(file) ? file : null));
                 }

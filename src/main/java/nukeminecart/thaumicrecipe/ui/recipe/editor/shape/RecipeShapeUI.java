@@ -51,7 +51,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     public void launchShapeEditor() throws IOException {
         ingredientList.clear();
         largeSize = true;
-        if(editorRecipe.getIngredients() != null) {
+        if (editorRecipe.getIngredients() != null) {
             RecipeShapeUI.ingredientList.addAll(editorRecipe.getIngredients());
         }
         if (!cachedScenes.containsKey("shape")) {
@@ -69,7 +69,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         for (ListView<String> listView : targetListViews) {
             listView.getItems().clear();
         }
-        if(editorRecipe.getShape() != null) {
+        if (editorRecipe.getShape() != null) {
             for (int index = 0; index < editorRecipe.getShape().length; index++) {
                 ObservableList<String> item = targetListViews.get(index).getItems();
                 if (item.isEmpty()) {
@@ -134,7 +134,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     }
 
     @FXML
-    private void openIngredients(){
+    private void openIngredients() {
         try {
             new RecipeListUI().launchListEditor("ingredients");
         } catch (IOException e) {

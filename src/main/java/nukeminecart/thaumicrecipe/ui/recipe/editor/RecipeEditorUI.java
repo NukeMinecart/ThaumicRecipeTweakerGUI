@@ -242,7 +242,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         if (checkIfEmpty(nameField.getText(), outputField.getText())) return;
         switch (editorRecipe.getType()) {
             case "normal":
-                if (editorRecipe.getIngredients() == null || (editorRecipe.getShape() == null && shapelessCheckbox.isSelected())) return;
+                if (editorRecipe.getIngredients() == null || (editorRecipe.getShape() == null && shapelessCheckbox.isSelected()))
+                    return;
                 break;
             case "arcane":
                 if (checkIfEmpty(visField.getText()) || ingredientsListview.getItems().isEmpty() || aspectListview.getItems().isEmpty() || editorRecipe.getShape() == null)
