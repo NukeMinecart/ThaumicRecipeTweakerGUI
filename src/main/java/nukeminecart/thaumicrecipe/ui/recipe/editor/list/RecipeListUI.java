@@ -3,6 +3,7 @@ package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list;
 import com.sun.xml.internal.ws.util.StringUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -103,7 +104,6 @@ public class RecipeListUI extends ThaumicRecipeUI {
         if (aspectsFile.exists()) {
             aspectList = FileParser.parseList(aspectsFile);
         }
-        ingredientsList.put("test", "test");
     }
 
     /**
@@ -116,7 +116,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
         source.setOnDragDetected(event -> onDragDetected(event, source));
         target.setOnDragOver(event -> allowDragOver(event, target));
         target.setOnDragDropped(event -> handleDrop(event, target));
-        target.setOnMouseClicked(event -> handleDoubleClick(event, target));
+        target.setOnMouseClicked(event -> handleRemoveDoubleClick(event, target));
     }
 
     /**
@@ -125,7 +125,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
      * @param event    the {@link MouseEvent}
      * @param listView the {@link ListView} to enable double-clicking to clear
      */
-    private void handleDoubleClick(MouseEvent event, ListView<String> listView) {
+    private void handleRemoveDoubleClick(MouseEvent event, ListView<String> listView) {
         if (event.getClickCount() == 2) {
             String selectedItem = listView.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
@@ -159,7 +159,13 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     private void allowDragOver(DragEvent event, ListView<String> listView) {
         if (event.getGestureSource() != listView && event.getDragboard().hasString()) {
-            event.acceptTransferModes(TransferMode.COPY);
+            if(type.equals("ingredients") && (editorRecipe.getType().equals("normal")||editorRecipe.getType().equals("arcane"))){
+                if(listView.getItems().size()<9){
+                    event.acceptTransferModes(TransferMode.COPY);
+                }
+            }else{
+                event.acceptTransferModes(TransferMode.COPY);
+            }
         }
         event.consume();
     }
@@ -193,7 +199,32 @@ public class RecipeListUI extends ThaumicRecipeUI {
         listName.setText("Current " + StringUtils.capitalize(type));
         searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
         displaySearchPattern("");
-        currentList.setItems(FXCollections.observableArrayList(type.equals("ingredients") ? editorRecipe.getIngredients() : editorRecipe.getAspects()));
+        if ((type.equals("ingredients") && editorRecipe.getIngredients() != null)) {
+            currentList.setItems(FXCollections.observableArrayList(editorRecipe.getIngredients()));
+
+        } else if ((type.equals("aspects") && editorRecipe.getAspects() != null)) {
+            currentList.setItems(FXCollections.observableArrayList(editorRecipe.getAspects()));
+        }
+
+    }
+
+    /**
+     * Adds the selected {@link javafx.scene.control.ListCell} to the current {@link ListView}
+     *
+     * @param event the {@link MouseEvent}
+     */
+
+    @FXML
+    private void handleAddDoubleClick(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            if(type.equals("ingredients") && (editorRecipe.getType().equals("normal")||editorRecipe.getType().equals("arcane"))) {
+                if (currentList.getItems().size() < 9) {
+                    currentList.getItems().add(searchList.getSelectionModel().getSelectedItem());
+                }
+            }else{
+                currentList.getItems().add(searchList.getSelectionModel().getSelectedItem());
+            }
+        }
     }
 
     /**
@@ -215,5 +246,23 @@ public class RecipeListUI extends ThaumicRecipeUI {
     @FXML
     private void returnToEditor() {
         instanceRecipeEditorUI.launchEditorFromList();
+    }
+
+    /**
+     * FXML event to clear the items in the current {@link ListView}
+     */
+    @FXML
+    private void clearItems(){
+        currentList.getItems().clear();
+    }
+    /**
+     * FXML event to remove the last added item in the current {@link ListView}
+     */
+    @FXML
+    private void removeLastItem(){
+        ObservableList<String> items = currentList.getItems();
+        if(!items.isEmpty()) {
+            items.remove(items.size() - 1);
+        }
     }
 }

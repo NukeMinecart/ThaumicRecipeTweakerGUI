@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
@@ -121,6 +123,36 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
                 changeToInfusionType();
                 break;
         }
+        visField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                visField.setText(newValue.replaceAll("\\D", ""));
+            }
+            if (!visField.getText().isEmpty()) {
+                int vis = Integer.parseInt(visField.getText());
+                editorRecipe.setVis(vis);
+            }
+        });
+        visField.setOnKeyPressed(this::changeVisValue);
+    }
+
+    /**
+     * Changes the vis value in the visField according to the {@link KeyCode} pressed
+     *
+     * @param event the {@link KeyEvent}
+     */
+    private void changeVisValue(KeyEvent event) {
+        int vis = editorRecipe.getVis();
+        if (vis >= 0) {
+            switch (event.getCode()) {
+                case UP:
+                    visField.setText(String.valueOf(vis + 1));
+                    break;
+                case DOWN:
+                    visField.setText(String.valueOf((vis - 1) == -1 ? 0 : vis - 1));
+                    break;
+            }
+        }
+
     }
 
     /**
@@ -210,21 +242,25 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         if (checkIfEmpty(nameField.getText(), outputField.getText())) return;
         switch (editorRecipe.getType()) {
             case "normal":
-                if (!ingredientsListview.getItems().isEmpty() && editorRecipe.getShape() != null) return;
+                if (editorRecipe.getIngredients() == null || (editorRecipe.getShape() == null && shapelessCheckbox.isSelected())) return;
+                break;
             case "arcane":
-                if (!checkIfEmpty(visField.getText()) && !ingredientsListview.getItems().isEmpty() && !aspectListview.getItems().isEmpty() && editorRecipe.getShape() != null)
+                if (checkIfEmpty(visField.getText()) || ingredientsListview.getItems().isEmpty() || aspectListview.getItems().isEmpty() || editorRecipe.getShape() == null)
                     return;
+                break;
             case "crucible":
-                if (!checkIfEmpty(inputField.getText()) && !aspectListview.getItems().isEmpty()) return;
+                if (checkIfEmpty(inputField.getText()) || aspectListview.getItems().isEmpty()) return;
+                break;
             case "infusion":
-                if (!checkIfEmpty(inputField.getText()) && !ingredientsListview.getItems().isEmpty() && !aspectListview.getItems().isEmpty())
+                if (checkIfEmpty(inputField.getText()) || ingredientsListview.getItems().isEmpty() || aspectListview.getItems().isEmpty())
                     return;
+                break;
         }
         try {
             if (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))
                 editorRecipe.setShape(shapelessCheckbox.isSelected() ? new String[0] : editorRecipe.getShape());
             editorRecipe.setName(nameField.getText());
-            //TODO ADD VIS FIELD
+
             RecipeManagerUI.recipeEditorMap.put(editorRecipe.getName(), editorRecipe);
             ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {
@@ -242,10 +278,10 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private boolean checkIfEmpty(String... strings) {
         for (String string : strings) {
             if (string == null || string.isEmpty()) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**

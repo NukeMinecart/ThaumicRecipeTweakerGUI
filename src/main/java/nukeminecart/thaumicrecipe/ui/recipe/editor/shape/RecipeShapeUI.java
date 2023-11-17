@@ -10,6 +10,7 @@ import javafx.scene.input.*;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
 import java.io.IOException;
@@ -50,7 +51,9 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     public void launchShapeEditor() throws IOException {
         ingredientList.clear();
         largeSize = true;
-        RecipeShapeUI.ingredientList.addAll(editorRecipe.getIngredients());
+        if(editorRecipe.getIngredients() != null) {
+            RecipeShapeUI.ingredientList.addAll(editorRecipe.getIngredients());
+        }
         if (!cachedScenes.containsKey("shape")) {
             UIManager.loadScreen(getScene(), "shape");
         } else {
@@ -66,12 +69,14 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         for (ListView<String> listView : targetListViews) {
             listView.getItems().clear();
         }
-        for (int index = 0; index < editorRecipe.getShape().length; index++) {
-            ObservableList<String> item = targetListViews.get(index).getItems();
-            if (item.isEmpty()) {
-                item.add(Objects.equals(editorRecipe.getShape()[index], "") ? "" : editorRecipe.getShape()[index]);
-            } else {
-                item.set(0, Objects.equals(editorRecipe.getShape()[index], "") ? "" : editorRecipe.getShape()[index]);
+        if(editorRecipe.getShape() != null) {
+            for (int index = 0; index < editorRecipe.getShape().length; index++) {
+                ObservableList<String> item = targetListViews.get(index).getItems();
+                if (item.isEmpty()) {
+                    item.add(Objects.equals(editorRecipe.getShape()[index], "") ? "" : editorRecipe.getShape()[index]);
+                } else {
+                    item.set(0, Objects.equals(editorRecipe.getShape()[index], "") ? "" : editorRecipe.getShape()[index]);
+                }
             }
         }
     }
@@ -125,6 +130,15 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
             craft2.setLayoutX(386.6);
             craft4.setLayoutX(270);
             craft5.setLayoutX(386.6);
+        }
+    }
+
+    @FXML
+    private void openIngredients(){
+        try {
+            new RecipeListUI().launchListEditor("ingredients");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

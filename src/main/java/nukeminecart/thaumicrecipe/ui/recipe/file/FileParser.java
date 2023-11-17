@@ -141,7 +141,7 @@ public class FileParser {
      * @param contents the contents of the file
      * @throws IOException if the file cannot be written to, doesn't exist, and if a i/o error occurs
      */
-    public static void saveToFile(File savefile, String[] contents) throws IOException {
+    public static void saveToFile(File savefile, List<String> contents) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(savefile));
 
         for (String line : contents) {
@@ -150,5 +150,50 @@ public class FileParser {
         }
 
         writer.close();
+    }
+
+    /**
+     * Saves a {@link List} of {@link Recipe} to a {@link File} after compressing them
+     *
+     * @param recipes      the {@link List} of {@link Recipe} to save
+     * @param saveLocation the location to save the {@link Recipe} {@link File}
+     * @throws IOException if an i/o error occurs
+     */
+    public static void saveRecipesToFile(File saveLocation, List<Recipe> recipes) throws IOException {
+        List<String> compressedRecipes = new ArrayList<>();
+        for (Recipe recipe : recipes) {
+            compressedRecipes.add(compressRecipe(recipe));
+        }
+        saveToFile(saveLocation, compressedRecipes);
+    }
+
+    /**
+     * Sets the current ThaumicRecipeTweakerGUI config file to the selected options
+     *
+     * @param activeRecipe set the active recipe
+     * @param openGUI      if the GUI should open the next time the game launches
+     * @throws IOException if the file cannot be written to, read, doesn't exist, and if a i/o error occurs
+     */
+    public static void setConfigOptions(String activeRecipe, boolean openGUI) throws IOException {
+        File configFile = new File(recipeDirectory, "recipe.cfg");
+        List<String> contents = new ArrayList<>();
+        if (checkExists(configFile)) {
+            contents = readFile(configFile);
+        } else {
+            if (!configFile.createNewFile()) {
+                return;
+            }
+        }
+        if (contents.isEmpty()) {
+            contents.add(activeRecipe.isEmpty() ? null : ("active-recipe:" + activeRecipe));
+            contents.add("open-gui:" + openGUI);
+            saveToFile(configFile, contents);
+        } else {
+            String currentActiveRecipe = contents.get(0).replace("active-recipe:", "");
+            contents.clear();
+            contents.add("active-recipe:" + (activeRecipe.isEmpty() ? currentActiveRecipe : activeRecipe));
+            contents.add("open-gui:" + openGUI);
+            saveToFile(configFile, contents);
+        }
     }
 }

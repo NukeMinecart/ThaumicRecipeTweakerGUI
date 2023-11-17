@@ -8,10 +8,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.stage.DirectoryChooser;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
@@ -20,6 +22,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.cell.RecipeCellFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +45,9 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     @FXML
     private TextField nameField;
     @FXML
-    private Label title, recipeListLabel, nameLabel;
+    private Label title, recipeListLabel;
+    @FXML
+    private CheckBox closeSelection, activeSelection, displaySelection;
 
     /**
      * Loads the {@link RecipeEditorUI} and passes it the recipe to be displayed
@@ -132,19 +137,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
         recipeListLabel.setText("Recipes in " + stringTitle);
         nameField.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) {
-                if (nameField.getText().isEmpty()) return;
-
-                changeEditorRecipe(new Recipe(nameField.getText()));
-                editorRecipeExisted = false;
-                nameField.setVisible(false);
-                nameLabel.setVisible(false);
-                nameField.setText("");
-                try {
-                    new RecipeEditorUI().launchEditor();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
+                addRecipe();
             }
         });
         refreshRecipes();
@@ -156,9 +149,67 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
 
     @FXML
     private void addRecipe() {
-        nameField.setVisible(true);
-        nameLabel.setVisible(true);
+        if (nameField.isVisible()) {
+            if (nameField.getText().isEmpty()) return;
 
+            changeEditorRecipe(new Recipe(nameField.getText()));
+            editorRecipeExisted = false;
+            nameField.setVisible(false);
+            nameField.setText("");
+
+            try {
+                new RecipeEditorUI().launchEditor();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            nameField.setVisible(true);
+        }
     }
 
+    /**
+     * FXML event to save the current {@link Recipe} as a {@link File} in the thaumicrecipe folder
+     */
+    @FXML
+    private void saveRecipeToFolder() {
+        try {
+            FileParser.saveRecipesToFile(new File(recipeDirectory, stringTitle), recipes);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        checkOptions();
+    }
+
+    /**
+     * FXML event to save the current {@link Recipe} as a {@link File} in some other location
+     */
+    @FXML
+    private void saveRecipeToOther() {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Select A Directory");
+
+        chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+
+        File directoryChosen = chooser.showDialog(UIManager.stage.getOwner());
+        try {
+            FileParser.saveRecipesToFile(new File(directoryChosen, stringTitle), recipes);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        checkOptions();
+    }
+
+    /**
+     * Performs actions for all the selected {@link CheckBox}
+     */
+    private void checkOptions() {
+
+        try {
+            FileParser.setConfigOptions(activeSelection.isSelected() ? stringTitle : null, displaySelection.isSelected());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (closeSelection.isSelected()) Platform.exit();
+
+    }
 }
