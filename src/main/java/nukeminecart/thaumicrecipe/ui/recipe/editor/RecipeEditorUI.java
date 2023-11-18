@@ -175,7 +175,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void openInputItemSearch() {
         try {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
-            new RecipeSearchUI().launchItemSearch("input");
+            new RecipeSearchUI().launchRecipeSearch("input");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -188,7 +188,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void openOutputItemSearch() {
         try {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
-            new RecipeSearchUI().launchItemSearch("output");
+            new RecipeSearchUI().launchRecipeSearch("output");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

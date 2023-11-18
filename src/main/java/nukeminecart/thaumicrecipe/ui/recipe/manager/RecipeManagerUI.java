@@ -18,6 +18,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.search.RecipeSearchUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.cell.RecipeCellFactory;
@@ -203,13 +204,23 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      * Performs actions for all the selected {@link CheckBox}
      */
     private void checkOptions() {
-
         try {
             FileParser.setConfigOptions(activeSelection.isSelected() ? stringTitle : null, displaySelection.isSelected());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         if (closeSelection.isSelected()) Platform.exit();
+    }
 
+    /**
+     * FXML event to import an existing recipe
+     */
+    @FXML
+    private void importExistingRecipe(){
+        try {
+            new RecipeSearchUI().launchRecipeSearch("research");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

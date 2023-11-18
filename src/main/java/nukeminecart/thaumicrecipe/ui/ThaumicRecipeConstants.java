@@ -20,6 +20,8 @@ public class ThaumicRecipeConstants {
     public static HashMap<String, Scene> cachedScenes;
     public static HashMap<String, String> aspectList;
     public static HashMap<String, String> ingredientsList;
+    public static HashMap<String, String> researchList;
+
 
     /**
      * Change the {@link Recipe} that is currently loaded in the editor

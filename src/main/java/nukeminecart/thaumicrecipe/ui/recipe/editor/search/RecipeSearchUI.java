@@ -47,7 +47,7 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
      *
      * @throws IOException if RecipeSearchUI.fxml if not found
      */
-    public void launchItemSearch(String searchType) throws IOException {
+    public void launchRecipeSearch(String searchType) throws IOException {
         RecipeSearchUI.searchType = searchType;
         if (!cachedScenes.containsKey("search")) {
             UIManager.loadScreen(getScene(), "search-" + searchType);
@@ -74,7 +74,7 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
      * @param searchTerm the {@link String} to search for
      */
     private void displaySearchPattern(String searchTerm) {
-        if (ingredientsList.isEmpty()) {
+        if (ingredientsList.isEmpty() || researchList.isEmpty()) {
             try {
                 getListFromFile();
             } catch (IOException e) {
@@ -83,7 +83,7 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         }
 
         searchList.getItems().clear();
-        for (String item : ingredientsList.keySet()) {
+        for (String item : searchType.equals("input") || searchType.equals("output") ? ingredientsList.keySet() : researchList.keySet()) {
             if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find()) addToListView(item);
         }
     }
@@ -110,6 +110,10 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         File ingredientsFile = new File(recipeDirectory, "ingredients.lst");
         if (ingredientsFile.exists()) {
             ingredientsList = FileParser.parseList(ingredientsFile);
+        }
+        File researchFile = new File(recipeDirectory, "research.lst");
+        if (researchFile.exists()) {
+            researchList = FileParser.parseList(researchFile);
         }
     }
 
