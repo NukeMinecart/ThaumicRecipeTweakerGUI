@@ -71,8 +71,10 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      * Load the {@link RecipeEditorUI} from the cachedScenes and with a {@link String} value of the item
      */
     public void launchEditorFromSearch(String item, String type) {
-        if (type.equalsIgnoreCase("input")) editorRecipe.setInput(item);
-        else editorRecipe.setOutput(item);
+        if (item != null) {
+            if (type.equalsIgnoreCase("input")) editorRecipe.setInput(item);
+            else editorRecipe.setOutput(item);
+        }
         try {
             UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName());
         } catch (IOException e) {

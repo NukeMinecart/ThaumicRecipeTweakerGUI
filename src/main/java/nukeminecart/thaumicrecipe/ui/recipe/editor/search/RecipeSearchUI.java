@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.search.cell.SearchRecipeCellFactory;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 
 import java.io.File;
@@ -49,11 +50,13 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
      */
     public void launchRecipeSearch(String searchType) throws IOException {
         RecipeSearchUI.searchType = searchType;
-        if (!cachedScenes.containsKey("search")) {
+        if (!cachedScenes.containsKey("search-" + searchType)) {
             UIManager.loadScreen(getScene(), "search-" + searchType);
         } else {
             UIManager.loadScreen(cachedScenes.get("search-" + searchType));
         }
+        UIManager.loadScreen(getScene(), "search-" + searchType);
+        //TODO Fix runtime crash -> test (open the search with an input, then output)
     }
 
     /**
@@ -64,8 +67,13 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
     @FXML
     private void handleDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
-            instanceRecipeEditorUI.launchEditorFromSearch(searchList.getSelectionModel().getSelectedItem(), searchType);
+            instanceRecipeEditorUI.launchEditorFromSearch(searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0], searchType);
         }
+    }
+
+    @FXML
+    private void returnToEditor() {
+        instanceRecipeEditorUI.launchEditorFromSearch(null, searchType);
     }
 
     /**
@@ -84,7 +92,8 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
 
         searchList.getItems().clear();
         for (String item : searchType.equals("input") || searchType.equals("output") ? ingredientsList.keySet() : researchList.keySet()) {
-            if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find()) addToListView(item);
+            if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find())
+                addToListView(item + stringArraySeparator + (searchType.equals("input") || searchType.equals("output") ? ingredientsList.get(item) : researchList.get(item)));
         }
     }
 
@@ -122,6 +131,7 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
      */
     @FXML
     private void initialize() {
+        searchList.setCellFactory(new SearchRecipeCellFactory());
         searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
         displaySearchPattern("");
     }

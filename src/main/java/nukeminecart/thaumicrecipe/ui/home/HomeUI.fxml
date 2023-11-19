@@ -6,7 +6,8 @@
 <?import javafx.scene.text.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="500.0" prefWidth="750.0"
             style="-fx-background-color: #222428;" stylesheets="@../resources/Dark.css"
-            xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI">
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            fx:controller="main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI">
 
     <Label alignment="CENTER" contentDisplay="CENTER" layoutX="195.0" layoutY="38.0" styleClass="label"
            text="Thaumic Recipe Tweaker">

@@ -21,7 +21,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.search.RecipeSearchUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
-import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.cell.RecipeCellFactory;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.cell.ManagerRecipeCellFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -131,7 +131,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      */
     @FXML
     public void initialize() {
-        recipeList.setCellFactory(new RecipeCellFactory());
+        recipeList.setCellFactory(new ManagerRecipeCellFactory());
         recipeList.setItems(recipes);
         title.setText("Recipe Manager: " + stringTitle);
         recipes.addListener((ListChangeListener<Recipe>) c -> refreshHashMap());
@@ -216,7 +216,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      * FXML event to import an existing recipe
      */
     @FXML
-    private void importExistingRecipe(){
+    private void importExistingRecipe() {
         try {
             new RecipeSearchUI().launchRecipeSearch("research");
         } catch (IOException e) {

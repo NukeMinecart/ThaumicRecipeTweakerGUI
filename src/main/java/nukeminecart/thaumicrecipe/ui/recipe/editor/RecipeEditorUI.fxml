@@ -50,12 +50,12 @@
             <Font size="13.0"/>
         </font>
     </CheckBox>
-    <Button layoutX="224.0" layoutY="437.0" mnemonicParsing="false" onAction="#returnToManager" text="Return">
+    <Button layoutX="230.0" layoutY="428.0" mnemonicParsing="false" onAction="#returnToManager" text="Return">
         <font>
             <Font size="15.0"/>
         </font>
     </Button>
-    <Button layoutX="54.0" layoutY="437.0" mnemonicParsing="false" onAction="#saveRecipeAndReturn" text="Save">
+    <Button layoutX="47.0" layoutY="428.0" mnemonicParsing="false" onAction="#saveRecipeAndReturn" text="Save">
         <font>
             <Font size="15.0"/>
         </font>
