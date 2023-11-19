@@ -23,19 +23,19 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.edi
 /**
  * Class that contains the cell factory for {@link RecipeManagerUI}
  */
-public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Recipe>> {
+public class ManagerRecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Recipe>> {
 
     private static Recipe recipe;
     @FXML
     private Label recipeName;
 
     private static Parent getScene() throws IOException {
-        return FXMLLoader.load(Objects.requireNonNull(RecipeCellFactory.class.getResource("RecipeCell.fxml")));
+        return FXMLLoader.load(Objects.requireNonNull(ManagerRecipeCellFactory.class.getResource("ManagerRecipeCell.fxml")));
     }
 
     @Override
     public ListCell<Recipe> call(ListView<Recipe> param) {
-        return new RecipeCell();
+        return new ManagerRecipeCell();
     }
 
     /**
@@ -58,12 +58,12 @@ public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Re
     /**
      * Recipe Cell formatting and layout
      */
-    public static class RecipeCell extends ListCell<Recipe> {
+    public static class ManagerRecipeCell extends ListCell<Recipe> {
 
         /**
-         * Constructor for {@link RecipeCell}
+         * Constructor for {@link ManagerRecipeCell}
          */
-        public RecipeCell() {
+        public ManagerRecipeCell() {
             setOnDragDetected(event -> {
                 if (!isEmpty()) {
                     Dragboard db = startDragAndDrop(TransferMode.MOVE);
@@ -129,8 +129,8 @@ public class RecipeCellFactory implements Callback<ListView<Recipe>, ListCell<Re
                 setGraphic(null);
             } else {
                 try {
-                    RecipeCellFactory.recipe = recipe;
-                    setGraphic(RecipeCellFactory.getScene());
+                    ManagerRecipeCellFactory.recipe = recipe;
+                    setGraphic(ManagerRecipeCellFactory.getScene());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

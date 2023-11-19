@@ -9,7 +9,7 @@
       minWidth="-Infinity"
       prefHeight="25.0" prefWidth="175.0" stylesheets="@../../../resources/Dark.css"
       xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.cell.RecipeCellFactory">
+      fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.cell.ManagerRecipeCellFactory">
     <Label fx:id="recipeName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="RECIPE_NAME"
            HBox.hgrow="ALWAYS"/>
     <Button contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
