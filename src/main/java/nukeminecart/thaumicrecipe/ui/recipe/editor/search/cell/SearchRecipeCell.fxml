@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<HBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="22.0" prefWidth="398.0" stylesheets="@../../../../resources/Dark.css"
+      xmlns="http://javafx.com/javafx/17.0.2-ea"
+      fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.search.cell.SearchRecipeCellFactory">
+    <Label fx:id="searchItem" alignment="BASELINE_LEFT" maxHeight="1.7976931348623157E308"
+           maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="0.0" text="SEARCH_ITEM" HBox.hgrow="ALWAYS">
+        <font>
+            <Font size="13.0"/>
+        </font>
+    </Label>
+    <Label fx:id="searchItemModid" alignment="BASELINE_RIGHT" contentDisplay="RIGHT" nodeOrientation="LEFT_TO_RIGHT"
+           prefHeight="22.0" prefWidth="194.0" text="SEARCH_ITEM_MODID">
+        <font>
+            <Font size="13.0"/>
+        </font>
+    </Label>
+</HBox>
