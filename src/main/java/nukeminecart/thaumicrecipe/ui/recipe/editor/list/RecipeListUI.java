@@ -37,6 +37,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
     private Label title, listName;
     @FXML
     private TextField searchField;
+    private boolean restricted;
 
     /**
      * Gets the {@link Parent} container containing all the RecipeListUI elements
@@ -53,8 +54,9 @@ public class RecipeListUI extends ThaumicRecipeUI {
      *
      * @throws IOException if RecipeListUI.fxml is not found
      */
-    public void launchListEditor(String type) throws IOException {
+    public void launchListEditor(String type, boolean restricted) throws IOException {
         RecipeListUI.type = type;
+        this.restricted = restricted;
         UIManager.loadScreen(getScene(), "list");
     }
 
@@ -73,9 +75,9 @@ public class RecipeListUI extends ThaumicRecipeUI {
         }
 
         searchList.getItems().clear();
-        for (String item : type.equals("ingredients") ? ingredientsList.keySet() : aspectList.keySet()) {
+        for (String item : type.equals("ingredients") ? ingredientsList.keySet() : aspectList.keySet())
             if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find()) addToListView(item);
-        }
+
     }
 
     /**

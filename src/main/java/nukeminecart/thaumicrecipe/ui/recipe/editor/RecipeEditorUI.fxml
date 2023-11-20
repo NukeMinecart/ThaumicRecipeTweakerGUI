@@ -15,11 +15,11 @@
     </Label>
     <ListView fx:id="ingredientsListview" layoutX="408.0" layoutY="97.0" prefHeight="307.0" prefWidth="145.0" />
     <TextField fx:id="nameField" layoutX="28.0" layoutY="118.0" prefHeight="27.0" prefWidth="177.0" promptText="Name" />
-    <TextField fx:id="inputField" layoutX="30.0" layoutY="197.0" prefHeight="27.0" prefWidth="177.0" promptText="Input" />
-    <TextField fx:id="outputField" layoutX="28.0" layoutY="281.0" prefHeight="27.0" prefWidth="177.0" promptText="Output" />
-    <TextField fx:id="visField" layoutX="221.0" layoutY="358.0" prefHeight="25.0" prefWidth="177.0" promptText="Vis" />
+    <TextField fx:id="inputField" layoutX="30.0" layoutY="197.0" prefHeight="27.0" prefWidth="141.0" promptText="Input" />
+    <TextField fx:id="outputField" layoutX="28.0" layoutY="281.0" prefHeight="27.0" prefWidth="145.0" promptText="Output" />
+    <TextField fx:id="visField" layoutX="291.0" layoutY="358.0" prefHeight="25.0" prefWidth="77.0" promptText="Vis" />
     <ListView fx:id="aspectListview" layoutX="569.0" layoutY="97.0" prefHeight="307.0" prefWidth="145.0" />
-    <MenuButton fx:id="typeDropdown" layoutX="254.0" layoutY="111.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="83.0" text="Normal">
+    <MenuButton fx:id="typeDropdown" layoutX="288.0" layoutY="111.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="83.0" text="Normal">
         <items>
             <MenuItem mnemonicParsing="false" onAction="#changeToNormalType" text="Normal" />
             <MenuItem mnemonicParsing="false" onAction="#changeToArcaneType" text="Arcane" />
@@ -30,12 +30,12 @@
             <Font size="13.0" />
         </font>
     </MenuButton>
-    <Button fx:id="shapeButton" layoutX="257.0" layoutY="268.0" mnemonicParsing="false" onAction="#openShapeEditor" text="Edit Shape">
+    <Button fx:id="shapeButton" layoutX="290.0" layoutY="268.0" mnemonicParsing="false" onAction="#openShapeEditor" text="Edit Shape">
         <font>
             <Font size="13.0" />
         </font>
     </Button>
-    <CheckBox fx:id="shapelessCheckbox" layoutX="256.0" layoutY="201.0" mnemonicParsing="false" onAction="#changeShapeless" text="Shapeless">
+    <CheckBox fx:id="shapelessCheckbox" layoutX="289.0" layoutY="201.0" mnemonicParsing="false" onAction="#changeShapeless" text="Shapeless">
         <font>
             <Font size="13.0" />
         </font>
@@ -55,12 +55,12 @@
             <Font size="13.0" />
         </font>
     </Button>
-    <Button layoutX="141.0" layoutY="281.0" mnemonicParsing="false" onAction="#openOutputItemSearch" prefHeight="27.0" prefWidth="67.0" text="Output">
+    <Button layoutX="172.0" layoutY="281.0" mnemonicParsing="false" onAction="#openOutputItemSearch" prefHeight="27.0" prefWidth="67.0" text="Output">
         <font>
             <Font size="13.0" />
         </font>
     </Button>
-    <Button fx:id="inputButton" layoutX="141.0" layoutY="197.0" mnemonicParsing="false" onAction="#openInputItemSearch" prefHeight="27.0" prefWidth="67.0" text="Input">
+    <Button fx:id="inputButton" layoutX="170.0" layoutY="197.0" mnemonicParsing="false" onAction="#openInputItemSearch" prefHeight="27.0" prefWidth="67.0" text="Input">
         <font>
             <Font size="13.0" />
         </font>
@@ -80,7 +80,7 @@
             <Font size="13.0" />
         </font>
     </Label>
-    <Label fx:id="visLabel" layoutX="222.0" layoutY="331.0" text="Vis Amount">
+    <Label fx:id="visLabel" layoutX="290.0" layoutY="331.0" text="Vis Amount">
         <font>
             <Font size="13.0" />
         </font>
@@ -90,7 +90,7 @@
             <Font size="13.0" />
         </font>
     </Label>
-    <Label layoutX="261.0" layoutY="79.0" text="Recipe Type">
+    <Label layoutX="288.0" layoutY="79.0" text="Recipe Type">
         <font>
             <Font size="13.0" />
         </font>
@@ -110,13 +110,13 @@
             <Font size="16.0" />
         </font>
     </Label>
-   <TextField fx:id="researchField" layoutX="28.0" layoutY="358.0" prefHeight="25.0" prefWidth="177.0" promptText="Research" />
+   <TextField fx:id="researchField" layoutX="28.0" layoutY="358.0" prefHeight="25.0" prefWidth="138.0" promptText="Research" />
    <Label layoutX="28.0" layoutY="331.0" text="Required Research">
       <font>
          <Font size="13.0" />
       </font>
    </Label>
-   <Button layoutX="130.0" layoutY="357.0" mnemonicParsing="false" onAction="#openResearchSearch" prefHeight="27.0" prefWidth="77.0" text="Research">
+   <Button layoutX="165.0" layoutY="357.0" mnemonicParsing="false" onAction="#openResearchSearch" prefHeight="27.0" prefWidth="77.0" text="Research">
       <font>
          <Font size="13.0" />
       </font>

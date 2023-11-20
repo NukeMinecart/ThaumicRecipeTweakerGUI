@@ -74,6 +74,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         if (item != null) {
             if (type.equalsIgnoreCase("input")) editorRecipe.setInput(item);
             else if (type.equalsIgnoreCase("output")) editorRecipe.setOutput(item);
+            else editorRecipe.setResearch(item);
         }
         try {
             UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName());
@@ -214,7 +215,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void openIngredientsList() {
         try {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
-            new RecipeListUI().launchListEditor("ingredients");
+            new RecipeListUI().launchListEditor("ingredients", false);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -227,7 +228,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void openAspectsList() {
         try {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
-            new RecipeListUI().launchListEditor("aspects");
+            new RecipeListUI().launchListEditor("aspects", editorRecipe.getType().equals("arcane"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -339,7 +340,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void changeToArcaneType() {
         typeDropdown.setText("Arcane");
         editorRecipe.setType("arcane");
-        showNodes(inputField, inputLabel, inputButton, visLabel, visField, aspectsButton, aspectLabel, aspectListview, ingredientsButton, ingredientsLabel, ingredientsListview, shapeButton, shapelessCheckbox);
+        showNodes(visLabel, visField, aspectsButton, aspectLabel, aspectListview, ingredientsButton, ingredientsLabel, ingredientsListview, shapeButton, shapelessCheckbox);
+        hideNodes(inputLabel, inputField, inputButton);
     }
 
     /**

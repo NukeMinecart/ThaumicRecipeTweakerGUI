@@ -136,7 +136,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     @FXML
     private void openIngredients() {
         try {
-            new RecipeListUI().launchListEditor("ingredients");
+            new RecipeListUI().launchListEditor("ingredients", false);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

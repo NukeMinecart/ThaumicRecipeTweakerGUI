@@ -55,6 +55,7 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         } else {
             UIManager.loadScreen(cachedScenes.get("search-" + searchType));
         }
+//        UIManager.loadScreen(getScene(), "search-");
         //TODO Fix runtime crash -> test (open the search with an input, then output)
     }
 
@@ -116,13 +117,11 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
      */
     private void getListFromFile() throws IOException {
         File ingredientsFile = new File(recipeDirectory, "ingredients.lst");
-        if (ingredientsFile.exists()) {
-            ingredientsList = FileParser.parseList(ingredientsFile);
-        }
+        if (ingredientsFile.exists()) ingredientsList = FileParser.parseList(ingredientsFile);
+        else if (!ingredientsFile.createNewFile()) throw new IOException("Could not create ingredients file");
         File researchFile = new File(recipeDirectory, "research.lst");
-        if (researchFile.exists()) {
-            researchList = FileParser.parseList(researchFile);
-        }
+        if (researchFile.exists()) researchList = FileParser.parseList(researchFile);
+        else if (!researchFile.createNewFile()) throw new IOException("Could not create research file");
     }
 
     /**
