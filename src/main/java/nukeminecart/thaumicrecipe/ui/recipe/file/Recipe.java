@@ -10,12 +10,13 @@ public class Recipe {
     private String name, input, output, type, research;
     private String[] ingredients, aspects, shape;
     private int vis;
+
     /**
      * Creates a new {@link Recipe} with the arguments specified
      *
      * @param name        the name
      * @param type        the type
-     * @param research the research required
+     * @param research    the research required
      * @param input       the input item
      * @param ingredients a list of ingredients
      * @param output      the output item
