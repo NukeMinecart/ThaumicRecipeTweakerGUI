@@ -80,6 +80,7 @@ public class FileParser {
         StringBuilder returnRecipe;
         returnRecipe = new StringBuilder(recipe.getName() + stringSeparator);
         returnRecipe.append(recipe.getType()).append(stringSeparator);
+        returnRecipe.append(recipe.getResearch()).append(stringSeparator);
         returnRecipe.append(recipe.getInput()).append(stringSeparator);
 
         for (String ingredient : recipe.getIngredients()) {
@@ -110,14 +111,15 @@ public class FileParser {
         String[] compressedRecipe = line.split(stringSeparator);
         String name = compressedRecipe[0];
         String type = compressedRecipe[1];
-        String input = compressedRecipe[2];
-        String[] ingredients = compressedRecipe[3].split(stringArraySeparator);
-        String output = compressedRecipe[4];
-        int vis = Integer.parseInt(compressedRecipe[5]);
-        String[] aspects = compressedRecipe[6].split(stringArraySeparator);
-        String[] shape = compressedRecipe[7].split(stringArraySeparator);
+        String research = compressedRecipe[2];
+        String input = compressedRecipe[3];
+        String[] ingredients = compressedRecipe[4].split(stringArraySeparator);
+        String output = compressedRecipe[5];
+        int vis = Integer.parseInt(compressedRecipe[6]);
+        String[] aspects = compressedRecipe[7].split(stringArraySeparator);
+        String[] shape = compressedRecipe[8].split(stringArraySeparator);
 
-        return new Recipe(name, type, input, ingredients, output, vis, aspects, shape);
+        return new Recipe(name, type, research, input, ingredients, output, vis, aspects, shape);
     }
 
     /**

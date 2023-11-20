@@ -31,7 +31,7 @@ import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.stage;
 
 public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
-    private TextField nameField, visField, inputField, outputField;
+    private TextField nameField, visField, inputField, outputField, researchField;
     @FXML
     private ListView<String> ingredientsListview, aspectListview;
     @FXML
@@ -73,7 +73,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     public void launchEditorFromSearch(String item, String type) {
         if (item != null) {
             if (type.equalsIgnoreCase("input")) editorRecipe.setInput(item);
-            else editorRecipe.setOutput(item);
+            else if (type.equalsIgnoreCase("output")) editorRecipe.setOutput(item);
         }
         try {
             UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName());
@@ -104,6 +104,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         visField.setText(String.valueOf(editorRecipe.getVis()));
         outputField.setText(editorRecipe.getOutput());
         nameField.setText(editorRecipe.getName());
+        researchField.setText(editorRecipe.getResearch());
         if (editorRecipe.getIngredients() != null)
             ingredientsListview.setItems(FXCollections.observableArrayList(editorRecipe.getIngredients()));
         if (editorRecipe.getAspects() != null)
@@ -176,7 +177,6 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
     private void openInputItemSearch() {
         try {
-            cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             new RecipeSearchUI().launchRecipeSearch("input");
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -189,8 +189,19 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
     private void openOutputItemSearch() {
         try {
-            cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             new RecipeSearchUI().launchRecipeSearch("output");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * FXML event to open the {@link RecipeSearchUI} with the research parameter
+     */
+    @FXML
+    private void openResearchSearch() {
+        try {
+            new RecipeSearchUI().launchRecipeSearch("research");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -263,7 +274,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
             if (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))
                 editorRecipe.setShape(shapelessCheckbox.isSelected() ? new String[0] : editorRecipe.getShape());
             editorRecipe.setName(nameField.getText());
-
+            editorRecipe.setResearch(researchField.getText());
             RecipeManagerUI.recipeEditorMap.put(editorRecipe.getName(), editorRecipe);
             ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {

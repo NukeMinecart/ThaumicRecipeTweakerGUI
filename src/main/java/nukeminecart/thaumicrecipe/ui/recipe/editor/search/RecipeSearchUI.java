@@ -55,7 +55,6 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         } else {
             UIManager.loadScreen(cachedScenes.get("search-" + searchType));
         }
-        UIManager.loadScreen(getScene(), "search-" + searchType);
         //TODO Fix runtime crash -> test (open the search with an input, then output)
     }
 

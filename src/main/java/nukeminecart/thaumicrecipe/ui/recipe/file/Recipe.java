@@ -7,19 +7,15 @@ import java.util.List;
  */
 public class Recipe {
 
-    private String name;
-    private String input;
-    private String output;
-    private String type;
-    private String[] ingredients, aspects;
+    private String name, input, output, type, research;
+    private String[] ingredients, aspects, shape;
     private int vis;
-    private String[] shape;
-
     /**
      * Creates a new {@link Recipe} with the arguments specified
      *
      * @param name        the name
      * @param type        the type
+     * @param research the research required
      * @param input       the input item
      * @param ingredients a list of ingredients
      * @param output      the output item
@@ -27,9 +23,10 @@ public class Recipe {
      * @param aspects     a list of aspects
      * @param shape       a {@link String} containing the shape
      */
-    public Recipe(String name, String type, String input, String[] ingredients, String output, int vis, String[] aspects, String... shape) {
+    public Recipe(String name, String type, String research, String input, String[] ingredients, String output, int vis, String[] aspects, String... shape) {
         this.name = name;
         this.type = type;
+        this.research = research;
         this.input = input;
         this.ingredients = ingredients;
         this.output = output;
@@ -58,7 +55,7 @@ public class Recipe {
      * @return the copied {@link Recipe}
      */
     public Recipe copy() {
-        return new Recipe(name, type, input, ingredients, output, vis, aspects, shape);
+        return new Recipe(name, type, input, research, ingredients, output, vis, aspects, shape);
     }
 
     /**
@@ -77,6 +74,24 @@ public class Recipe {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Gets the required research of the recipe
+     *
+     * @return the research as a {@link String}
+     */
+    public String getResearch() {
+        return this.research;
+    }
+
+    /**
+     * Sets the required research of the recipe
+     *
+     * @param research the research as a {@link String}
+     */
+    public void setResearch(String research) {
+        this.research = research;
     }
 
     /**
