@@ -30,13 +30,13 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 
 public class RecipeListUI extends ThaumicRecipeUI {
     private static String type;
+    private static boolean restricted;
     @FXML
     private ListView<String> searchList, currentList;
     @FXML
     private Label title, listName;
     @FXML
     private TextField searchField;
-    private static boolean restricted;
 
     /**
      * Gets the {@link Parent} container containing all the RecipeListUI elements
@@ -51,7 +51,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
     /**
      * Loads the listEditor scene and sets the type of editor
      *
-     * @param type the type of {@link Recipe}
+     * @param type       the type of {@link Recipe}
      * @param restricted if the Aspectlist should contain fewer entries
      * @throws IOException if RecipeListUI.fxml is not found
      */
@@ -68,11 +68,11 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     private void displaySearchPattern(String searchTerm) {
         searchList.getItems().clear();
-        if(restricted){
+        if (restricted) {
             for (String item : tempAspectList.keySet())
                 if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find())
                     addToListView(item + stringArraySeparator + tempAspectList.get(item));
-        }else {
+        } else {
             for (String item : type.equals("ingredients") ? ingredientsList.keySet() : aspectList.keySet())
                 if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find())
                     addToListView(item + stringArraySeparator + (type.equals("ingredients") ? ingredientsList.get(item) : aspectList.get(item)));

@@ -25,7 +25,6 @@ public class ThaumicRecipeConstants {
     public static HashMap<String, String> aspectList, tempAspectList, ingredientsList, researchList;
 
 
-
     /**
      * Change the {@link Recipe} that is currently loaded in the editor
      *
@@ -77,11 +76,11 @@ public class ThaumicRecipeConstants {
         File researchFile = new File(recipeDirectory, "research.lst");
         if (researchFile.exists()) researchList = FileParser.parseList(researchFile);
 
-        tempAspectList.put("Air","thaumcraft");
-        tempAspectList.put("Water","thaumcraft");
-        tempAspectList.put("Entropy","thaumcraft");
-        tempAspectList.put("Fire","thaumcraft");
-        tempAspectList.put("Order","thaumcraft");
-        tempAspectList.put("Earth","thaumcraft");
+        tempAspectList.put("Air", "thaumcraft");
+        tempAspectList.put("Water", "thaumcraft");
+        tempAspectList.put("Entropy", "thaumcraft");
+        tempAspectList.put("Fire", "thaumcraft");
+        tempAspectList.put("Order", "thaumcraft");
+        tempAspectList.put("Earth", "thaumcraft");
     }
 }
