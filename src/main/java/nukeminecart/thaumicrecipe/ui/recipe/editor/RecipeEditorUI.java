@@ -228,7 +228,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void openAspectsList() {
         try {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
-            new RecipeListUI().launchListEditor("aspects", editorRecipe.getType().equals("arcane"));
+            new RecipeListUI().launchListEditor("aspects", typeDropdown.getText().equalsIgnoreCase("arcane"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

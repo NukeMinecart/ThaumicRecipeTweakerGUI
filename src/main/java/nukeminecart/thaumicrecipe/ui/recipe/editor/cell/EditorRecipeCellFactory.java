@@ -1,4 +1,4 @@
-package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.search.cell;
+package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.cell;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.str
 /**
  * Class that contains the cell factory for {@link RecipeManagerUI}
  */
-public class SearchRecipeCellFactory implements Callback<ListView<String>, ListCell<String>> {
+public class EditorRecipeCellFactory implements Callback<ListView<String>, ListCell<String>> {
 
     private static String itemName;
     private static String itemModid;
@@ -25,7 +25,7 @@ public class SearchRecipeCellFactory implements Callback<ListView<String>, ListC
     private Label searchItem, searchItemModid;
 
     private static Parent getScene() throws IOException {
-        return FXMLLoader.load(Objects.requireNonNull(SearchRecipeCellFactory.class.getResource("SearchRecipeCell.fxml")));
+        return FXMLLoader.load(Objects.requireNonNull(EditorRecipeCellFactory.class.getResource("EditorRecipeCell.fxml")));
     }
 
     @Override
@@ -58,9 +58,9 @@ public class SearchRecipeCellFactory implements Callback<ListView<String>, ListC
                 setGraphic(null);
             } else {
                 try {
-                    SearchRecipeCellFactory.itemName = string.split(stringArraySeparator)[0];
-                    SearchRecipeCellFactory.itemModid = string.split(stringArraySeparator)[1];
-                    setGraphic(SearchRecipeCellFactory.getScene());
+                    EditorRecipeCellFactory.itemName = string.split(stringArraySeparator)[0];
+                    EditorRecipeCellFactory.itemModid = string.split(stringArraySeparator)[1];
+                    setGraphic(EditorRecipeCellFactory.getScene());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

@@ -3,10 +3,14 @@ package main.java.nukeminecart.thaumicrecipe.ui;
 import javafx.scene.Scene;
 import main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 public class ThaumicRecipeConstants {
     public static String separator, recipeDirectory, loadedRecipe, MOD_ID, stringArraySeparator, stringSeparator;
@@ -18,9 +22,8 @@ public class ThaumicRecipeConstants {
     public static RecipeManagerUI instanceRecipeManagerUI;
     public static RecipeEditorUI instanceRecipeEditorUI;
     public static HashMap<String, Scene> cachedScenes;
-    public static HashMap<String, String> aspectList;
-    public static HashMap<String, String> ingredientsList;
-    public static HashMap<String, String> researchList;
+    public static HashMap<String, String> aspectList, tempAspectList, ingredientsList, researchList;
+
 
 
     /**
@@ -52,5 +55,33 @@ public class ThaumicRecipeConstants {
         cachedScenes = new HashMap<>();
         aspectList = new HashMap<>();
         ingredientsList = new HashMap<>();
+        tempAspectList = new HashMap<>();
+        try {
+            getListsFromFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Gets the {@link List} from a {@link File} in the thaumicrecipe folder
+     *
+     * @throws IOException if the {@link FileParser} has an error
+     */
+    private void getListsFromFile() throws IOException {
+        File ingredientsFile = new File(recipeDirectory, "ingredients.lst");
+        if (ingredientsFile.exists()) ingredientsList = FileParser.parseList(ingredientsFile);
+
+        File aspectsFile = new File(recipeDirectory, "aspects.lst");
+        if (aspectsFile.exists()) aspectList = FileParser.parseList(aspectsFile);
+        File researchFile = new File(recipeDirectory, "research.lst");
+        if (researchFile.exists()) researchList = FileParser.parseList(researchFile);
+
+        tempAspectList.put("Air","thaumcraft");
+        tempAspectList.put("Water","thaumcraft");
+        tempAspectList.put("Entropy","thaumcraft");
+        tempAspectList.put("Fire","thaumcraft");
+        tempAspectList.put("Order","thaumcraft");
+        tempAspectList.put("Earth","thaumcraft");
     }
 }

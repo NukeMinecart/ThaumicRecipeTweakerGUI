@@ -9,13 +9,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
-import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.search.cell.SearchRecipeCellFactory;
-import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.cell.EditorRecipeCellFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -55,8 +52,6 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         } else {
             UIManager.loadScreen(cachedScenes.get("search-" + searchType));
         }
-//        UIManager.loadScreen(getScene(), "search-");
-        //TODO Fix runtime crash -> test (open the search with an input, then output)
     }
 
     /**
@@ -82,14 +77,6 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
      * @param searchTerm the {@link String} to search for
      */
     private void displaySearchPattern(String searchTerm) {
-        if (ingredientsList.isEmpty() || researchList.isEmpty()) {
-            try {
-                getListFromFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
         searchList.getItems().clear();
         for (String item : searchType.equals("input") || searchType.equals("output") ? ingredientsList.keySet() : researchList.keySet()) {
             if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find())
@@ -111,25 +98,11 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
     }
 
     /**
-     * Gets the ingredients {@link List} from a {@link File} in the thaumicrecipe folder
-     *
-     * @throws IOException if the {@link FileParser} has an error
-     */
-    private void getListFromFile() throws IOException {
-        File ingredientsFile = new File(recipeDirectory, "ingredients.lst");
-        if (ingredientsFile.exists()) ingredientsList = FileParser.parseList(ingredientsFile);
-        else if (!ingredientsFile.createNewFile()) throw new IOException("Could not create ingredients file");
-        File researchFile = new File(recipeDirectory, "research.lst");
-        if (researchFile.exists()) researchList = FileParser.parseList(researchFile);
-        else if (!researchFile.createNewFile()) throw new IOException("Could not create research file");
-    }
-
-    /**
      * FXML initialize event
      */
     @FXML
     private void initialize() {
-        searchList.setCellFactory(new SearchRecipeCellFactory());
+        searchList.setCellFactory(new EditorRecipeCellFactory());
         searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
         displaySearchPattern("");
     }

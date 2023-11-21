@@ -5,9 +5,9 @@
 <?import javafx.scene.text.Font?>
 <HBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
       minWidth="-Infinity"
-      prefHeight="22.0" prefWidth="398.0" stylesheets="@../../../../resources/Dark.css"
+      prefHeight="22.0" prefWidth="398.0" stylesheets="@../../../resources/Dark.css"
       xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.search.cell.SearchRecipeCellFactory">
+      fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.cell.EditorRecipeCellFactory">
     <Label fx:id="searchItem" alignment="BASELINE_LEFT" maxHeight="1.7976931348623157E308"
            maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="0.0" text="SEARCH_ITEM" HBox.hgrow="ALWAYS">
         <font>

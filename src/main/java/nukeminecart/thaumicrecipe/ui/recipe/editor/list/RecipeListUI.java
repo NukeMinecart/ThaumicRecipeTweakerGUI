@@ -14,12 +14,11 @@ import javafx.scene.input.*;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
-import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.cell.EditorRecipeCellFactory;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -37,7 +36,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
     private Label title, listName;
     @FXML
     private TextField searchField;
-    private boolean restricted;
+    private static boolean restricted;
 
     /**
      * Gets the {@link Parent} container containing all the RecipeListUI elements
@@ -52,11 +51,13 @@ public class RecipeListUI extends ThaumicRecipeUI {
     /**
      * Loads the listEditor scene and sets the type of editor
      *
+     * @param type the type of {@link Recipe}
+     * @param restricted if the Aspectlist should contain fewer entries
      * @throws IOException if RecipeListUI.fxml is not found
      */
     public void launchListEditor(String type, boolean restricted) throws IOException {
         RecipeListUI.type = type;
-        this.restricted = restricted;
+        RecipeListUI.restricted = restricted;
         UIManager.loadScreen(getScene(), "list");
     }
 
@@ -66,18 +67,16 @@ public class RecipeListUI extends ThaumicRecipeUI {
      * @param searchTerm the {@link String} to search for
      */
     private void displaySearchPattern(String searchTerm) {
-        if (ingredientsList.isEmpty() || aspectList.isEmpty()) {
-            try {
-                getListsFromFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
         searchList.getItems().clear();
-        for (String item : type.equals("ingredients") ? ingredientsList.keySet() : aspectList.keySet())
-            if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find()) addToListView(item);
-
+        if(restricted){
+            for (String item : tempAspectList.keySet())
+                if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find())
+                    addToListView(item + stringArraySeparator + tempAspectList.get(item));
+        }else {
+            for (String item : type.equals("ingredients") ? ingredientsList.keySet() : aspectList.keySet())
+                if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find())
+                    addToListView(item + stringArraySeparator + (type.equals("ingredients") ? ingredientsList.get(item) : aspectList.get(item)));
+        }
     }
 
     /**
@@ -92,21 +91,6 @@ public class RecipeListUI extends ThaumicRecipeUI {
         });
     }
 
-    /**
-     * Gets the {@link List} from a {@link File} in the thaumicrecipe folder
-     *
-     * @throws IOException if the {@link FileParser} has an error
-     */
-    private void getListsFromFile() throws IOException {
-        File ingredientsFile = new File(recipeDirectory, "ingredients.lst");
-        if (ingredientsFile.exists()) {
-            ingredientsList = FileParser.parseList(ingredientsFile);
-        }
-        File aspectsFile = new File(recipeDirectory, "aspects.lst");
-        if (aspectsFile.exists()) {
-            aspectList = FileParser.parseList(aspectsFile);
-        }
-    }
 
     /**
      * Set up the drag and drop between two {@link ListView}
@@ -146,7 +130,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
         if (!listView.getSelectionModel().isEmpty()) {
             Dragboard db = listView.startDragAndDrop(TransferMode.COPY);
             ClipboardContent cc = new ClipboardContent();
-            cc.putString(listView.getSelectionModel().getSelectedItem());
+            cc.putString(listView.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0]);
             db.setContent(cc);
             event.consume();
         }
@@ -195,6 +179,8 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     @FXML
     public void initialize() {
+        searchList.setCellFactory(new EditorRecipeCellFactory());
+
         title.setText("Recipe Editor: " + StringUtils.capitalize(type));
         setUpDragAndDrop(searchList, currentList);
         searchList.setItems(FXCollections.observableArrayList());
@@ -221,7 +207,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
         if (event.getClickCount() == 2) {
             if (type.equals("ingredients") && (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))) {
                 if (currentList.getItems().size() < 9) {
-                    currentList.getItems().add(searchList.getSelectionModel().getSelectedItem());
+                    currentList.getItems().add(searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0]);
                 }
             } else {
                 currentList.getItems().add(searchList.getSelectionModel().getSelectedItem());
