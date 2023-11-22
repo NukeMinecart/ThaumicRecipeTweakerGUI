@@ -141,7 +141,7 @@ public class FileParser {
      *
      * @param savefile the file to save to
      * @param contents the contents of the file
-     * @throws IOException if the file cannot be written to, doesn't exist, and if a i/o error occurs
+     * @throws IOException if the file cannot be written to, doesn't exist, and if an i/o error occurs
      */
     public static void saveToFile(File savefile, List<String> contents) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(savefile));
@@ -174,7 +174,7 @@ public class FileParser {
      *
      * @param activeRecipe set the active recipe
      * @param openGUI      if the GUI should open the next time the game launches
-     * @throws IOException if the file cannot be written to, read, doesn't exist, and if a i/o error occurs
+     * @throws IOException if the file cannot be written to, read, doesn't exist, and if an i/o error occurs
      */
     public static void setConfigOptions(String activeRecipe, boolean openGUI) throws IOException {
         File configFile = new File(recipeDirectory, "recipe.cfg");
@@ -188,14 +188,12 @@ public class FileParser {
         }
         if (contents.isEmpty()) {
             contents.add(activeRecipe.isEmpty() ? null : ("active-recipe:" + activeRecipe));
-            contents.add("open-gui:" + openGUI);
-            saveToFile(configFile, contents);
         } else {
             String currentActiveRecipe = contents.get(0).replace("active-recipe:", "");
             contents.clear();
             contents.add("active-recipe:" + (activeRecipe.isEmpty() ? currentActiveRecipe : activeRecipe));
-            contents.add("open-gui:" + openGUI);
-            saveToFile(configFile, contents);
         }
+        contents.add("open-gui:" + openGUI);
+        saveToFile(configFile, contents);
     }
 }

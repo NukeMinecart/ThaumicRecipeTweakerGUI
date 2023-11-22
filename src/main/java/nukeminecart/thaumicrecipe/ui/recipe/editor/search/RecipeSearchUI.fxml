@@ -21,11 +21,17 @@
 
     <ListView fx:id="searchList" layoutX="135.0" layoutY="136.0" onMouseClicked="#handleDoubleClick" prefHeight="310.0"
               prefWidth="480.0" style="-fx-background-color: -fx-color; -fx-control-inner-background: -fx-color;"/>
-    <TextField fx:id="searchField" layoutX="155.0" layoutY="87.0" prefHeight="25.0" prefWidth="440.0"/>
+    <TextField fx:id="searchField" layoutX="155.0" layoutY="87.0" prefHeight="25.0" prefWidth="440.0"
+               promptText="Search"/>
     <Button layoutX="41.0" layoutY="431.0" mnemonicParsing="false" onAction="#returnToEditor" text="Return">
         <font>
             <Font size="14.0"/>
         </font>
     </Button>
+    <Label layoutX="155.0" layoutY="53.0" text="All LIST_NAME">
+        <font>
+            <Font size="15.0"/>
+        </font>
+    </Label>
 
 </AnchorPane>

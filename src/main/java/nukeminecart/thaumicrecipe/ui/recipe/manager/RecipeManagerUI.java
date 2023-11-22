@@ -18,9 +18,9 @@ import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
-import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.search.RecipeSearchUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.importer.RecipeImporterUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.cell.ManagerRecipeCellFactory;
 
 import java.io.File;
@@ -87,7 +87,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      * @return the {@link Parent} container
      * @throws IOException if RecipeManagerUI.fxml if not found
      */
-    public Parent getScene() throws IOException {
+    private Parent getScene() throws IOException {
         return FXMLLoader.load(Objects.requireNonNull(RecipeManagerUI.class.getResource("RecipeManagerUI.fxml")));
     }
 
@@ -218,7 +218,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     @FXML
     private void importExistingRecipe() {
         try {
-            new RecipeSearchUI().launchRecipeSearch("research");
+            new RecipeImporterUI().loadImporter();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

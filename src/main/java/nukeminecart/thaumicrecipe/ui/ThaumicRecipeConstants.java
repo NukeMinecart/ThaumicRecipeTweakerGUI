@@ -23,6 +23,7 @@ public class ThaumicRecipeConstants {
     public static RecipeEditorUI instanceRecipeEditorUI;
     public static HashMap<String, Scene> cachedScenes;
     public static HashMap<String, String> aspectList, tempAspectList, ingredientsList, researchList;
+    public static HashMap<String, Recipe> recipeList;
 
 
     /**
@@ -55,11 +56,13 @@ public class ThaumicRecipeConstants {
         aspectList = new HashMap<>();
         ingredientsList = new HashMap<>();
         tempAspectList = new HashMap<>();
-        try {
-            getListsFromFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        new Thread(() -> {
+            try {
+                getListsFromFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
     }
 
     /**
@@ -76,11 +79,20 @@ public class ThaumicRecipeConstants {
         File researchFile = new File(recipeDirectory, "research.lst");
         if (researchFile.exists()) researchList = FileParser.parseList(researchFile);
 
+        //TODO fix parsing and NullpointerExceptions with this
+        File recipesFile = new File(recipeDirectory, "recipes.lst");
+        if (recipesFile.exists()) {
+            for (Recipe recipe : FileParser.getRecipesFromString(FileParser.readFile(recipesFile))) {
+                recipeList.put(recipe.getName(), recipe);
+            }
+        }
+
         tempAspectList.put("Air", "thaumcraft");
         tempAspectList.put("Water", "thaumcraft");
         tempAspectList.put("Entropy", "thaumcraft");
         tempAspectList.put("Fire", "thaumcraft");
         tempAspectList.put("Order", "thaumcraft");
         tempAspectList.put("Earth", "thaumcraft");
+        Thread.currentThread().interrupt();
     }
 }

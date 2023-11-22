@@ -34,7 +34,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
     @FXML
     private ListView<String> searchList, currentList;
     @FXML
-    private Label title, listName;
+    private Label title, currentListName, allListName;
     @FXML
     private TextField searchField;
 
@@ -184,7 +184,8 @@ public class RecipeListUI extends ThaumicRecipeUI {
         title.setText("Recipe Editor: " + StringUtils.capitalize(type));
         setUpDragAndDrop(searchList, currentList);
         searchList.setItems(FXCollections.observableArrayList());
-        listName.setText("Current " + StringUtils.capitalize(type));
+        currentListName.setText("Current " + StringUtils.capitalize(type));
+        allListName.setText("All " + StringUtils.capitalize(type));
         searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
         displaySearchPattern("");
         if ((type.equals("ingredients") && editorRecipe.getIngredients() != null)) {
@@ -210,7 +211,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
                     currentList.getItems().add(searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0]);
                 }
             } else {
-                currentList.getItems().add(searchList.getSelectionModel().getSelectedItem());
+                currentList.getItems().add(searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0]);
             }
         }
     }

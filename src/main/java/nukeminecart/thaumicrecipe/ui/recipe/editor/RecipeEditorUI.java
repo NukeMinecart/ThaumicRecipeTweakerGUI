@@ -253,22 +253,41 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      */
     @FXML
     private void saveRecipeAndReturn() {
-        if (checkIfEmpty(nameField.getText(), outputField.getText())) return;
+        Alert alert = new Alert(Alert.AlertType.ERROR, "One or more field(s) are missing", ButtonType.CLOSE);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setHeaderText("Invalid inputs");
+        dialogPane.getStylesheets().add(
+                Objects.requireNonNull(getClass().getResource("../../resources/Dark.css")).toExternalForm());
+        dialogPane.setStyle("-fx-background-color: -fx-color");
+        alert.initOwner(stage.getOwner());
+        if (checkIfEmpty(nameField.getText(), outputField.getText())) {
+            alert.show();
+            return;
+        }
         switch (editorRecipe.getType()) {
             case "normal":
-                if (editorRecipe.getIngredients() == null || (editorRecipe.getShape() == null && shapelessCheckbox.isSelected()))
+                if (editorRecipe.getIngredients() == null || (editorRecipe.getShape() == null && shapelessCheckbox.isSelected())) {
+                    alert.show();
                     return;
+                }
                 break;
             case "arcane":
-                if (checkIfEmpty(visField.getText()) || ingredientsListview.getItems().isEmpty() || aspectListview.getItems().isEmpty() || editorRecipe.getShape() == null)
+                if (checkIfEmpty(visField.getText()) || ingredientsListview.getItems().isEmpty() || aspectListview.getItems().isEmpty() || editorRecipe.getShape() == null) {
+                    alert.show();
                     return;
+                }
                 break;
             case "crucible":
-                if (checkIfEmpty(inputField.getText()) || aspectListview.getItems().isEmpty()) return;
+                if (checkIfEmpty(inputField.getText()) || aspectListview.getItems().isEmpty()) {
+                    alert.show();
+                    return;
+                }
                 break;
             case "infusion":
-                if (checkIfEmpty(inputField.getText()) || ingredientsListview.getItems().isEmpty() || aspectListview.getItems().isEmpty())
+                if (checkIfEmpty(inputField.getText()) || ingredientsListview.getItems().isEmpty() || aspectListview.getItems().isEmpty()) {
+                    alert.show();
                     return;
+                }
                 break;
         }
         try {

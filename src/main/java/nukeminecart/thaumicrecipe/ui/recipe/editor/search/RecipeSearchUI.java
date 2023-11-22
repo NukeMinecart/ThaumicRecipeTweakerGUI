@@ -6,9 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.cell.EditorRecipeCellFactory;
 
 import java.io.IOException;
@@ -66,6 +68,9 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         }
     }
 
+    /**
+     * FXML event to return to {@link RecipeEditorUI} without saving
+     */
     @FXML
     private void returnToEditor() {
         instanceRecipeEditorUI.launchEditorFromSearch(null, searchType);
@@ -104,6 +109,7 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
     private void initialize() {
         searchList.setCellFactory(new EditorRecipeCellFactory());
         searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
+        searchField.setTooltip(new Tooltip("Double click an item to select it"));
         displaySearchPattern("");
     }
 }

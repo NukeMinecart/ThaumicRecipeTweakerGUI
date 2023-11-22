@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.*;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
@@ -87,6 +88,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     @FXML
     public void initialize() {
         ingredients.setItems(ingredientList);
+        ingredients.setTooltip(new Tooltip("Drag items onto the crafting grid"));
 
         targetListViews.clear();
         targetListViews.add(craft1);
