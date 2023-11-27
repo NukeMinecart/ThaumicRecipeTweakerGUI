@@ -56,6 +56,7 @@ public class ThaumicRecipeConstants {
         aspectList = new HashMap<>();
         ingredientsList = new HashMap<>();
         tempAspectList = new HashMap<>();
+        recipeList = new HashMap<>();
         new Thread(() -> {
             try {
                 getListsFromFile();
@@ -79,7 +80,6 @@ public class ThaumicRecipeConstants {
         File researchFile = new File(recipeDirectory, "research.lst");
         if (researchFile.exists()) researchList = FileParser.parseList(researchFile);
 
-        //TODO fix parsing and NullpointerExceptions with this
         File recipesFile = new File(recipeDirectory, "recipes.lst");
         if (recipesFile.exists()) {
             for (Recipe recipe : FileParser.getRecipesFromString(FileParser.readFile(recipesFile))) {

@@ -257,9 +257,10 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.setHeaderText("Invalid inputs");
         dialogPane.getStylesheets().add(
-                Objects.requireNonNull(getClass().getResource("../../resources/Dark.css")).toExternalForm());
+                Objects.requireNonNull(ThaumicRecipeConstants.class.getResource("resources/Dark.css")).toExternalForm());
         dialogPane.setStyle("-fx-background-color: -fx-color");
         alert.initOwner(stage.getOwner());
+
         if (checkIfEmpty(nameField.getText(), outputField.getText())) {
             alert.show();
             return;
@@ -290,16 +291,16 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
                 }
                 break;
         }
-        try {
-            if (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))
-                editorRecipe.setShape(shapelessCheckbox.isSelected() ? new String[0] : editorRecipe.getShape());
-            editorRecipe.setName(nameField.getText());
-            editorRecipe.setResearch(researchField.getText());
-            RecipeManagerUI.recipeEditorMap.put(editorRecipe.getName(), editorRecipe);
-            ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        if (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))
+            editorRecipe.setShape(shapelessCheckbox.isSelected() ? new String[0] : editorRecipe.getShape());
+        editorRecipe.setName(nameField.getText());
+        editorRecipe.setResearch(researchField.getText());
+        RecipeManagerUI.recipeEditorMap.put(editorRecipe.getName(), editorRecipe);
+            try {
+                ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
     }
 
     /**

@@ -10,6 +10,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
@@ -95,15 +96,17 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
     @FXML
     private void handleDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
-            try {
-                Recipe changeRecipe = recipeList.get(searchList.getSelectionModel().getSelectedItem());
-                if (changeRecipe != null) {
-                    changeEditorRecipe(recipeList.get(changeRecipe.getName()));
-                    instanceRecipeEditorUI.launchEditor();
+                String selectedItem = searchList.getSelectionModel().getSelectedItem();
+                if(selectedItem != null) {
+                    Recipe changeRecipe = recipeList.get(selectedItem);
+                    changeEditorRecipe(recipeList.get(changeRecipe.getName()).copy());
+                    try {
+                        new RecipeEditorUI().launchEditor();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+
         }
     }
 
