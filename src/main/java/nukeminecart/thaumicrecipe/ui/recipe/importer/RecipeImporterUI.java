@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.cell.EditorRecipeCellFactory;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
@@ -60,7 +61,7 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
         if(recipeList.isEmpty()) return;
         for (String key : recipeList.keySet()) {
             if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(key).find())
-                addToListView(key);
+                addToListView(key+stringArraySeparator+recipeList.get(key).getModid());
         }
     }
 
@@ -114,6 +115,7 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
     private void initialize() {
         searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
         searchField.setTooltip(new Tooltip("Double click an recipe to import it"));
+        searchList.setCellFactory(new EditorRecipeCellFactory());
         displaySearchPattern("");
     }
 

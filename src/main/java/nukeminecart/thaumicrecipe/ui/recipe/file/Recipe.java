@@ -2,12 +2,14 @@ package main.java.nukeminecart.thaumicrecipe.ui.recipe.file;
 
 import java.util.List;
 
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.MOD_ID;
+
 /**
  * A type used in ThaumicRecipeTweakerGUI that contains information about a specific recipe
  */
 public class Recipe {
 
-    private String name, input, output, type, research;
+    private String name, input, output, type, research, modid;
     private String[] ingredients, aspects, shape;
     private int vis;
 
@@ -24,10 +26,11 @@ public class Recipe {
      * @param aspects     a list of aspects
      * @param shape       a {@link String} containing the shape
      */
-    public Recipe(String name, String type, String research, String input, String[] ingredients, String output, int vis, String[] aspects, String... shape) {
+    public Recipe(String name, String type, String research, String modid, String input, String[] ingredients, String output, int vis, String[] aspects, String... shape) {
         this.name = name;
         this.type = type;
         this.research = research;
+        this.modid = modid;
         this.input = input;
         this.ingredients = ingredients;
         this.output = output;
@@ -43,6 +46,7 @@ public class Recipe {
         this.name = name;
         this.type = null;
         this.input = null;
+        this.modid = MOD_ID;
         this.ingredients = null;
         this.output = null;
         this.vis = -1;
@@ -56,7 +60,7 @@ public class Recipe {
      * @return the copied {@link Recipe}
      */
     public Recipe copy() {
-        return new Recipe(name, type, input, research, ingredients, output, vis, aspects, shape);
+        return new Recipe(name, type, research, modid, input, ingredients, output, vis, aspects, shape);
     }
 
     /**
@@ -219,6 +223,24 @@ public class Recipe {
      */
     public void setShape(String... shape) {
         this.shape = shape;
+    }
+
+    /**
+     * Gets the modid of the recipe
+     *
+     * @return the modid as a {@link String}
+     */
+    public String getModid() {
+        return this.modid;
+    }
+
+    /**
+     * Sets the modid of the recipe
+     *
+     * @param modid the modid as a {@link String}
+     */
+    public void setModid(String modid) {
+        this.modid = modid;
     }
 
 
