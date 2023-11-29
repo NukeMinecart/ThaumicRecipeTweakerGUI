@@ -133,13 +133,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
             Dragboard db = listView.startDragAndDrop(TransferMode.COPY);
             ClipboardContent cc = new ClipboardContent();
             String selectedItem = listView.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0];
-            if (!amountMap.containsKey(selectedItem)) {
-                amountMap.put(selectedItem, 1);
-                cc.putString(selectedItem + mapSeparator + 1);
-            } else {
-                int amount = amountMap.get(selectedItem);
-                cc.putString(selectedItem + mapSeparator + amount);
-            }
+            cc.putString(selectedItem);
             db.setContent(cc);
             event.consume();
         }
@@ -176,7 +170,17 @@ public class RecipeListUI extends ThaumicRecipeUI {
         Dragboard db = event.getDragboard();
         boolean success = false;
         if (db.hasString()) {
-            listView.getItems().add(db.getString());
+            String selectedItem = db.getString();
+            if (!amountMap.containsKey(selectedItem)) {
+                amountMap.put(selectedItem, 1);
+                selectedItem = selectedItem + mapSeparator + 1;
+            } else {
+                int amount = amountMap.get(selectedItem);
+                selectedItem = selectedItem + mapSeparator + (amount+1);
+                amountMap.put(selectedItem, amount+1);
+                listView.getItems().remove(selectedItem+mapSeparator+amount);
+            }
+            listView.getItems().add(selectedItem);
             success = true;
         }
         event.setDropCompleted(success);
@@ -223,9 +227,10 @@ public class RecipeListUI extends ThaumicRecipeUI {
     @FXML
     private void handleAddDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
+            String selectedItem = searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0];
+
             if (type.equals("ingredients") && (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))) {
                 if (currentList.getItems().size() < 9) {
-                    String selectedItem = searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0];
                     if (!amountMap.containsKey(selectedItem)) {
                         amountMap.put(selectedItem, 1);
                         currentList.getItems().add(selectedItem + mapSeparator + 1);
@@ -233,10 +238,21 @@ public class RecipeListUI extends ThaumicRecipeUI {
                         int amount = amountMap.get(selectedItem);
                         currentList.getItems().remove(selectedItem + mapSeparator + amount);
                         currentList.getItems().add(selectedItem + mapSeparator + (amount + 1));
+                        amountMap.put(selectedItem, amount + 1);
+
                     }
                 }
             } else {
-                currentList.getItems().add(searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0]);
+                if (!amountMap.containsKey(selectedItem)) {
+                    amountMap.put(selectedItem, 1);
+                    currentList.getItems().add(selectedItem + mapSeparator + 1);
+                } else {
+                    int amount = amountMap.get(selectedItem);
+                    currentList.getItems().remove(selectedItem + mapSeparator + amount);
+                    currentList.getItems().add(selectedItem + mapSeparator + (amount + 1));
+                    amountMap.put(selectedItem, amount + 1);
+
+                }
             }
         }
     }
@@ -246,12 +262,8 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
 
     public void saveList() {
-        HashMap<String, Integer> tempHashmap = new HashMap<>();
-        for (String item : currentList.getItems()) {
-            tempHashmap.put(item.split(mapSeparator)[0], Integer.parseInt(item.split(mapSeparator)[1]));
-        }
-        if (type.equals("ingredients")) editorRecipe.setIngredients(tempHashmap);
-        else editorRecipe.setAspects(tempHashmap);
+        if (type.equals("ingredients")) editorRecipe.setIngredients(amountMap);
+        else editorRecipe.setAspects(amountMap);
 
         returnToEditor();
     }

@@ -45,13 +45,12 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
      */
     @FXML
     private void initialize() {
-        //TODO SAVE THE AMOUNT WHEN IT CHANGES TO THE RECIPELIST's hashmap
         searchItem.setText(item.split(mapSeparator)[0]);
         itemAmount.setText(item.split(mapSeparator)[1]);
         amount = Integer.parseInt(itemAmount.getText());
         itemAmount.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("\\D")) {
-                itemAmount.setText(newValue.replaceAll("\\D", ""));
+            if (newValue.matches("[^0-9x]")) {
+                itemAmount.setText(newValue.replaceAll("[^0-9x]", ""));
             }
             if (!itemAmount.getText().isEmpty()) {
                 amount = Integer.parseInt(itemAmount.getText());
@@ -78,7 +77,6 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
             }
             amountMap.remove(item.split(mapSeparator)[0]);
             amountMap.put(item.split(mapSeparator)[0], amount);
-
         }
     }
 
