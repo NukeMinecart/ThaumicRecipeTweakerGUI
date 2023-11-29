@@ -19,7 +19,7 @@
             <Font name="Arial" size="14.0"/>
         </font>
     </Label>
-    <ListView fx:id="currentList" layoutX="31.0" layoutY="88.0" prefHeight="345.0" prefWidth="177.0"
+    <ListView fx:id="currentList" layoutX="31.0" layoutY="88.0" prefHeight="345.0" prefWidth="175.0"
               style="-fx-background-color: -fx-color; -fx-control-inner-background: -fx-color;"/>
     <Label fx:id="currentListName" layoutX="51.0" layoutY="54.0" text="Current LIST_NAME">
         <font>

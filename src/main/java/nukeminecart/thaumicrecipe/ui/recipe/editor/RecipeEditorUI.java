@@ -20,6 +20,8 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
@@ -106,10 +108,20 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         outputField.setText(editorRecipe.getOutput());
         nameField.setText(editorRecipe.getName());
         researchField.setText(editorRecipe.getResearch());
-        if (editorRecipe.getIngredients() != null)
-            ingredientsListview.setItems(FXCollections.observableArrayList(editorRecipe.getIngredients()));
-        if (editorRecipe.getAspects() != null)
-            aspectListview.setItems(FXCollections.observableArrayList(editorRecipe.getAspects()));
+
+        List<String> tempList = new ArrayList<>();
+        if (editorRecipe.getIngredients() != null) {
+            for (String key : editorRecipe.getIngredients().keySet()) {
+                tempList.add(key + " x" + editorRecipe.getIngredients().get(key));
+            }
+            ingredientsListview.setItems(FXCollections.observableArrayList(tempList));
+        }
+        if (editorRecipe.getAspects() != null) {
+            for (String key : editorRecipe.getAspects().keySet()) {
+                tempList.add(key  + " x" +  editorRecipe.getAspects().get(key));
+            }
+            aspectListview.setItems(FXCollections.observableArrayList(tempList));
+        }
         if (editorRecipe.getType() == null) editorRecipe.setType("normal");
         switch (editorRecipe.getType()) {
             default:
@@ -256,8 +268,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         Alert alert = new Alert(Alert.AlertType.ERROR, "One or more field(s) are missing", ButtonType.CLOSE);
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.setHeaderText("Invalid inputs");
-        dialogPane.getStylesheets().add(
-                Objects.requireNonNull(ThaumicRecipeConstants.class.getResource("resources/Dark.css")).toExternalForm());
+        dialogPane.getStylesheets().add(Objects.requireNonNull(ThaumicRecipeConstants.class.getResource("resources/Dark.css")).toExternalForm());
         dialogPane.setStyle("-fx-background-color: -fx-color");
         alert.initOwner(stage.getOwner());
 
@@ -296,11 +307,11 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         editorRecipe.setName(nameField.getText());
         editorRecipe.setResearch(researchField.getText());
         RecipeManagerUI.recipeEditorMap.put(editorRecipe.getName(), editorRecipe);
-            try {
-                ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

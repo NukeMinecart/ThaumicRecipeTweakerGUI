@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
-import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -15,7 +15,7 @@ import java.util.Objects;
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.stringArraySeparator;
 
 /**
- * Class that contains the cell factory for {@link RecipeManagerUI}
+ * Class that contains the cell factory for {@link RecipeEditorUI}
  */
 public class EditorRecipeCellFactory implements Callback<ListView<String>, ListCell<String>> {
 

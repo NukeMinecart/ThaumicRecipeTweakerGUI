@@ -84,15 +84,15 @@ public class FileParser {
         returnRecipe.append(recipe.getModid()).append(stringSeparator);
         returnRecipe.append(recipe.getInput()).append(stringSeparator);
 
-        for (String ingredient : recipe.getIngredients()) {
-            returnRecipe.append(ingredient).append(stringArraySeparator);
+        for (String ingredient : recipe.getIngredients().keySet()) {
+            returnRecipe.append(ingredient).append(mapSeparator).append(recipe.getIngredients().get(ingredient)).append(stringArraySeparator);
         }
         returnRecipe.append(stringSeparator);
         returnRecipe.append(recipe.getOutput()).append(stringSeparator);
 
         returnRecipe.append(recipe.getVis()).append(stringSeparator);
-        for (String aspect : recipe.getAspects()) {
-            returnRecipe.append(aspect).append(stringArraySeparator);
+        for (String aspect : recipe.getAspects().keySet()) {
+            returnRecipe.append(aspect).append(mapSeparator).append(recipe.getAspects().get(aspect)).append(stringArraySeparator);
         }
         returnRecipe.append(stringSeparator);
         for (Object shape : recipe.getShape()) {
@@ -110,17 +110,36 @@ public class FileParser {
      */
     public static Recipe parseRecipe(String line) {
         String[] compressedRecipe = line.split(stringSeparator);
-        String name = compressedRecipe[0];
-        String type = compressedRecipe[1];
-        String research = compressedRecipe[2];
-        String modid = compressedRecipe[3];
-        String input = compressedRecipe[4];
-        String[] ingredients = compressedRecipe[5].split(stringArraySeparator);
-        String output = compressedRecipe[6];
-        int vis = Integer.parseInt(compressedRecipe[7]);
-        String[] aspects = compressedRecipe[8].split(stringArraySeparator);
-        String[] shape = compressedRecipe[9].split(stringArraySeparator);
+        String name = null;
+        String type = null;
+        String research = null;
+        String modid = null;
+        String input = null;
+        HashMap<String, Integer> ingredients = new HashMap<>();
+        String output = null;
+        int vis = 0;
+        HashMap<String, Integer> aspects = new HashMap<>();
+        String[] shape = null;
+        try {
+             name = compressedRecipe[0];
+             type = compressedRecipe[1];
+             research = compressedRecipe[2];
+             modid = compressedRecipe[3];
+             input = compressedRecipe[4];
+             ingredients = new HashMap<>();
+            for (String ingredient : compressedRecipe[5].split(stringArraySeparator)) {
+                ingredients.put(ingredient.split(mapSeparator)[0], Integer.parseInt(ingredient.split(mapSeparator)[1]));
+            }
+             output = compressedRecipe[6];
+             vis = Integer.parseInt(compressedRecipe[7]);
+             aspects = new HashMap<>();
+            for (String aspect : compressedRecipe[8].split(stringArraySeparator)) {
+                aspects.put(aspect.split(mapSeparator)[0], Integer.parseInt(aspect.split(mapSeparator)[1]));
+            }
+             shape = compressedRecipe[9].split(stringArraySeparator);
+        }catch(ArrayIndexOutOfBoundsException ignored){
 
+        }
         return new Recipe(name, type, research, modid, input, ingredients, output, vis, aspects, shape);
     }
 

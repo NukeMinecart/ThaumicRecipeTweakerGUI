@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ThaumicRecipeConstants {
-    public static String separator, recipeDirectory, loadedRecipe, MOD_ID, stringArraySeparator, stringSeparator;
+    public static String separator, recipeDirectory, loadedRecipe, MOD_ID, stringArraySeparator, stringSeparator, mapSeparator;
     public static String fileExistsWarning, noFileInConfigWarning;
     public static Recipe editorRecipe, originalRecipe;
     public static boolean editorRecipeExisted;
@@ -46,6 +46,7 @@ public class ThaumicRecipeConstants {
         separator = System.getProperty("file.separator");
         recipeDirectory = args.length > 0 ? args[0] + separator + MOD_ID + separator : null;
         loadedRecipe = args.length > 1 ? args[1] : null;
+        mapSeparator = ":";
         stringSeparator = "-=-";
         stringArraySeparator = "-";
         stageWidth = 750;
@@ -57,13 +58,15 @@ public class ThaumicRecipeConstants {
         ingredientsList = new HashMap<>();
         tempAspectList = new HashMap<>();
         recipeList = new HashMap<>();
-        new Thread(() -> {
+        Thread fileThread =  new Thread(() -> {
             try {
                 getListsFromFile();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }).start();
+        });
+       fileThread.setName("ThaumicRecipeTweakerGUI File Loader Thread");
+       fileThread.start();
     }
 
     /**
