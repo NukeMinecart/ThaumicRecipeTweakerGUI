@@ -1,94 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="500.0" prefWidth="750.0"
-            style="-fx-background-color: #222428;" stylesheets="@../../resources/Dark.css"
-            xmlns="http://javafx.com/javafx/17.0.2-ea"
-            fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI">
-    <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged"
-               onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;"
-               styleClass="tool-bar" width="750.0"/>
-    <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" styleClass="button" text="X"/>
-    <ListView fx:id="recipeList" layoutX="28.0" layoutY="119.0" prefHeight="359.0" prefWidth="200.0"
-              style="-fx-control-inner-background: #242526;"/>
-    <Label fx:id="title" layoutX="14.0" layoutY="5.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed"
-           prefHeight="20.0" prefWidth="353.0" text="Recipe Manager">
+
+<AnchorPane prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #222428;" stylesheets="@../../resources/Dark.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI">
+    <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;" styleClass="tool-bar" width="750.0" />
+    <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" style="-fx-background-color: #181716;" styleClass="button" text="X" />
+    <ListView fx:id="recipeList" layoutX="28.0" layoutY="119.0" prefHeight="359.0" prefWidth="200.0" style="-fx-control-inner-background: #242526;" />
+    <Label fx:id="title" layoutX="14.0" layoutY="5.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" prefHeight="20.0" prefWidth="353.0" text="Recipe Manager">
         <font>
-            <Font name="Arial" size="14.0"/>
+            <Font name="Arial" size="14.0" />
         </font>
     </Label>
-    <Button layoutX="239.0" layoutY="115.0" mnemonicParsing="false" onAction="#addRecipe" prefHeight="25.0"
-            prefWidth="25.0" text="+"/>
+    <Button layoutX="239.0" layoutY="115.0" mnemonicParsing="false" onAction="#addRecipe" prefHeight="25.0" prefWidth="25.0" text="+" />
     <Label fx:id="recipeListLabel" layoutX="28.0" layoutY="83.0" text="Recipes in RCPFILE">
         <font>
-            <Font size="15.0"/>
+            <Font size="15.0" />
         </font>
     </Label>
-    <TextField fx:id="nameField" layoutX="243.0" layoutY="153.0" prefHeight="25.0" prefWidth="124.0" promptText="Name"
-               visible="false"/>
+    <TextField fx:id="nameField" layoutX="243.0" layoutY="153.0" prefHeight="25.0" prefWidth="124.0" promptText="Name" visible="false" />
     <Label layoutX="239.0" layoutY="84.0" text="Add Recipe">
         <font>
-            <Font size="13.0"/>
+            <Font size="13.0" />
         </font>
     </Label>
-    <Separator layoutX="372.0" layoutY="29.0" orientation="VERTICAL" prefHeight="470.0" prefWidth="3.0"/>
+    <Separator layoutX="372.0" layoutY="29.0" orientation="VERTICAL" prefHeight="470.0" prefWidth="3.0" />
     <Label layoutX="388.0" layoutY="39.0" text="Save">
         <font>
-            <Font size="16.0"/>
+            <Font size="16.0" />
         </font>
     </Label>
     <Button layoutX="433.0" layoutY="360.0" mnemonicParsing="false" onAction="#saveRecipeToFolder" text="Save">
         <font>
-            <Font size="13.0"/>
+            <Font size="13.0" />
         </font>
     </Button>
     <Button layoutX="618.0" layoutY="360.0" mnemonicParsing="false" onAction="#saveRecipeToOther" text="Save As">
         <font>
-            <Font size="13.0"/>
+            <Font size="13.0" />
         </font>
     </Button>
-    <CheckBox fx:id="activeSelection" layoutX="476.0" layoutY="105.0" mnemonicParsing="false" selected="true"
-              text="Set as active recipe">
+    <CheckBox fx:id="activeSelection" layoutX="476.0" layoutY="105.0" mnemonicParsing="false" selected="true" text="Set as active recipe">
         <font>
-            <Font size="13.0"/>
+            <Font size="13.0" />
         </font>
     </CheckBox>
-    <CheckBox fx:id="displaySelection" layoutX="437.0" layoutY="168.0" mnemonicParsing="false" selected="true"
-              text="Display this GUI again on startup">
+    <CheckBox fx:id="displaySelection" layoutX="437.0" layoutY="168.0" mnemonicParsing="false" selected="true" text="Display this GUI again on startup">
         <font>
-            <Font size="13.0"/>
+            <Font size="13.0" />
         </font>
     </CheckBox>
-    <CheckBox fx:id="closeSelection" layoutX="468.0" layoutY="231.0" mnemonicParsing="false" selected="true"
-              text="Close this after saving">
+    <CheckBox fx:id="closeSelection" layoutX="468.0" layoutY="231.0" mnemonicParsing="false" selected="true" text="Close this after saving">
         <font>
-            <Font size="13.0"/>
+            <Font size="13.0" />
         </font>
     </CheckBox>
-    <Label layoutX="388.0" layoutY="286.0" prefHeight="47.0" prefWidth="134.0" text="Save in the ThaumicRecipe folder"
-           textAlignment="CENTER" wrapText="true">
+    <Label layoutX="388.0" layoutY="286.0" prefHeight="47.0" prefWidth="134.0" text="Save in the ThaumicRecipe folder" textAlignment="CENTER" wrapText="true">
         <font>
-            <Font size="13.0"/>
+            <Font size="13.0" />
         </font>
     </Label>
-    <Label layoutX="567.0" layoutY="280.0" prefHeight="59.0" prefWidth="165.0"
-           text="Save somewhere else (cannot set as active recipe)" textAlignment="CENTER" wrapText="true">
+    <Label layoutX="567.0" layoutY="280.0" prefHeight="59.0" prefWidth="165.0" text="Save somewhere else (cannot set as active recipe)" textAlignment="CENTER" wrapText="true">
         <font>
-            <Font size="13.0"/>
+            <Font size="13.0" />
         </font>
     </Label>
     <Label layoutX="14.0" layoutY="43.0" text="Edit">
         <font>
-            <Font size="16.0"/>
+            <Font size="16.0" />
         </font>
     </Label>
     <Label layoutX="238.0" layoutY="223.0" text="Import Existing Recipe">
         <font>
-            <Font size="13.0"/>
+            <Font size="13.0" />
         </font>
     </Label>
-    <Button layoutX="239.0" layoutY="252.0" mnemonicParsing="false" onAction="#importExistingRecipe" text="+"/>
+    <Button layoutX="239.0" layoutY="252.0" mnemonicParsing="false" onAction="#importExistingRecipe" text="+" />
 </AnchorPane>

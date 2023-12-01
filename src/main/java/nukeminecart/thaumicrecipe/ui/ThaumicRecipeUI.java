@@ -27,6 +27,7 @@ public class ThaumicRecipeUI {
     @FXML
     private void closeScreen() {
         try {
+            //TODO FIX RUNTIME CRASH WITH CLOSING
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/CloseUi.fxml"))));
             alert.setTitle("Close Confirmation");
