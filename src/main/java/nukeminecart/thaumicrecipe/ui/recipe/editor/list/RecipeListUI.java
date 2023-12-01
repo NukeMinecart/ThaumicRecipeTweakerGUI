@@ -59,6 +59,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
     public void launchListEditor(String type, boolean restricted) throws IOException {
         RecipeListUI.type = type;
         RecipeListUI.restricted = restricted;
+        amountMap = type.equals("ingredients") ? ingredientsMap : aspectMap;
         UIManager.loadScreen(getScene(), "list");
     }
 
@@ -88,7 +89,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
     private void addToListView(String item) {
         Platform.runLater(() -> {
             searchList.getItems().add(item);
-            searchList.getItems().sort(Comparator.comparing(String::toString));
+            searchList.getItems().sort(Comparator.comparing(s -> s.split(mapSeparator)[0]));
         });
     }
 
@@ -176,9 +177,9 @@ public class RecipeListUI extends ThaumicRecipeUI {
                 selectedItem = selectedItem + mapSeparator + 1;
             } else {
                 int amount = amountMap.get(selectedItem);
-                selectedItem = selectedItem + mapSeparator + (amount+1);
-                amountMap.put(selectedItem, amount+1);
-                listView.getItems().remove(selectedItem+mapSeparator+amount);
+                amountMap.put(selectedItem, amount + 1);
+                listView.getItems().remove(selectedItem + mapSeparator + amount);
+                selectedItem = selectedItem + mapSeparator + (amount + 1);
             }
             listView.getItems().add(selectedItem);
             success = true;
@@ -231,29 +232,22 @@ public class RecipeListUI extends ThaumicRecipeUI {
 
             if (type.equals("ingredients") && (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))) {
                 if (currentList.getItems().size() < 9) {
-                    if (!amountMap.containsKey(selectedItem)) {
-                        amountMap.put(selectedItem, 1);
-                        currentList.getItems().add(selectedItem + mapSeparator + 1);
-                    } else {
+                    if (!amountMap.containsKey(selectedItem)) amountMap.put(selectedItem, 1);
+                    else {
                         int amount = amountMap.get(selectedItem);
                         currentList.getItems().remove(selectedItem + mapSeparator + amount);
-                        currentList.getItems().add(selectedItem + mapSeparator + (amount + 1));
                         amountMap.put(selectedItem, amount + 1);
-
                     }
-                }
+                } else return;
             } else {
-                if (!amountMap.containsKey(selectedItem)) {
-                    amountMap.put(selectedItem, 1);
-                    currentList.getItems().add(selectedItem + mapSeparator + 1);
-                } else {
+                if (!amountMap.containsKey(selectedItem)) amountMap.put(selectedItem, 1);
+                else {
                     int amount = amountMap.get(selectedItem);
                     currentList.getItems().remove(selectedItem + mapSeparator + amount);
-                    currentList.getItems().add(selectedItem + mapSeparator + (amount + 1));
                     amountMap.put(selectedItem, amount + 1);
-
                 }
             }
+            currentList.getItems().add(selectedItem + mapSeparator + amountMap.get(selectedItem));
         }
     }
 

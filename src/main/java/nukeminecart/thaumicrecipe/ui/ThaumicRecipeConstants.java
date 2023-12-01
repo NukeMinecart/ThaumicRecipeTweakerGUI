@@ -24,6 +24,7 @@ public class ThaumicRecipeConstants {
     public static HashMap<String, Scene> cachedScenes;
     public static HashMap<String, String> aspectList, tempAspectList, ingredientsList, researchList;
     public static HashMap<String, Recipe> recipeList;
+    public static HashMap<String, Integer> ingredientsMap, aspectMap;
 
 
     /**
@@ -58,15 +59,17 @@ public class ThaumicRecipeConstants {
         ingredientsList = new HashMap<>();
         tempAspectList = new HashMap<>();
         recipeList = new HashMap<>();
-        Thread fileThread =  new Thread(() -> {
+        aspectMap = new HashMap<>();
+        ingredientsMap = new HashMap<>();
+        Thread fileThread = new Thread(() -> {
             try {
                 getListsFromFile();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
-       fileThread.setName("ThaumicRecipeTweakerGUI File Loader Thread");
-       fileThread.start();
+        fileThread.setName("ThaumicRecipeTweakerGUI File Loader Thread");
+        fileThread.start();
     }
 
     /**

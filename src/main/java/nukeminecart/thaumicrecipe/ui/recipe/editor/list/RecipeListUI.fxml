@@ -12,7 +12,8 @@
     <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged"
                onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;"
                styleClass="tool-bar" width="750.0"/>
-    <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" styleClass="button" text="X"/>
+    <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen"
+            style="-fx-background-color: #181716;" styleClass="button" text="X"/>
     <Label fx:id="title" layoutX="14.0" layoutY="5.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed"
            prefHeight="20.0" prefWidth="353.0" text="Recipe Editor: List">
         <font>

@@ -58,10 +58,10 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
      */
     private void displaySearchPattern(String searchTerm) {
         searchList.getItems().clear();
-        if(recipeList.isEmpty()) return;
+        if (recipeList.isEmpty()) return;
         for (String key : recipeList.keySet()) {
             if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(key).find())
-                addToListView(key+stringArraySeparator+recipeList.get(key).getModid());
+                addToListView(key + stringArraySeparator + recipeList.get(key).getModid());
         }
     }
 
@@ -97,16 +97,16 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
     @FXML
     private void handleDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
-                String selectedItem = searchList.getSelectionModel().getSelectedItem();
-                if(selectedItem != null) {
-                    Recipe changeRecipe = recipeList.get(selectedItem);
-                    changeEditorRecipe(recipeList.get(changeRecipe.getName()).copy());
-                    try {
-                        new RecipeEditorUI().launchEditor();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+            String selectedItem = searchList.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                Recipe changeRecipe = recipeList.get(selectedItem);
+                changeEditorRecipe(recipeList.get(changeRecipe.getName()).copy());
+                try {
+                    new RecipeEditorUI().launchEditor();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
+            }
 
         }
     }

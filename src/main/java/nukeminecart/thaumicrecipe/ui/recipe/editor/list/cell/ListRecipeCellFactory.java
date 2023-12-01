@@ -49,13 +49,12 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
         itemAmount.setText(item.split(mapSeparator)[1]);
         amount = Integer.parseInt(itemAmount.getText());
         itemAmount.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.matches("[^0-9x]")) {
-                itemAmount.setText(newValue.replaceAll("[^0-9x]", ""));
-            }
+            itemAmount.setText(newValue.replaceAll("[^0-9]", ""));
             if (!itemAmount.getText().isEmpty()) {
                 amount = Integer.parseInt(itemAmount.getText());
                 amountMap.put(item.split(mapSeparator)[0], amount);
             }
+
         });
         itemAmount.setOnKeyPressed(this::changeItemAmount);
     }
@@ -66,18 +65,20 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
      * @param event the {@link KeyEvent}
      */
     private void changeItemAmount(KeyEvent event) {
+        itemAmount.setText(itemAmount.getText().replaceAll("[^0-9]", ""));
+
         if (amount >= 0) {
             switch (event.getCode()) {
                 case UP:
                     itemAmount.setText(String.valueOf(amount + 1));
                     break;
                 case DOWN:
-                    itemAmount.setText(String.valueOf((amount - 1) == -1 ? 0 : amount - 1));
+                    itemAmount.setText(String.valueOf((amount - 1) == 0 ? 1 : amount - 1));
                     break;
             }
-            amountMap.remove(item.split(mapSeparator)[0]);
-            amountMap.put(item.split(mapSeparator)[0], amount);
         }
+        amount = Integer.parseInt(itemAmount.getText());
+        amountMap.put(item.split(mapSeparator)[0], amount);
     }
 
 
@@ -104,8 +105,5 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
                 }
             }
         }
-
-
     }
-
 }

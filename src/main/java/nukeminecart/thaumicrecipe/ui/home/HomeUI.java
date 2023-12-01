@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
@@ -54,6 +55,13 @@ public class HomeUI extends ThaumicRecipeUI {
     @FXML
     private void initialize() {
         instanceHomeUI = this;
+        newField.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER))
+                newRecipe();
+        });
+        loadField.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) loadRecipe();
+        });
     }
 
     /**

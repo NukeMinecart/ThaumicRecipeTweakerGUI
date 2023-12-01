@@ -2,13 +2,23 @@ package main.java.nukeminecart.thaumicrecipe.ui;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.IOException;
+import java.util.Objects;
+
+import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.stage;
 
 /**
  * Base class for all ThaumicRecipeGUI scenes containing a standard "toolbar"
  */
 
 public class ThaumicRecipeUI {
+    private static Stage dialogeStage;
     private double offsetX, offsetY;
 
     /**
@@ -16,7 +26,21 @@ public class ThaumicRecipeUI {
      */
     @FXML
     private void closeScreen() {
-        Platform.exit();
+        try {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/CloseUi.fxml"))));
+            alert.setTitle("Close Confirmation");
+            alert.initOwner(stage.getOwner());
+            dialogeStage = (Stage) alert.getDialogPane().getScene().getWindow();
+            dialogeStage.initStyle(StageStyle.UNDECORATED);
+            alert.show();
+            dialogeStage.setX((stage.getX() + stage.getWidth() / 2) - (dialogeStage.getWidth() / 2));
+            dialogeStage.setY((stage.getY() + stage.getHeight() / 2) - (dialogeStage.getHeight() / 2));
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -26,8 +50,8 @@ public class ThaumicRecipeUI {
      */
     @FXML
     private void panePressed(MouseEvent me) {
-        offsetX = UIManager.stage.getX() - me.getScreenX();
-        offsetY = UIManager.stage.getY() - me.getScreenY();
+        offsetX = stage.getX() - me.getScreenX();
+        offsetY = stage.getY() - me.getScreenY();
     }
 
     /**
@@ -37,7 +61,24 @@ public class ThaumicRecipeUI {
      */
     @FXML
     private void paneDragged(MouseEvent me) {
-        UIManager.stage.setX(offsetX + me.getScreenX());
-        UIManager.stage.setY(offsetY + me.getScreenY());
+        stage.setX(offsetX + me.getScreenX());
+        stage.setY(offsetY + me.getScreenY());
+    }
+
+
+    /**
+     * FXML event to exit the editor
+     */
+    @FXML
+    private void confirmExit() {
+        Platform.exit();
+    }
+
+    /**
+     * FXML event to not exit the editor
+     */
+    @FXML
+    private void cancelExit() {
+        dialogeStage.close();
     }
 }

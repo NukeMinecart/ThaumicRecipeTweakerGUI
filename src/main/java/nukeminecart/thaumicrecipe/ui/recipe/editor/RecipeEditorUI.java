@@ -109,16 +109,21 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         nameField.setText(editorRecipe.getName());
         researchField.setText(editorRecipe.getResearch());
 
-        List<String> tempList = new ArrayList<>();
         if (editorRecipe.getIngredients() != null) {
+            List<String> tempList = new ArrayList<>();
+
             for (String key : editorRecipe.getIngredients().keySet()) {
+                if (editorRecipe.getIngredients().get(key) == 0) continue;
                 tempList.add(key + " x" + editorRecipe.getIngredients().get(key));
             }
             ingredientsListview.setItems(FXCollections.observableArrayList(tempList));
         }
         if (editorRecipe.getAspects() != null) {
+            List<String> tempList = new ArrayList<>();
+
             for (String key : editorRecipe.getAspects().keySet()) {
-                tempList.add(key  + " x" +  editorRecipe.getAspects().get(key));
+                if (editorRecipe.getAspects().get(key) == 0) continue;
+                tempList.add(key + " x" + editorRecipe.getAspects().get(key));
             }
             aspectListview.setItems(FXCollections.observableArrayList(tempList));
         }

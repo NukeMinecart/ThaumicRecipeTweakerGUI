@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.cachedScenes;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.editorRecipe;
 
 /**
  * The class that contains all the controller elements and logic for the RecipeShapeUI parent
@@ -52,11 +53,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         ingredientList.clear();
         largeSize = true;
         if (editorRecipe.getIngredients() != null) {
-            List<String> ingredients = new ArrayList<>();
-            for(String key : editorRecipe.getIngredients().keySet()){
-                ingredients.add(key+mapSeparator+editorRecipe.getIngredients().get(key));
-            }
-            ingredientList.addAll(ingredients);
+            ingredientList.addAll(editorRecipe.getIngredients().keySet());
         }
         if (!cachedScenes.containsKey("shape")) {
             UIManager.loadScreen(getScene(), "shape");
