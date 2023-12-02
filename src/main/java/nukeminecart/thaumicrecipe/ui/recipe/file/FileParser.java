@@ -159,7 +159,7 @@ public class FileParser {
         for (String line : contents) {
             recipes.add(parseRecipe(line));
         }
-        if(parseError) new ThaumicRecipeUI().throwAlert(ThaumicRecipeUI.WarningType.PARSE);
+        if (parseError) new ThaumicRecipeUI().throwAlert(ThaumicRecipeUI.WarningType.PARSE);
         return recipes.toArray(new Recipe[0]);
     }
 

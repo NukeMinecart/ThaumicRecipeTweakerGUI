@@ -15,7 +15,7 @@ public class RecipeService {
     /**
      * Performs error handling on the loadOtherRecipe
      *
-     * @param path   the path of the {@link File}
+     * @param path the path of the {@link File}
      */
     public static void loadOtherRecipe(String path) {
         if (path == null) {
@@ -52,7 +52,6 @@ public class RecipeService {
 
     /**
      * Loads the recipe from the configuration file
-     *
      */
     public static void loadConfigRecipe() {
         if (loadedRecipe != null) {
@@ -85,8 +84,7 @@ public class RecipeService {
 
             deleted = testfile.delete();
             if (!deleted) instanceHomeUI.throwAlert(ThaumicRecipeUI.WarningType.LOAD);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             instanceHomeUI.throwNewWarning("Filename is invalid");
             return false;
         }

@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -22,6 +21,7 @@ import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.stage;
 public class ThaumicRecipeUI {
     private static Stage dialogeStage;
     private double offsetX, offsetY;
+
     /**
      * FXML event to close the screen
      */
@@ -33,7 +33,7 @@ public class ThaumicRecipeUI {
     /**
      * Create a new {@link Alert} / warning for the user
      *
-     * @param type      the {@link WarningType} to throw
+     * @param type the {@link WarningType} to throw
      */
     public void throwAlert(WarningType type) {
         Platform.runLater(() -> {

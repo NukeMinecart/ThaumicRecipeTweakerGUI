@@ -1,55 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="500.0" prefWidth="750.0"
+            style="-fx-background-color: #222428;" stylesheets="@../../../resources/Dark.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
+            fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI">
 
-<AnchorPane prefHeight="500.0" prefWidth="750.0" style="-fx-background-color: #222428;" stylesheets="@../../../resources/Dark.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI">
-
-    <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;" styleClass="tool-bar" width="750.0" />
-    <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen" style="-fx-background-color: #181716;" styleClass="button" text="X" />
-    <Label fx:id="title" layoutX="14.0" layoutY="5.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed" prefHeight="20.0" prefWidth="353.0" text="Recipe Editor: List">
+    <Rectangle arcHeight="5.0" arcWidth="5.0" height="29.0" layoutY="1.0" onMouseDragged="#paneDragged"
+               onMousePressed="#panePressed" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;"
+               styleClass="tool-bar" width="750.0"/>
+    <Button layoutX="725.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeScreen"
+            style="-fx-background-color: #181716;" styleClass="button" text="X"/>
+    <Label fx:id="title" layoutX="14.0" layoutY="5.0" onMouseDragged="#paneDragged" onMousePressed="#panePressed"
+           prefHeight="20.0" prefWidth="353.0" text="Recipe Editor: List">
         <font>
-            <Font name="Arial" size="14.0" />
+            <Font name="Arial" size="14.0"/>
         </font>
     </Label>
-    <ListView fx:id="currentList" layoutX="31.0" layoutY="88.0" prefHeight="345.0" prefWidth="175.0" style="-fx-background-color: -fx-color; -fx-control-inner-background: -fx-color;" />
+    <ListView fx:id="currentList" layoutX="31.0" layoutY="88.0" prefHeight="345.0" prefWidth="175.0"
+              style="-fx-background-color: -fx-color; -fx-control-inner-background: -fx-color;"/>
     <Label fx:id="currentListName" layoutX="51.0" layoutY="54.0" text="Current LIST_NAME">
         <font>
-            <Font size="16.0" />
+            <Font size="16.0"/>
         </font>
     </Label>
-    <ListView fx:id="searchList" layoutX="240.0" layoutY="160.0" onMouseClicked="#handleAddDoubleClick" prefHeight="310.0" prefWidth="480.0" style="-fx-background-color: -fx-color; -fx-control-inner-background: -fx-color;" />
-    <TextField fx:id="searchField" layoutX="260.0" layoutY="115.0" prefHeight="25.0" prefWidth="440.0" promptText="Search">
-      <font>
-         <Font size="13.0" />
-      </font></TextField>
-    <Button layoutX="636.0" layoutY="55.0" mnemonicParsing="false" onAction="#saveList" prefHeight="29.0" prefWidth="80.0" text="Save">
+    <ListView fx:id="searchList" layoutX="240.0" layoutY="160.0" onMouseClicked="#handleAddDoubleClick"
+              prefHeight="310.0" prefWidth="480.0"
+              style="-fx-background-color: -fx-color; -fx-control-inner-background: -fx-color;"/>
+    <TextField fx:id="searchField" layoutX="260.0" layoutY="115.0" prefHeight="25.0" prefWidth="440.0"
+               promptText="Search">
         <font>
-            <Font size="15.0" />
+            <Font size="13.0"/>
+        </font>
+    </TextField>
+    <Button layoutX="636.0" layoutY="55.0" mnemonicParsing="false" onAction="#saveList" prefHeight="29.0"
+            prefWidth="80.0" text="Save">
+        <font>
+            <Font size="15.0"/>
         </font>
     </Button>
-    <Button layoutX="536.0" layoutY="55.0" mnemonicParsing="false" onAction="#returnToEditor" prefHeight="31.0" prefWidth="80.0" text="Return">
+    <Button layoutX="536.0" layoutY="55.0" mnemonicParsing="false" onAction="#returnToEditor" prefHeight="31.0"
+            prefWidth="80.0" text="Return">
         <font>
-            <Font size="14.0" />
+            <Font size="14.0"/>
         </font>
     </Button>
     <Button layoutX="160.0" layoutY="442.0" mnemonicParsing="false" onAction="#clearItems" text="Clear">
         <font>
-            <Font size="13.0" />
+            <Font size="13.0"/>
         </font>
-        <tooltip><Tooltip text="Clear all the items in the list" /></tooltip>
+        <tooltip>
+            <Tooltip text="Clear all the items in the list"/>
+        </tooltip>
     </Button>
     <Button layoutX="31.0" layoutY="443.0" mnemonicParsing="false" onAction="#removeLastItem" text="Remove">
-        <tooltip><Tooltip text="Remove the last item in the list" /></tooltip>
-      <font>
-         <Font size="13.0" />
-      </font>
+        <tooltip>
+            <Tooltip text="Remove the last item in the list"/>
+        </tooltip>
+        <font>
+            <Font size="13.0"/>
+        </font>
     </Button>
     <Label fx:id="allListName" layoutX="260.0" layoutY="76.0" text="All LIST_NAME">
         <font>
-            <Font size="16.0" />
+            <Font size="16.0"/>
         </font>
     </Label>
 </AnchorPane>

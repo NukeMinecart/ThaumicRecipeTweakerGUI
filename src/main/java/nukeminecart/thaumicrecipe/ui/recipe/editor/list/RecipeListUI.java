@@ -219,8 +219,8 @@ public class RecipeListUI extends ThaumicRecipeUI {
         }
 
         currentList.setTooltip(new Tooltip("The current list of ingredients \n Double click to remove"));
-        searchList.setTooltip(new Tooltip("The list of "+type+" currently loaded"));
-        searchField.setTooltip(new Tooltip("Filter the list of "+type));
+        searchList.setTooltip(new Tooltip("The list of " + type + " currently loaded"));
+        searchField.setTooltip(new Tooltip("Filter the list of " + type));
     }
 
     /**

@@ -86,7 +86,7 @@ public class HomeUI extends ThaumicRecipeUI {
                 chooser.getExtensionFilters().add(extFilter);
                 chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
                 File fileChosen = chooser.showOpenDialog(UIManager.stage.getOwner());
-                if(fileChosen==null) return;
+                if (fileChosen == null) return;
                 RecipeService.loadOtherRecipe(fileChosen.getPath());
             }
 

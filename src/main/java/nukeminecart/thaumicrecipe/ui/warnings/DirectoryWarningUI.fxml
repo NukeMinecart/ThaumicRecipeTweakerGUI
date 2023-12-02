@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-
-<DialogPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="156.0" prefWidth="300.0" style="-fx-background-color: #111112;" stylesheets="@../resources/Dark.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<DialogPane xmlns:fx="http://javafx.com/fxml/1" minHeight="-Infinity" minWidth="-Infinity" prefHeight="156.0"
+            prefWidth="300.0" style="-fx-background-color: #111112;"
+            stylesheets="@../resources/Dark.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            fx:controller="main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI">
     <content>
-        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0" style="-fx-background-color: #111112;">
-            <Button layoutX="134.0" layoutY="110.0" mnemonicParsing="false" onAction="#cancelExit" style="-fx-background-color: #222428;" text="Ok" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#222428" height="26.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #181716;" width="300.0" />
+        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0"
+                    style="-fx-background-color: #111112;">
+            <Button layoutX="134.0" layoutY="110.0" mnemonicParsing="false" onAction="#cancelExit"
+                    style="-fx-background-color: #222428;" text="Ok"/>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#222428" height="26.0" stroke="BLACK" strokeType="INSIDE"
+                       style="-fx-fill: #181716;" width="300.0"/>
             <Label layoutX="7.0" layoutY="4.0" text="Failed to Create Directory">
                 <font>
-                    <Font size="14.0" />
+                    <Font size="14.0"/>
                 </font>
             </Label>
-            <Button layoutX="275.0" layoutY="-1.0" mnemonicParsing="false" onAction="#cancelExit" style="-fx-background-color: #181716;" styleClass="button" text="X" />
+            <Button layoutX="275.0" layoutY="-1.0" mnemonicParsing="false" onAction="#cancelExit"
+                    style="-fx-background-color: #181716;" styleClass="button" text="X"/>
 
-            <Label layoutX="12.0" layoutY="26.0" prefHeight="68.0" prefWidth="276.0" text="The thaumicrecipe directory was not able to be created" textAlignment="CENTER" wrapText="true">
+            <Label layoutX="12.0" layoutY="26.0" prefHeight="68.0" prefWidth="276.0"
+                   text="The thaumicrecipe directory was not able to be created" textAlignment="CENTER" wrapText="true">
                 <font>
-                    <Font size="15.0" />
+                    <Font size="15.0"/>
                 </font>
             </Label>
-            <Label layoutX="80.0" layoutY="86.0" text="Report This Error Code : -1" />
+            <Label layoutX="80.0" layoutY="86.0" text="Report This Error Code : -1"/>
         </AnchorPane>
     </content>
 </DialogPane>
