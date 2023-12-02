@@ -81,7 +81,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         try {
             UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -92,7 +92,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         try {
             UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -185,7 +185,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             new RecipeShapeUI().launchShapeEditor();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -197,7 +197,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         try {
             new RecipeSearchUI().launchRecipeSearch("input");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -209,7 +209,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         try {
             new RecipeSearchUI().launchRecipeSearch("output");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -221,7 +221,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         try {
             new RecipeSearchUI().launchRecipeSearch("research");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -234,7 +234,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             new RecipeListUI().launchListEditor("ingredients", false);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -247,7 +247,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             new RecipeListUI().launchListEditor("aspects", typeDropdown.getText().equalsIgnoreCase("arcane"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -261,7 +261,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
             else cachedScenes.remove("editor-" + editorRecipe.getName());
             ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -315,7 +315,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         try {
             ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 

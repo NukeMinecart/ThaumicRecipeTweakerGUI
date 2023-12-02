@@ -85,7 +85,7 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
         try {
             new RecipeManagerUI().loadManager();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -104,7 +104,7 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
                 try {
                     new RecipeEditorUI().launchEditor();
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    throwAlert(WarningType.SCENE);
                 }
             }
 
@@ -116,6 +116,8 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
         searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
         searchField.setTooltip(new Tooltip("Double click an recipe to import it"));
         searchList.setCellFactory(new EditorRecipeCellFactory());
+        searchList.setTooltip(new Tooltip("Double click a recipe to import it"));
+        searchField.setTooltip(new Tooltip("Filter the list of recipes"));
         displaySearchPattern("");
     }
 

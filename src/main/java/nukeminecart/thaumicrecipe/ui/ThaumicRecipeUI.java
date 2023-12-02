@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -11,6 +12,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.Objects;
 
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI.WarningType.CLOSE;
 import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.stage;
 
 /**
@@ -20,28 +22,64 @@ import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.stage;
 public class ThaumicRecipeUI {
     private static Stage dialogeStage;
     private double offsetX, offsetY;
-
     /**
      * FXML event to close the screen
      */
     @FXML
     private void closeScreen() {
-        try {
-            //TODO FIX RUNTIME CRASH WITH CLOSING
+        throwAlert(CLOSE);
+    }
+
+    /**
+     * Create a new {@link Alert} / warning for the user
+     *
+     * @param type      the {@link WarningType} to throw
+     */
+    public void throwAlert(WarningType type) {
+        Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/CloseUi.fxml"))));
-            alert.setTitle("Close Confirmation");
+            try {
+                switch (type) {
+                    case CLOSE:
+                        alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/CloseWarningUI.fxml"))));
+                        alert.setTitle("Close Confirmation");
+                        break;
+                    case PARSE:
+                        alert.setTitle("Recipes Parsed Incorrectly");
+                        alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/ParseWarningUI.fxml"))));
+
+                        break;
+                    case SAVE:
+                        alert.setTitle("Recipes Not Saved");
+                        alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/SaveWarningUI.fxml"))));
+
+                        break;
+                    case LOAD:
+                        alert.setTitle("File(s) Not Loaded");
+                        alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/LoadWarningUI.fxml"))));
+
+                        break;
+                    case DIRECTORY:
+                        alert.setTitle("Directory Not Created");
+                        alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/DirectoryWarningUI.fxml"))));
+
+                        break;
+                    case SCENE:
+                        alert.setTitle("Scene Not Loaded");
+                        alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/SceneWarningUI.fxml"))));
+
+                        break;
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             alert.initOwner(stage.getOwner());
             dialogeStage = (Stage) alert.getDialogPane().getScene().getWindow();
             dialogeStage.initStyle(StageStyle.UNDECORATED);
             alert.show();
             dialogeStage.setX((stage.getX() + stage.getWidth() / 2) - (dialogeStage.getWidth() / 2));
             dialogeStage.setY((stage.getY() + stage.getHeight() / 2) - (dialogeStage.getHeight() / 2));
-
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        });
     }
 
     /**
@@ -66,7 +104,6 @@ public class ThaumicRecipeUI {
         stage.setY(offsetY + me.getScreenY());
     }
 
-
     /**
      * FXML event to exit the editor
      */
@@ -81,5 +118,10 @@ public class ThaumicRecipeUI {
     @FXML
     private void cancelExit() {
         dialogeStage.close();
+    }
+
+
+    public enum WarningType {
+        CLOSE, PARSE, SAVE, LOAD, SCENE, DIRECTORY
     }
 }

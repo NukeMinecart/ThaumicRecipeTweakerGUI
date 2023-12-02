@@ -55,6 +55,8 @@ public class HomeUI extends ThaumicRecipeUI {
     @FXML
     private void initialize() {
         instanceHomeUI = this;
+        newField.setTooltip(new Tooltip("The name of the recipe"));
+        loadField.setTooltip(new Tooltip("The filepath of a .rcp file"));
         newField.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER))
                 newRecipe();
@@ -74,7 +76,7 @@ public class HomeUI extends ThaumicRecipeUI {
                 try {
                     RecipeFileHandler.loadOtherRecipe(new File(loadField.getText()).getPath());
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    throwAlert(WarningType.LOAD);
                 }
             } else {
                 FileChooser chooser = new FileChooser();
@@ -84,13 +86,14 @@ public class HomeUI extends ThaumicRecipeUI {
                 chooser.getExtensionFilters().add(extFilter);
                 chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
                 File fileChosen = chooser.showOpenDialog(UIManager.stage.getOwner());
-                RecipeService.loadOtherRecipe(this, fileChosen.getPath());
+                if(fileChosen==null) return;
+                RecipeService.loadOtherRecipe(fileChosen.getPath());
             }
 
         } else if (loadOption.equals("fromFolder")) {
-            RecipeService.loadFolderRecipe(this, loadField.getText(), filenames);
+            RecipeService.loadFolderRecipe(loadField.getText(), filenames);
         } else {
-            RecipeService.loadConfigRecipe(this);
+            RecipeService.loadConfigRecipe();
         }
     }
 
@@ -102,7 +105,7 @@ public class HomeUI extends ThaumicRecipeUI {
             File directory = new File(recipeDirectory);
             if (!directory.exists()) {
                 if (!directory.mkdirs()) {
-                    throw new NullPointerException("Could not create directory");
+                    throwAlert(WarningType.DIRECTORY);
                 }
             }
             files = directory.listFiles();
@@ -162,7 +165,7 @@ public class HomeUI extends ThaumicRecipeUI {
      */
     @FXML
     private void newRecipe() {
-        if (!RecipeService.checkNewErrors(this, newField.getText(), newOption)) return;
+        if (!RecipeService.checkNewErrors(newField.getText(), newOption)) return;
         if (newOption.equals("recipeCluster")) {
             try {
                 FileChooser chooser = new FileChooser();
@@ -175,13 +178,13 @@ public class HomeUI extends ThaumicRecipeUI {
 
                 RecipeFileHandler.newRecipeCluster(newField.getText(), filesChosen);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throwAlert(WarningType.LOAD);
             }
         } else {
             try {
                 RecipeFileHandler.newRecipeGroup(newField.getText());
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throwAlert(WarningType.LOAD);
             }
         }
     }

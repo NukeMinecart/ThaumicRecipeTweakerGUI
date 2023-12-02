@@ -10,11 +10,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
+import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI;
 
 import java.io.IOException;
 import java.util.Objects;
 
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.instanceRecipeEditorUI;
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.mapSeparator;
 import static main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI.amountMap;
 
@@ -101,7 +103,7 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
                     item = string;
                     setGraphic(ListRecipeCellFactory.getScene());
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    instanceRecipeEditorUI.throwAlert(ThaumicRecipeUI.WarningType.SCENE);
                 }
             }
         }

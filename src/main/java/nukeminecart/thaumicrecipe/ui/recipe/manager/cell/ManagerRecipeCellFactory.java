@@ -12,6 +12,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.util.Callback;
+import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.editorRecipeExisted;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.instanceRecipeManagerUI;
 
 /**
  * Class that contains the cell factory for {@link RecipeManagerUI}
@@ -44,7 +46,7 @@ public class ManagerRecipeCellFactory implements Callback<ListView<Recipe>, List
     @FXML
     private void launchEditor() {
         editorRecipeExisted = true;
-        RecipeManagerUI.openEditor(recipeName.getText());
+        instanceRecipeManagerUI.openEditor(recipeName.getText());
     }
 
     /**
@@ -132,7 +134,7 @@ public class ManagerRecipeCellFactory implements Callback<ListView<Recipe>, List
                     ManagerRecipeCellFactory.recipe = recipe;
                     setGraphic(ManagerRecipeCellFactory.getScene());
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    instanceRecipeManagerUI.throwAlert(ThaumicRecipeUI.WarningType.SCENE);
                 }
             }
         }

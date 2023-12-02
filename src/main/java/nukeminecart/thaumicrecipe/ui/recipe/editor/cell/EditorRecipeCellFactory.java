@@ -7,11 +7,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
+import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 
 import java.io.IOException;
 import java.util.Objects;
 
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.instanceRecipeEditorUI;
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.stringArraySeparator;
 
 /**
@@ -62,7 +64,7 @@ public class EditorRecipeCellFactory implements Callback<ListView<String>, ListC
                     EditorRecipeCellFactory.itemModid = string.split(stringArraySeparator)[1];
                     setGraphic(EditorRecipeCellFactory.getScene());
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    instanceRecipeEditorUI.throwAlert(ThaumicRecipeUI.WarningType.SCENE);
                 }
             }
         }

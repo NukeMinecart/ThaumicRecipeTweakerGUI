@@ -1,25 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
-<HBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-      minWidth="-Infinity"
-      prefHeight="25.0" prefWidth="175.0" stylesheets="@../../../resources/Dark.css"
-      xmlns="http://javafx.com/javafx/17.0.2-ea"
-      fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.cell.ManagerRecipeCellFactory">
-    <Label fx:id="recipeName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="RECIPE_NAME"
-           HBox.hgrow="ALWAYS"/>
-    <Button contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" mnemonicParsing="false" onAction="#launchEditor" prefHeight="25.0" prefWidth="38.0"
-            text="Edit" textAlignment="CENTER">
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="175.0" stylesheets="@../../../resources/Dark.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.cell.ManagerRecipeCellFactory">
+    <Label fx:id="recipeName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="RECIPE_NAME" HBox.hgrow="ALWAYS">
+      <font>
+         <Font size="13.0" />
+      </font></Label>
+    <Button contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#launchEditor" prefHeight="25.0" prefWidth="38.0" text="Edit" textAlignment="CENTER">
         <HBox.margin>
-            <Insets/>
+            <Insets />
         </HBox.margin>
-        <font>
-            <Font size="11.0"/>
-        </font>
     </Button>
 </HBox>

@@ -8,10 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.stage.DirectoryChooser;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants;
@@ -55,13 +52,13 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      *
      * @param recipeName the recipe name to load the recipe editor with
      */
-    public static void openEditor(String recipeName) {
+    public void openEditor(String recipeName) {
         try {
             ThaumicRecipeConstants.changeEditorRecipe(recipeEditorMap.get(recipeName));
             recipeEditorMap.remove(recipeName);
             new RecipeEditorUI().launchEditor();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -133,6 +130,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
     public void initialize() {
         recipeList.setCellFactory(new ManagerRecipeCellFactory());
         recipeList.setItems(recipes);
+        recipeList.setTooltip(new Tooltip("All the recipes"));
         title.setText("Recipe Manager: " + stringTitle);
         recipes.addListener((ListChangeListener<Recipe>) c -> refreshHashMap());
         recipeListLabel.setText("Recipes in " + stringTitle);
@@ -161,7 +159,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
             try {
                 new RecipeEditorUI().launchEditor();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throwAlert(WarningType.SCENE);
             }
         } else {
             nameField.setVisible(true);
@@ -176,7 +174,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
         try {
             FileParser.saveRecipesToFile(new File(recipeDirectory, stringTitle), recipes);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SAVE);
         }
         checkOptions();
     }
@@ -195,7 +193,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
         try {
             FileParser.saveRecipesToFile(new File(directoryChosen, stringTitle), recipes);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SAVE);
         }
         checkOptions();
     }
@@ -207,7 +205,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
         try {
             FileParser.setConfigOptions(activeSelection.isSelected() ? stringTitle : null, displaySelection.isSelected());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SAVE);
         }
         if (closeSelection.isSelected()) Platform.exit();
     }
@@ -220,7 +218,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
         try {
             new RecipeImporterUI().loadImporter();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 }

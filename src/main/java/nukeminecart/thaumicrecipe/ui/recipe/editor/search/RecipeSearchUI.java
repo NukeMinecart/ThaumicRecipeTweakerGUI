@@ -109,7 +109,8 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
     private void initialize() {
         searchList.setCellFactory(new EditorRecipeCellFactory());
         searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
-        searchField.setTooltip(new Tooltip("Double click an item to select it"));
+        searchList.setTooltip(new Tooltip("Double click an item to select it"));
+        searchField.setTooltip(new Tooltip("Filter the list of items"));
         displaySearchPattern("");
     }
 }

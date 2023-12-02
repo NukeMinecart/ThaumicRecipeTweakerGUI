@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.*;
 import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
@@ -217,6 +218,9 @@ public class RecipeListUI extends ThaumicRecipeUI {
             currentList.setItems(FXCollections.observableArrayList(aspectsList));
         }
 
+        currentList.setTooltip(new Tooltip("The current list of ingredients \n Double click to remove"));
+        searchList.setTooltip(new Tooltip("The list of "+type+" currently loaded"));
+        searchField.setTooltip(new Tooltip("Filter the list of "+type));
     }
 
     /**

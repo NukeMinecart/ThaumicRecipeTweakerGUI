@@ -1,5 +1,7 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe.file;
 
+import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +13,8 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
  * A class used for all reading of files and changing of a {@link String} to a {@link Recipe}
  */
 public class FileParser {
+    private static boolean parseError;
+
 
     /**
      * Locates a file from the thaumicrecipe folder and returns the corresponding {@link java.io.File}
@@ -137,8 +141,8 @@ public class FileParser {
                 aspects.put(aspect.split(mapSeparator)[0], Integer.parseInt(aspect.split(mapSeparator)[1]));
             }
             shape = compressedRecipe[9].split(stringArraySeparator);
-        } catch (ArrayIndexOutOfBoundsException ignored) {
-
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            parseError = true;
         }
         return new Recipe(name, type, research, modid, input, ingredients, output, vis, aspects, shape);
     }
@@ -151,9 +155,11 @@ public class FileParser {
      */
     public static Recipe[] getRecipesFromString(List<String> contents) {
         List<Recipe> recipes = new ArrayList<>();
+        parseError = false;
         for (String line : contents) {
             recipes.add(parseRecipe(line));
         }
+        if(parseError) new ThaumicRecipeUI().throwAlert(ThaumicRecipeUI.WarningType.PARSE);
         return recipes.toArray(new Recipe[0]);
     }
 

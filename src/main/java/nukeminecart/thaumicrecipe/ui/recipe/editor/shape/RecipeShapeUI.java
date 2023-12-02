@@ -88,7 +88,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
     @FXML
     public void initialize() {
         ingredients.setItems(ingredientList);
-        ingredients.setTooltip(new Tooltip("Drag items onto the crafting grid"));
+        ingredients.setTooltip(new Tooltip("Currently loaded items\n drag onto the crafting grid to create the shape"));
 
         targetListViews.clear();
         targetListViews.add(craft1);
@@ -140,7 +140,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         try {
             new RecipeListUI().launchListEditor("ingredients", false);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -181,7 +181,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         try {
             new RecipeEditorUI().launchEditor();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throwAlert(WarningType.SCENE);
         }
     }
 
