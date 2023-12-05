@@ -108,6 +108,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         outputField.setText(editorRecipe.getOutput());
         nameField.setText(editorRecipe.getName());
         researchField.setText(editorRecipe.getResearch());
+        shapelessCheckbox.setSelected(editorRecipe.getShape().length==0);
+        shapeButton.setVisible(editorRecipe.getShape().length==0);
 
         if (editorRecipe.getIngredients() != null) {
             List<String> tempList = new ArrayList<>();
