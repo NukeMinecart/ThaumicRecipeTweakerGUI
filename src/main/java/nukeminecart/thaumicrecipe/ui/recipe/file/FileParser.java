@@ -55,9 +55,9 @@ public class FileParser {
         HashMap<String, String> list = new HashMap<>();
         List<String> lines = readFile(file);
         for (String line : lines) {
-            String[] splitLine = line.split(stringArraySeparator);
+            String[] splitLine = line.split(mapSeparator);
             if (splitLine.length == 2) {
-                list.put(splitLine[0], splitLine[1]);
+                list.put(splitLine[1], splitLine[0]);
             }
         }
         return list;
