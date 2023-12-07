@@ -12,6 +12,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.UIManager;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.cell.EditorRecipeCellFactory;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
@@ -99,12 +100,13 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
         if (event.getClickCount() == 2) {
             String selectedItem = searchList.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
-                Recipe changeRecipe = recipeList.get(selectedItem);
-                changeEditorRecipe(recipeList.get(changeRecipe.getName()).copy());
+                Recipe changeRecipe = recipeList.get(selectedItem.split(stringArraySeparator)[0]);
+                changeEditorRecipe(changeRecipe.copy());
                 try {
                     new RecipeEditorUI().launchEditor();
                 } catch (IOException e) {
                     throwAlert(WarningType.SCENE);
+                    throw new RuntimeException(FileParser.compressRecipe(editorRecipe));
                 }
             }
 

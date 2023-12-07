@@ -58,7 +58,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     /**
      * Loads the {@link RecipeEditorUI} scene
      *
-     * @throws IOException if RecipeShapeUI.fxml is not found
+     * @throws IOException if RecipeEditorUI.fxml is not found
      */
     public void launchEditor() throws IOException {
         instanceRecipeEditorUI = this;
