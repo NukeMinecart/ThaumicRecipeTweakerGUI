@@ -62,10 +62,10 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      */
     public void launchEditor() throws IOException {
         instanceRecipeEditorUI = this;
-        if (!cachedScenes.containsKey("editor-" + editorRecipe.getName())) {
-            UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName());
+        if (!cachedScenes.containsKey("editor-" + editorRecipe.getName().replace(" ", ""))) {
+            UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName().replace(" ", ""));
         } else {
-            UIManager.loadScreen(cachedScenes.get("editor-" + editorRecipe.getName()));
+            UIManager.loadScreen(cachedScenes.get("editor-" + editorRecipe.getName().replace(" ", "")));
         }
     }
 
@@ -103,11 +103,11 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void initialize() {
         title.setText("Recipe Editor: " + editorRecipe.getName());
         typeDropdown.setText(StringUtils.capitalize(editorRecipe.getType()));
-        inputField.setText(editorRecipe.getInput());
+        inputField.setText(editorRecipe.getInput() == null ? "" : editorRecipe.getInput());
         visField.setText(String.valueOf(editorRecipe.getVis()));
-        outputField.setText(editorRecipe.getOutput());
+        outputField.setText(editorRecipe.getOutput() == null ? "" : editorRecipe.getOutput());
         nameField.setText(editorRecipe.getName());
-        researchField.setText(editorRecipe.getResearch());
+        researchField.setText(editorRecipe.getResearch() == null ? "" : editorRecipe.getResearch());
         shapelessCheckbox.setSelected(editorRecipe.getShape().length==0);
         shapeButton.setVisible(editorRecipe.getShape().length==0);
 

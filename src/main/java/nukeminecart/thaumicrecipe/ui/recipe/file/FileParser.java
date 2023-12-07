@@ -88,20 +88,21 @@ public class FileParser {
         returnRecipe.append(recipe.getModid()).append(stringSeparator);
         returnRecipe.append(recipe.getInput()).append(stringSeparator);
 
-        for (String ingredient : recipe.getIngredients().keySet()) {
+        for (String ingredient : recipe.getIngredients().keySet())
             returnRecipe.append(ingredient).append(mapSeparator).append(recipe.getIngredients().get(ingredient)).append(stringArraySeparator);
-        }
+
         returnRecipe.append(stringSeparator);
         returnRecipe.append(recipe.getOutput()).append(stringSeparator);
 
         returnRecipe.append(recipe.getVis()).append(stringSeparator);
-        for (String aspect : recipe.getAspects().keySet()) {
+        if(recipe.getAspects() != null) for (String aspect : recipe.getAspects().keySet())
             returnRecipe.append(aspect).append(mapSeparator).append(recipe.getAspects().get(aspect)).append(stringArraySeparator);
-        }
+
         returnRecipe.append(stringSeparator);
-        for (Object shape : recipe.getShape()) {
+        if (recipe.getShape() != null) for (Object shape : recipe.getShape())
             returnRecipe.append(shape).append(stringArraySeparator);
-        }
+
+
         return returnRecipe.toString();
     }
 
