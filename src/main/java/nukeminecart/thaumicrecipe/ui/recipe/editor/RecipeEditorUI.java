@@ -134,6 +134,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
             default:
                 changeToNormalType();
             case "normal":
+                // FIXME: 12/8/2023 importing doesn't work with normal -> maybe add nulls to the string
                 changeToNormalType();
                 break;
             case "arcane":

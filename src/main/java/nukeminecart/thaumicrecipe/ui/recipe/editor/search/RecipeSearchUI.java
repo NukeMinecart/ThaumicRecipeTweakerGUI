@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
@@ -27,6 +28,8 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 public class RecipeSearchUI extends ThaumicRecipeUI {
 
     private static String searchType;
+    @FXML
+    private Label title;
     @FXML
     private TextField searchField;
     @FXML
@@ -110,7 +113,8 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         searchList.setCellFactory(new EditorRecipeCellFactory());
         searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
         searchList.setTooltip(new Tooltip("Double click an item to select it"));
-        searchField.setTooltip(new Tooltip("Filter the list of items"));
+        searchField.setTooltip(new Tooltip("Filter the list of " + (searchType.equals("research") ? "research" : "items")));
+        title.setText(searchType.equals("research") ? "Recipe Research Search" : "Recipe Item Search");
         displaySearchPattern("");
     }
 }

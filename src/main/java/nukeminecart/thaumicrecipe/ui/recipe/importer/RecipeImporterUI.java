@@ -1,6 +1,6 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe.importer;
 
-import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,8 +17,11 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
 import java.io.IOException;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
@@ -53,29 +56,52 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
     }
 
     /**
-     * Display a search {@link Pattern} onto the listview
-     *
-     * @param searchTerm the {@link String} to search for
+     * Filter the {@link ListView} according to the search {@link TextField}
+     * @param filterText the text to filter the {@link ListView}
      */
-    private void displaySearchPattern(String searchTerm) {
-        searchList.getItems().clear();
-        if (recipeList.isEmpty()) return;
-        for (String key : recipeList.keySet()) {
-            if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(key).find())
-                addToListView(key + stringArraySeparator + recipeList.get(key).getModid());
+    private void filterAndSortData(String filterText) {
+        Pattern pattern = filterText == null || filterText.isEmpty() ? null :
+                Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
+
+        List<Map.Entry<String, Recipe>> toSort = new ArrayList<>();
+        for (Map.Entry<String, Recipe> entry : recipeList.entrySet()) {
+            if (pattern == null || pattern.matcher(entry.getKey()).find()) {
+                toSort.add(entry);
+            }
         }
+        toSort.sort((entry1, entry2) -> {
+            int score1 = getMatchScore(entry1.getKey(), filterText);
+            int score2 = getMatchScore(entry2.getKey(), filterText);
+            if (score1 == score2) {
+                return entry1.getKey().compareToIgnoreCase(entry2.getKey());
+            }
+            return Integer.compare(score2, score1);
+        });
+        List<String> list = new ArrayList<>();
+        for (Map.Entry<String, Recipe> entry : toSort) {
+            String key = entry.getKey();
+            list.add(key+stringArraySeparator+entry.getValue().getModid());
+        }
+        searchList.setItems(FXCollections.observableArrayList(list));
     }
 
     /**
-     * Add an item to the {@link ListView}
-     *
-     * @param item the item to add as a {@link String}
+     * Get the score of an item to decide order of display in the search {@link ListView}
+     * @param itemName the name of the item
+     * @param filterText the filter text
+     * @return an {@link Integer} representing the score
      */
-    private void addToListView(String item) {
-        Platform.runLater(() -> {
-            searchList.getItems().add(item);
-            searchList.getItems().sort(Comparator.comparing(String::toString));
-        });
+    private int getMatchScore(String itemName, String filterText) {
+        if (filterText == null || filterText.isEmpty()) {
+            return 0;
+        }
+        int score = 0;
+        Pattern pattern = Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(itemName);
+        while (matcher.find()) {
+            score += 50 - matcher.start();
+        }
+        return score;
     }
 
     /**
@@ -115,12 +141,12 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
 
     @FXML
     private void initialize() {
-        searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
+        searchField.textProperty().addListener((observableValue, oldText, newText) -> filterAndSortData(newText));
         searchField.setTooltip(new Tooltip("Double click an recipe to import it"));
         searchList.setCellFactory(new EditorRecipeCellFactory());
         searchList.setTooltip(new Tooltip("Double click a recipe to import it"));
         searchField.setTooltip(new Tooltip("Filter the list of recipes"));
-        displaySearchPattern("");
+        filterAndSortData("");
     }
 
 }
