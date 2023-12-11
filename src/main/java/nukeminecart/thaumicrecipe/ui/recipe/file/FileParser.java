@@ -95,7 +95,7 @@ public class FileParser {
         returnRecipe.append(recipe.getOutput()).append(stringSeparator);
 
         returnRecipe.append(recipe.getVis()).append(stringSeparator);
-        if(recipe.getAspects() != null) for (String aspect : recipe.getAspects().keySet())
+        if (recipe.getAspects() != null) for (String aspect : recipe.getAspects().keySet())
             returnRecipe.append(aspect).append(mapSeparator).append(recipe.getAspects().get(aspect)).append(stringArraySeparator);
 
         returnRecipe.append(stringSeparator);
@@ -107,6 +107,26 @@ public class FileParser {
     }
 
     /**
+     * Split a {@link String} according to the splitString
+     *
+     * @param string      the {@link String to split}
+     * @param splitString the {@link String} to split with
+     * @return a {@link String} array
+     */
+    public static String[] splitString(String string, String splitString) {
+        List<String> strings = new ArrayList<>();
+        for (String endString = string; string.contains(splitString); ) {
+            if (endString.contains(splitString)) strings.add(endString.substring(0, endString.indexOf(splitString)));
+            else {
+                strings.add(endString);
+                break;
+            }
+            endString = endString.substring(endString.indexOf(splitString) + splitString.length());
+        }
+        return strings.toArray(new String[0]);
+    }
+
+    /**
      * Changes custom string recipe to a {@link main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe}
      *
      * @param line the line to parse
@@ -114,7 +134,7 @@ public class FileParser {
      * @throws ArrayIndexOutOfBoundsException if the line is missing necessary recipe information
      */
     public static Recipe parseRecipe(String line) {
-        String[] compressedRecipe = line.split(stringSeparator);
+        String[] compressedRecipe = splitString(line, stringSeparator);
         String name = null;
         String type = null;
         String research = null;
@@ -124,7 +144,7 @@ public class FileParser {
         String output = null;
         int vis = 0;
         HashMap<String, Integer> aspects = new HashMap<>();
-        String[] shape = null;
+        List<String> shape = new ArrayList<>();
         try {
             name = compressedRecipe[0];
             type = compressedRecipe[1];
@@ -132,20 +152,33 @@ public class FileParser {
             modid = compressedRecipe[3];
             input = compressedRecipe[4];
             ingredients = new HashMap<>();
-            for (String ingredient : compressedRecipe[5].split(stringArraySeparator)) {
-                ingredients.put(ingredient.split(mapSeparator)[0], Integer.parseInt(ingredient.split(mapSeparator)[1]));
-            }
+            if (!compressedRecipe[5].isEmpty())
+                for (String ingredient : compressedRecipe[5].split(stringArraySeparator))
+                    ingredients.put(ingredient.split(mapSeparator)[0], Integer.parseInt(ingredient.split(mapSeparator)[1]));
             output = compressedRecipe[6];
-            vis = Integer.parseInt(compressedRecipe[7]);
-            aspects = new HashMap<>();
-            for (String aspect : compressedRecipe[8].split(stringArraySeparator)) {
-                aspects.put(aspect.split(mapSeparator)[0], Integer.parseInt(aspect.split(mapSeparator)[1]));
+            try {
+                vis = Integer.parseInt(compressedRecipe[7]);
+            } catch (NumberFormatException ignored) {
             }
-            shape = compressedRecipe[9].split(stringArraySeparator);
+            aspects = new HashMap<>();
+            if (!compressedRecipe[8].isEmpty())
+                for (String aspect : compressedRecipe[8].split(stringArraySeparator))
+                    aspects.put(aspect.split(mapSeparator)[0], Integer.parseInt(aspect.split(mapSeparator)[1]));
+
+
+            for (String shapeElement : compressedRecipe[9].split(stringArraySeparator)) {
+                if (shapeElement.contains("null")) {
+                    shapeElement = shapeElement.replace("null", "");
+                    shape.add("");
+                }
+                shape.add(shapeElement);
+            }
         } catch (ArrayIndexOutOfBoundsException exception) {
             parseError = true;
         }
-        return new Recipe(name, type, research, modid, input, ingredients, output, vis, aspects, shape);
+        if (shape.toArray(new String[0]).length > 9)
+            shape.remove(9);
+        return new Recipe(name, type, research, modid, input, ingredients, output, vis, aspects, shape.toArray(new String[0]));
     }
 
     /**

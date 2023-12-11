@@ -37,11 +37,11 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
     private ListView<String> ingredientsListview, aspectListview;
     @FXML
-    private Button aspectsButton, ingredientsButton, inputButton, shapeButton;
+    private Button aspectsButton, ingredientsButton, inputButton, shapeButton, researchButton;
     @FXML
     private CheckBox shapelessCheckbox;
     @FXML
-    private Label title, inputLabel, ingredientsLabel, visLabel, aspectLabel;
+    private Label title, inputLabel, ingredientsLabel, visLabel, aspectLabel, researchLabel;
     @FXML
     private MenuButton typeDropdown;
 
@@ -108,8 +108,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         outputField.setText(editorRecipe.getOutput() == null ? "" : editorRecipe.getOutput());
         nameField.setText(editorRecipe.getName());
         researchField.setText(editorRecipe.getResearch() == null ? "" : editorRecipe.getResearch());
-        shapelessCheckbox.setSelected(editorRecipe.getShape().length==0);
-        shapeButton.setVisible(editorRecipe.getShape().length==0);
+        shapelessCheckbox.setSelected(editorRecipe.getShape() != null && editorRecipe.getShape().length == 0);
+        shapeButton.setVisible(editorRecipe.getShape() != null && editorRecipe.getShape().length == 0);
 
         if (editorRecipe.getIngredients() != null) {
             List<String> tempList = new ArrayList<>();
@@ -134,7 +134,6 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
             default:
                 changeToNormalType();
             case "normal":
-                // FIXME: 12/8/2023 importing doesn't work with normal -> maybe add nulls to the string
                 changeToNormalType();
                 break;
             case "arcane":
@@ -286,7 +285,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         }
         switch (editorRecipe.getType()) {
             case "normal":
-                if (editorRecipe.getIngredients() == null || (editorRecipe.getShape() == null && shapelessCheckbox.isSelected())) {
+                if (editorRecipe.getIngredients() == null || (editorRecipe.getShape() == null && !shapelessCheckbox.isSelected())) {
                     alert.show();
                     return;
                 }
@@ -368,8 +367,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void changeToNormalType() {
         typeDropdown.setText("Normal");
         editorRecipe.setType("normal");
-        hideNodes(inputField, inputLabel, inputButton, visLabel, visField, aspectsButton, aspectLabel, aspectListview);
         showNodes(ingredientsButton, ingredientsLabel, ingredientsListview, shapeButton, shapelessCheckbox);
+        hideNodes(inputField, inputLabel, inputButton, visLabel, visField, aspectsButton, aspectLabel, aspectListview, researchField, researchLabel, researchButton);
     }
 
     /**
@@ -379,7 +378,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void changeToArcaneType() {
         typeDropdown.setText("Arcane");
         editorRecipe.setType("arcane");
-        showNodes(visLabel, visField, aspectsButton, aspectLabel, aspectListview, ingredientsButton, ingredientsLabel, ingredientsListview, shapeButton, shapelessCheckbox);
+        showNodes(visLabel, visField, aspectsButton, aspectLabel, aspectListview, ingredientsButton, ingredientsLabel, ingredientsListview, shapeButton, shapelessCheckbox, researchField, researchLabel, researchButton);
         hideNodes(inputLabel, inputField, inputButton);
     }
 
@@ -390,8 +389,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void changeToCrucibleType() {
         typeDropdown.setText("Crucible");
         editorRecipe.setType("crucible");
+        showNodes(inputLabel, inputField, inputButton, aspectLabel, aspectsButton, aspectListview, researchField, researchLabel, researchButton);
         hideNodes(visField, visLabel, ingredientsLabel, ingredientsButton, ingredientsListview, shapeButton, shapelessCheckbox);
-        showNodes(inputLabel, inputField, inputButton, aspectLabel, aspectsButton, aspectListview);
     }
 
     /**
@@ -401,8 +400,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void changeToInfusionType() {
         typeDropdown.setText("Infusion");
         editorRecipe.setType("infusion");
+        showNodes(inputLabel, inputField, inputButton, ingredientsLabel, ingredientsButton, ingredientsListview, aspectLabel, aspectsButton, aspectListview, researchField, researchLabel, researchButton);
         hideNodes(visLabel, visField, shapeButton, shapelessCheckbox);
-        showNodes(inputLabel, inputField, inputButton, ingredientsLabel, ingredientsButton, ingredientsListview, aspectLabel, aspectsButton, aspectListview);
     }
 
     /**

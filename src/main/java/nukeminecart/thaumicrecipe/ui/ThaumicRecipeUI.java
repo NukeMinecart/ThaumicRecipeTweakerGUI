@@ -41,8 +41,9 @@ public class ThaumicRecipeUI {
             try {
                 switch (type) {
                     case CLOSE:
-                        alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/CloseWarningUI.fxml"))));
                         alert.setTitle("Close Confirmation");
+                        alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/CloseWarningUI.fxml"))));
+
                         break;
                     case PARSE:
                         alert.setTitle("Recipes Parsed Incorrectly");

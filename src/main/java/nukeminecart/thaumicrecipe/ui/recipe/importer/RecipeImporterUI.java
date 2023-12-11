@@ -57,6 +57,7 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
 
     /**
      * Filter the {@link ListView} according to the search {@link TextField}
+     *
      * @param filterText the text to filter the {@link ListView}
      */
     private void filterAndSortData(String filterText) {
@@ -80,14 +81,15 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
         List<String> list = new ArrayList<>();
         for (Map.Entry<String, Recipe> entry : toSort) {
             String key = entry.getKey();
-            list.add(key+stringArraySeparator+entry.getValue().getModid());
+            list.add(key + stringArraySeparator + entry.getValue().getModid());
         }
         searchList.setItems(FXCollections.observableArrayList(list));
     }
 
     /**
      * Get the score of an item to decide order of display in the search {@link ListView}
-     * @param itemName the name of the item
+     *
+     * @param itemName   the name of the item
      * @param filterText the filter text
      * @return an {@link Integer} representing the score
      */

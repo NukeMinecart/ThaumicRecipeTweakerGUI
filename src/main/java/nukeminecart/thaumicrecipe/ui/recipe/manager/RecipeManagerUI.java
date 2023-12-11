@@ -58,7 +58,8 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
             recipeEditorMap.remove(recipeName);
             new RecipeEditorUI().launchEditor();
         } catch (IOException e) {
-            throwAlert(WarningType.SCENE);
+//            throwAlert(WarningType.SCENE);
+            throw new RuntimeException(e);
         }
     }
 

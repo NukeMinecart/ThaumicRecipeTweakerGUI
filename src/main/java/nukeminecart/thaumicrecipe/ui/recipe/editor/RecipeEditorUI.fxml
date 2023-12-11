@@ -146,13 +146,13 @@
             <Font size="13.0"/>
         </font>
     </TextField>
-    <Label layoutX="28.0" layoutY="331.0" text="Required Research">
+    <Label fx:id="researchLabel" layoutX="28.0" layoutY="331.0" text="Required Research">
         <font>
             <Font size="13.0"/>
         </font>
     </Label>
-    <Button layoutX="179.0" layoutY="358.0" mnemonicParsing="false" onAction="#openResearchSearch" prefHeight="27.0"
-            prefWidth="60.0" text="Search">
+    <Button fx:id="researchButton" layoutX="179.0" layoutY="358.0" mnemonicParsing="false"
+            onAction="#openResearchSearch" prefHeight="27.0" prefWidth="60.0" text="Search">
         <font>
             <Font size="13.0"/>
         </font>

@@ -74,7 +74,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
             for (int index = 0; index < editorRecipe.getShape().length; index++) {
                 ObservableList<String> item = targetListViews.get(index).getItems();
                 if (item.isEmpty()) {
-                    item.add(Objects.equals(editorRecipe.getShape()[index], "") ? "" : editorRecipe.getShape()[index]);
+                    item.add(Objects.equals(editorRecipe.getShape()[index], "") || Objects.equals(editorRecipe.getShape()[index], null) ? "" : editorRecipe.getShape()[index]);
                 } else {
                     item.set(0, Objects.equals(editorRecipe.getShape()[index], "") ? "" : editorRecipe.getShape()[index]);
                 }
