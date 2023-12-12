@@ -1,7 +1,6 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list;
 
 import com.sun.xml.internal.ws.util.StringUtils;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,6 +20,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
@@ -32,7 +32,7 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 public class RecipeListUI extends ThaumicRecipeUI {
     public static HashMap<String, Integer> amountMap = new HashMap<>();
     private static String type;
-    private static boolean restricted;
+    private HashMap<String, String> mapSet;
     @FXML
     private ListView<String> searchList, currentList;
     @FXML
@@ -58,42 +58,64 @@ public class RecipeListUI extends ThaumicRecipeUI {
      * @throws IOException if RecipeListUI.fxml is not found
      */
     public void launchListEditor(String type, boolean restricted) throws IOException {
+        //TODO FIX LIST LOADING ISSUE
         RecipeListUI.type = type;
-        RecipeListUI.restricted = restricted;
         amountMap = type.equals("ingredients") ? ingredientsMap : aspectMap;
+        if(restricted)
+            mapSet = tempAspectList;
+        else
+            mapSet = type.equals("ingredients") ? ingredientsList : aspectList;
         UIManager.loadScreen(getScene(), "list");
     }
 
     /**
-     * Display a search {@link Pattern} onto the listview
+     * Filter the {@link ListView} according to the search {@link TextField}
      *
-     * @param searchTerm the {@link String} to search for
+     * @param filterText the text to filter the {@link ListView}
      */
-    private void displaySearchPattern(String searchTerm) {
-        searchList.getItems().clear();
-        if (restricted) {
-            for (String item : tempAspectList.keySet())
-                if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find())
-                    addToListView(item + stringArraySeparator + tempAspectList.get(item));
-        } else {
-            for (String item : type.equals("ingredients") ? ingredientsList.keySet() : aspectList.keySet())
-                if (Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE).matcher(item).find())
-                    addToListView(item + stringArraySeparator + (type.equals("ingredients") ? ingredientsList.get(item) : aspectList.get(item)));
+    private void filterAndSortData(String filterText) {
+        Pattern pattern = filterText == null || filterText.isEmpty() ? null :
+                Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
+
+        List<Map.Entry<String, String>> toSort = new ArrayList<>();
+        for (Map.Entry<String, String> restrictedEntry : mapSet.entrySet())
+            if (pattern == null || pattern.matcher(restrictedEntry.getKey()).find())
+                toSort.add(restrictedEntry);
+
+        toSort.sort((entry1, entry2) -> {
+            int score1 = getMatchScore(entry1.getKey(), filterText);
+            int score2 = getMatchScore(entry2.getKey(), filterText);
+            if (score1 == score2) {
+                return entry1.getKey().compareToIgnoreCase(entry2.getKey());
+            }
+            return Integer.compare(score2, score1);
+        });
+        List<String> list = new ArrayList<>();
+        for (Map.Entry<String, String> entry : toSort) {
+            list.add(entry.getKey() + stringArraySeparator + entry.getValue());
         }
+        searchList.setItems(FXCollections.observableArrayList(list));
     }
 
     /**
-     * Add an item to the {@link ListView}
+     * Get the score of an item to decide order of display in the search {@link ListView}
      *
-     * @param item the item to add as a {@link String}
+     * @param itemName   the name of the item
+     * @param filterText the filter text
+     * @return an {@link Integer} representing the score
      */
-    private void addToListView(String item) {
-        Platform.runLater(() -> {
-            searchList.getItems().add(item);
-            searchList.getItems().sort(Comparator.comparing(s -> s.split(mapSeparator)[0]));
-        });
+    private int getMatchScore(String itemName, String filterText) {
+        if (filterText == null || filterText.isEmpty()) {
+            return 0;
+        }
+        int score = 0;
+        Pattern pattern = Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(itemName);
+        while (matcher.find()) {
+            score += 50 - matcher.start();
+        }
+        return score;
     }
-
 
     /**
      * Set up the drag and drop between two {@link ListView}
@@ -201,8 +223,14 @@ public class RecipeListUI extends ThaumicRecipeUI {
         searchList.setItems(FXCollections.observableArrayList());
         currentListName.setText("Current " + StringUtils.capitalize(type));
         allListName.setText("All " + StringUtils.capitalize(type));
-        searchField.textProperty().addListener((observableValue, oldText, newText) -> displaySearchPattern(newText));
-        displaySearchPattern("");
+        //TODO FIX THREAD ISSUE also change the item names to their display name instead of their regestry name
+        final Thread[] searchThread = new Thread[1];
+        searchField.textProperty().addListener((observableValue, oldText, newText) -> {
+            searchThread[0] = new Thread(()->filterAndSortData(newText));
+            searchThread[0].start();
+        });
+        searchThread[0] = new Thread(()->filterAndSortData(""));
+        searchThread[0].start();
         if ((type.equals("ingredients") && editorRecipe.getIngredients() != null)) {
             List<String> ingredientList = new ArrayList<>();
             for (String key : editorRecipe.getIngredients().keySet()) {

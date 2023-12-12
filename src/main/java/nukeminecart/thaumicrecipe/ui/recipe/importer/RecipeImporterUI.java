@@ -143,12 +143,18 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
 
     @FXML
     private void initialize() {
-        searchField.textProperty().addListener((observableValue, oldText, newText) -> filterAndSortData(newText));
+        final Thread[] searchThread = new Thread[1];
+        searchField.textProperty().addListener((observableValue, oldText, newText) -> {
+            searchThread[0] = new Thread(()->filterAndSortData(newText));
+            searchThread[0].start();
+        });
+        searchThread[0] = new Thread(()->filterAndSortData(""));
+        searchThread[0].start();
         searchField.setTooltip(new Tooltip("Double click an recipe to import it"));
         searchList.setCellFactory(new EditorRecipeCellFactory());
         searchList.setTooltip(new Tooltip("Double click a recipe to import it"));
         searchField.setTooltip(new Tooltip("Filter the list of recipes"));
-        filterAndSortData("");
+
     }
 
 }

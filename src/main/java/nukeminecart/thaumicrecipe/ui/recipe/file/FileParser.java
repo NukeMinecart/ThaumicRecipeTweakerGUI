@@ -58,7 +58,6 @@ public class FileParser {
             String[] splitLine = line.split(mapSeparator);
             if (splitLine.length == 2) list.put(splitLine[1], splitLine[0]);
             else if (splitLine.length == 1) list.put(splitLine[0], "");
-
         }
         return list;
     }
