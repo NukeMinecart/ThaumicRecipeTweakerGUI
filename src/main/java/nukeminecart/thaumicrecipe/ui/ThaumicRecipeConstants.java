@@ -93,12 +93,12 @@ public class ThaumicRecipeConstants {
             }
         }
 
-        tempAspectList.put("Air", "thaumcraft");
-        tempAspectList.put("Water", "thaumcraft");
-        tempAspectList.put("Entropy", "thaumcraft");
-        tempAspectList.put("Fire", "thaumcraft");
-        tempAspectList.put("Order", "thaumcraft");
-        tempAspectList.put("Earth", "thaumcraft");
+        tempAspectList.put("Aer", "thaumcraft");
+        tempAspectList.put("Aqua", "thaumcraft");
+        tempAspectList.put("Perditio", "thaumcraft");
+        tempAspectList.put("Ignis", "thaumcraft");
+        tempAspectList.put("Ordo", "thaumcraft");
+        tempAspectList.put("Terra", "thaumcraft");
         Thread.currentThread().interrupt();
     }
 }
