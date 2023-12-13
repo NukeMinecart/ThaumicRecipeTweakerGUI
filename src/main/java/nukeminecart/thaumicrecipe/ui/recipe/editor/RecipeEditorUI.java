@@ -101,6 +101,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      */
     @FXML
     private void initialize() {
+        //Todo Fix crash and shapeless
         title.setText("Recipe Editor: " + editorRecipe.getName());
         typeDropdown.setText(StringUtils.capitalize(editorRecipe.getType()));
         inputField.setText(editorRecipe.getInput() == null ? "" : editorRecipe.getInput());
@@ -108,8 +109,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         outputField.setText(editorRecipe.getOutput() == null ? "" : editorRecipe.getOutput());
         nameField.setText(editorRecipe.getName());
         researchField.setText(editorRecipe.getResearch() == null ? "" : editorRecipe.getResearch());
-        shapelessCheckbox.setSelected(editorRecipe.getShape() != null && editorRecipe.getShape().length == 0);
-        shapeButton.setVisible(editorRecipe.getShape() != null && editorRecipe.getShape().length == 0);
+        shapelessCheckbox.setSelected(editorRecipe.getShape() == null || editorRecipe.getShape().length == 0);
+        shapeButton.setVisible(editorRecipe.getShape() != null || editorRecipe.getShape().length != 0);
 
         if (editorRecipe.getIngredients() != null) {
             List<String> tempList = new ArrayList<>();

@@ -9,6 +9,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class ThaumicRecipeConstants {
     public static RecipeManagerUI instanceRecipeManagerUI;
     public static RecipeEditorUI instanceRecipeEditorUI;
     public static HashMap<String, Scene> cachedScenes;
-    public static HashMap<String, String> aspectList, tempAspectList, ingredientsList, researchList;
+    public static List<String> aspectList, tempAspectList, ingredientsList, researchList;
     public static HashMap<String, Recipe> recipeList;
     public static HashMap<String, Integer> ingredientsMap, aspectMap;
 
@@ -55,9 +56,9 @@ public class ThaumicRecipeConstants {
         fileExistsWarning = "File already exist";
         noFileInConfigWarning = "No file in config";
         cachedScenes = new HashMap<>();
-        aspectList = new HashMap<>();
-        ingredientsList = new HashMap<>();
-        tempAspectList = new HashMap<>();
+        aspectList = new ArrayList<>();
+        ingredientsList = new ArrayList<>();
+        tempAspectList = new ArrayList<>();
         recipeList = new HashMap<>();
         aspectMap = new HashMap<>();
         ingredientsMap = new HashMap<>();
@@ -92,13 +93,13 @@ public class ThaumicRecipeConstants {
                 recipeList.put(recipe.getName(), recipe);
             }
         }
+        tempAspectList.add("Aer");
+        tempAspectList.add("Aqua");
+        tempAspectList.add("Perditio");
+        tempAspectList.add("Ignis");
+        tempAspectList.add("Ordo");
+        tempAspectList.add("Terra");
 
-        tempAspectList.put("Aer", "thaumcraft");
-        tempAspectList.put("Aqua", "thaumcraft");
-        tempAspectList.put("Perditio", "thaumcraft");
-        tempAspectList.put("Ignis", "thaumcraft");
-        tempAspectList.put("Ordo", "thaumcraft");
-        tempAspectList.put("Terra", "thaumcraft");
         Thread.currentThread().interrupt();
     }
 }

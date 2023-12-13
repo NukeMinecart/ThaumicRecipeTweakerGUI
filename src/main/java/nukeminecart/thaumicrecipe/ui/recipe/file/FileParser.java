@@ -51,15 +51,9 @@ public class FileParser {
      * @param file the file to parse to a list
      * @return a {@link java.util.HashMap} of the file contents separated
      */
-    public static HashMap<String, String> parseList(File file) throws IOException {
-        HashMap<String, String> list = new HashMap<>();
+    public static List<String> parseList(File file) throws IOException {
         List<String> lines = readFile(file);
-        for (String line : lines) {
-            String[] splitLine = line.split(mapSeparator);
-            if (splitLine.length == 2) list.put(splitLine[1], splitLine[0]);
-            else if (splitLine.length == 1) list.put(splitLine[0], "");
-        }
-        return list;
+        return new ArrayList<>(lines);
     }
 
     /**

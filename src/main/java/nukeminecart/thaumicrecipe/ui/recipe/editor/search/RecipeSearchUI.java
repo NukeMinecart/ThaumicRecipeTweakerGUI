@@ -15,12 +15,10 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.cell.EditorRecipeCellFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 
@@ -82,34 +80,21 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         instanceRecipeEditorUI.launchEditorFromSearch(null, searchType);
     }
 
-    /**
-     * Filter the {@link ListView} according to the search {@link TextField}
-     *
-     * @param filterText the text to filter the {@link ListView}
-     */
     private void filterAndSortData(String filterText) {
         Pattern pattern = filterText == null || filterText.isEmpty() ? null :
                 Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
 
-        List<Map.Entry<String, String>> toSort = new ArrayList<>();
-        for (Map.Entry<String, String> entry : ingredientsList.entrySet()) {
-            if (pattern == null || pattern.matcher(entry.getKey()).find()) {
-                toSort.add(entry);
-            }
-        }
-        toSort.sort((entry1, entry2) -> {
-            int score1 = getMatchScore(entry1.getKey(), filterText);
-            int score2 = getMatchScore(entry2.getKey(), filterText);
-            if (score1 == score2) {
-                return entry1.getKey().compareToIgnoreCase(entry2.getKey());
-            }
-            return Integer.compare(score2, score1);
-        });
-        List<String> list = new ArrayList<>();
-        for (Map.Entry<String, String> entry : toSort) {
-            list.add(entry.getKey() + stringArraySeparator + entry.getValue());
-        }
-        searchList.setItems(FXCollections.observableArrayList(list));
+        searchList.setItems(FXCollections.observableArrayList(ingredientsList.stream()
+                .filter(item -> pattern == null || pattern.matcher(item).find())
+                .sorted((item1, item2) -> {
+                    int score1 = getMatchScore(item1, filterText);
+                    int score2 = getMatchScore(item2, filterText);
+                    if (score1 == score2) {
+                        return item1.compareToIgnoreCase(item2);
+                    }
+                    return Integer.compare(score2, score1);
+                })
+                .collect(Collectors.toList())));
     }
 
     /**

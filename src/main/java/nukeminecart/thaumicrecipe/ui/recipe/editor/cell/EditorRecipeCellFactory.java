@@ -63,6 +63,7 @@ public class EditorRecipeCellFactory implements Callback<ListView<String>, ListC
                     EditorRecipeCellFactory.itemName = string.split(stringArraySeparator)[0];
                     if (string.split(stringArraySeparator).length > 1)
                         EditorRecipeCellFactory.itemModid = string.split(stringArraySeparator)[1];
+                    else itemModid = "";
                     setGraphic(EditorRecipeCellFactory.getScene());
                 } catch (IOException e) {
                     instanceRecipeEditorUI.throwAlert(ThaumicRecipeUI.WarningType.SCENE);
