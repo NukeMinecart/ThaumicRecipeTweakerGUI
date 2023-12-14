@@ -20,7 +20,10 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.cell.ListRecip
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -60,10 +63,9 @@ public class RecipeListUI extends ThaumicRecipeUI {
      * @throws IOException if RecipeListUI.fxml is not found
      */
     public void launchListEditor(String type, boolean restricted) throws IOException {
-        //TODO FIX LIST LOADING ISSUE
         RecipeListUI.type = type;
         amountMap = type.equals("ingredients") ? ingredientsMap : aspectMap;
-        if(restricted)
+        if (restricted)
             set = tempAspectList;
         else
             set = type.equals("ingredients") ? ingredientsList : aspectList;
@@ -79,7 +81,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
         Pattern pattern = filterText == null || filterText.isEmpty() ? null :
                 Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
 
-        Platform.runLater(()-> searchList.setItems(FXCollections.observableArrayList(set.stream()
+        ObservableList<String> items = FXCollections.observableArrayList(set.stream()
                 .filter(item -> pattern == null || pattern.matcher(item).find())
                 .sorted((item1, item2) -> {
                     int score1 = getMatchScore(item1, filterText);
@@ -89,7 +91,8 @@ public class RecipeListUI extends ThaumicRecipeUI {
                     }
                     return Integer.compare(score2, score1);
                 })
-                .collect(Collectors.toList()))));
+                .collect(Collectors.toList()));
+        Platform.runLater(() -> searchList.setItems(items));
     }
 
     /**
@@ -106,9 +109,9 @@ public class RecipeListUI extends ThaumicRecipeUI {
         int score = 0;
         Pattern pattern = Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(itemName);
-        while (matcher.find()) {
-            score += 50 - matcher.start();
-        }
+        if (matcher.find())
+            score += 100 - matcher.start();
+
         return score;
     }
 
@@ -220,10 +223,10 @@ public class RecipeListUI extends ThaumicRecipeUI {
         allListName.setText("All " + StringUtils.capitalize(type));
         final Thread[] searchThread = new Thread[1];
         searchField.textProperty().addListener((observableValue, oldText, newText) -> {
-            searchThread[0] = new Thread(()->filterAndSortData(newText));
+            searchThread[0] = new Thread(() -> filterAndSortData(newText));
             searchThread[0].start();
         });
-        searchThread[0] = new Thread(()->filterAndSortData(""));
+        searchThread[0] = new Thread(() -> filterAndSortData(""));
         searchThread[0].start();
         if ((type.equals("ingredients") && editorRecipe.getIngredients() != null)) {
             List<String> ingredientList = new ArrayList<>();

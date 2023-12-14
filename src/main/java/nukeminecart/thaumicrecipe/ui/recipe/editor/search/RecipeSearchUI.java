@@ -1,6 +1,8 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.search;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -83,8 +85,7 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
     private void filterAndSortData(String filterText) {
         Pattern pattern = filterText == null || filterText.isEmpty() ? null :
                 Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
-
-        searchList.setItems(FXCollections.observableArrayList(ingredientsList.stream()
+        ObservableList<String> items = FXCollections.observableArrayList((searchType.equals("research") ? researchList : ingredientsList).stream()
                 .filter(item -> pattern == null || pattern.matcher(item).find())
                 .sorted((item1, item2) -> {
                     int score1 = getMatchScore(item1, filterText);
@@ -94,7 +95,8 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
                     }
                     return Integer.compare(score2, score1);
                 })
-                .collect(Collectors.toList())));
+                .collect(Collectors.toList()));
+        Platform.runLater(() -> searchList.setItems(items));
     }
 
     /**
@@ -111,9 +113,8 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         int score = 0;
         Pattern pattern = Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(itemName);
-        while (matcher.find()) {
-            score += 50 - matcher.start();
-        }
+        if (matcher.find())
+            score += 100 - matcher.start();
         return score;
     }
 
@@ -125,10 +126,10 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         searchList.setCellFactory(new EditorRecipeCellFactory());
         final Thread[] searchThread = new Thread[1];
         searchField.textProperty().addListener((observableValue, oldText, newText) -> {
-            searchThread[0] = new Thread(()->filterAndSortData(newText));
+            searchThread[0] = new Thread(() -> filterAndSortData(newText));
             searchThread[0].start();
         });
-        searchThread[0] = new Thread(()->filterAndSortData(""));
+        searchThread[0] = new Thread(() -> filterAndSortData(""));
         searchThread[0].start();
         searchList.setTooltip(new Tooltip("Double click an item to select it"));
         searchField.setTooltip(new Tooltip("Filter the list of " + (searchType.equals("research") ? "research" : "items")));

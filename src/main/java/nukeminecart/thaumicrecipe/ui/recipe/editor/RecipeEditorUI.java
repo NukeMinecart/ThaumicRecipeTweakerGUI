@@ -101,7 +101,6 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      */
     @FXML
     private void initialize() {
-        //Todo Fix crash and shapeless
         title.setText("Recipe Editor: " + editorRecipe.getName());
         typeDropdown.setText(StringUtils.capitalize(editorRecipe.getType()));
         inputField.setText(editorRecipe.getInput() == null ? "" : editorRecipe.getInput());
@@ -109,9 +108,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         outputField.setText(editorRecipe.getOutput() == null ? "" : editorRecipe.getOutput());
         nameField.setText(editorRecipe.getName());
         researchField.setText(editorRecipe.getResearch() == null ? "" : editorRecipe.getResearch());
-        shapelessCheckbox.setSelected(editorRecipe.getShape() == null || editorRecipe.getShape().length == 0);
-        shapeButton.setVisible(editorRecipe.getShape() != null || editorRecipe.getShape().length != 0);
-
+        shapelessCheckbox.setSelected((editorRecipe.getShape() == null || editorRecipe.getShape().length == 0) && editorRecipeExisted);
+        shapeButton.setVisible(!shapelessCheckbox.isSelected());
         if (editorRecipe.getIngredients() != null) {
             List<String> tempList = new ArrayList<>();
 
@@ -186,6 +184,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void openShapeEditor() {
         try {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
+            saveRecipe();
             new RecipeShapeUI().launchShapeEditor();
         } catch (IOException e) {
             throwAlert(WarningType.SCENE);
@@ -198,6 +197,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
     private void openInputItemSearch() {
         try {
+            saveRecipe();
             new RecipeSearchUI().launchRecipeSearch("input");
         } catch (IOException e) {
             throwAlert(WarningType.SCENE);
@@ -210,6 +210,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
     private void openOutputItemSearch() {
         try {
+            saveRecipe();
             new RecipeSearchUI().launchRecipeSearch("output");
         } catch (IOException e) {
             throwAlert(WarningType.SCENE);
@@ -222,6 +223,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
     private void openResearchSearch() {
         try {
+            saveRecipe();
             new RecipeSearchUI().launchRecipeSearch("research");
         } catch (IOException e) {
             throwAlert(WarningType.SCENE);
@@ -235,6 +237,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void openIngredientsList() {
         try {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
+            saveRecipe();
             new RecipeListUI().launchListEditor("ingredients", false);
         } catch (IOException e) {
             throwAlert(WarningType.SCENE);
@@ -248,6 +251,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void openAspectsList() {
         try {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
+            saveRecipe();
             new RecipeListUI().launchListEditor("aspects", typeDropdown.getText().equalsIgnoreCase("arcane"));
         } catch (IOException e) {
             throwAlert(WarningType.SCENE);
@@ -310,16 +314,24 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
                 }
                 break;
         }
-        if (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))
-            editorRecipe.setShape(shapelessCheckbox.isSelected() ? new String[0] : editorRecipe.getShape());
-        editorRecipe.setName(nameField.getText());
-        editorRecipe.setResearch(researchField.getText());
+        saveRecipe();
         RecipeManagerUI.recipeEditorMap.put(editorRecipe.getName(), editorRecipe);
+        cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
         try {
             ThaumicRecipeConstants.instanceRecipeManagerUI.loadManager();
         } catch (IOException e) {
             throwAlert(WarningType.SCENE);
         }
+    }
+
+    /**
+     * Save the current {@link Recipe} parameters
+     */
+    private void saveRecipe() {
+        if (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))
+            editorRecipe.setShape(shapelessCheckbox.isSelected() ? new String[0] : editorRecipe.getShape());
+        editorRecipe.setName(nameField.getText());
+        editorRecipe.setResearch(researchField.getText());
     }
 
     /**

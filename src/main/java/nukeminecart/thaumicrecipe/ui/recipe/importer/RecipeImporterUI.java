@@ -100,9 +100,8 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
         int score = 0;
         Pattern pattern = Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(itemName);
-        while (matcher.find()) {
-            score += 50 - matcher.start();
-        }
+        if (matcher.find())
+            score += 100 - matcher.start();
         return score;
     }
 
@@ -145,10 +144,10 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
     private void initialize() {
         final Thread[] searchThread = new Thread[1];
         searchField.textProperty().addListener((observableValue, oldText, newText) -> {
-            searchThread[0] = new Thread(()->filterAndSortData(newText));
+            searchThread[0] = new Thread(() -> filterAndSortData(newText));
             searchThread[0].start();
         });
-        searchThread[0] = new Thread(()->filterAndSortData(""));
+        searchThread[0] = new Thread(() -> filterAndSortData(""));
         searchThread[0].start();
         searchField.setTooltip(new Tooltip("Double click an recipe to import it"));
         searchList.setCellFactory(new EditorRecipeCellFactory());
