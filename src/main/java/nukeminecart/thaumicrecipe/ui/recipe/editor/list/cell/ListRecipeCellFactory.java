@@ -16,9 +16,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI;
 import java.io.IOException;
 import java.util.Objects;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.instanceRecipeEditorUI;
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.mapSeparator;
-import static main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI.amountMap;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 
 /**
  * Class that contains the cell factory for {@link RecipeListUI}
@@ -54,7 +52,7 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
             itemAmount.setText(newValue.replaceAll("[^0-9]", ""));
             if (!itemAmount.getText().isEmpty()) {
                 amount = Integer.parseInt(itemAmount.getText());
-                amountMap.put(item.split(mapSeparator)[0], amount);
+                instanceRecipeListUI.amountMap.put(item.split(mapSeparator)[0], amount);
             }
 
         });
@@ -80,7 +78,7 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
             }
         }
         amount = Integer.parseInt(itemAmount.getText());
-        amountMap.put(item.split(mapSeparator)[0], amount);
+        instanceRecipeListUI.amountMap.put(item.split(mapSeparator)[0], amount);
     }
 
 

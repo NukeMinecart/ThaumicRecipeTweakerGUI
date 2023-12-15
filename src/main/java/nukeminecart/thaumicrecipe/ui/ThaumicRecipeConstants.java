@@ -3,6 +3,7 @@ package main.java.nukeminecart.thaumicrecipe.ui;
 import javafx.scene.Scene;
 import main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
+import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.FileParser;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.manager.RecipeManagerUI;
@@ -22,6 +23,7 @@ public class ThaumicRecipeConstants {
     public static HomeUI instanceHomeUI;
     public static RecipeManagerUI instanceRecipeManagerUI;
     public static RecipeEditorUI instanceRecipeEditorUI;
+    public static RecipeListUI instanceRecipeListUI;
     public static HashMap<String, Scene> cachedScenes;
     public static List<String> aspectList, tempAspectList, ingredientsList, researchList;
     public static HashMap<String, Recipe> recipeList;

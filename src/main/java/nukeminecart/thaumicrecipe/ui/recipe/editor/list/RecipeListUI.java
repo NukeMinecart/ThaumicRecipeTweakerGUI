@@ -35,8 +35,8 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
  */
 
 public class RecipeListUI extends ThaumicRecipeUI {
-    public static HashMap<String, Integer> amountMap = new HashMap<>();
-    private static String type;
+    public HashMap<String, Integer> amountMap = new HashMap<>();
+    private String type;
     private static List<String> set;
     @FXML
     private ListView<String> searchList, currentList;
@@ -63,13 +63,14 @@ public class RecipeListUI extends ThaumicRecipeUI {
      * @throws IOException if RecipeListUI.fxml is not found
      */
     public void launchListEditor(String type, boolean restricted) throws IOException {
-        RecipeListUI.type = type;
+        instanceRecipeListUI = this;
+        this.type = type;
         amountMap = type.equals("ingredients") ? ingredientsMap : aspectMap;
         if (restricted)
             set = tempAspectList;
         else
             set = type.equals("ingredients") ? ingredientsList : aspectList;
-        UIManager.loadScreen(getScene(), "list");
+        UIManager.loadScreen(getScene(), "list-"+type);
     }
 
     /**
@@ -214,6 +215,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     @FXML
     public void initialize() {
+        //TODO FIX LIST SCENE NOT LOADING
         searchList.setCellFactory(new EditorRecipeCellFactory());
         currentList.setCellFactory(new ListRecipeCellFactory());
         title.setText("Recipe Editor: " + StringUtils.capitalize(type));

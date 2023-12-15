@@ -380,6 +380,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void changeToNormalType() {
         typeDropdown.setText("Normal");
         editorRecipe.setType("normal");
+        visLabel.setText("Vis Amount");
         showNodes(ingredientsButton, ingredientsLabel, ingredientsListview, shapeButton, shapelessCheckbox);
         hideNodes(inputField, inputLabel, inputButton, visLabel, visField, aspectsButton, aspectLabel, aspectListview, researchField, researchLabel, researchButton);
     }
@@ -391,6 +392,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void changeToArcaneType() {
         typeDropdown.setText("Arcane");
         editorRecipe.setType("arcane");
+        visLabel.setText("Vis Amount");
         showNodes(visLabel, visField, aspectsButton, aspectLabel, aspectListview, ingredientsButton, ingredientsLabel, ingredientsListview, shapeButton, shapelessCheckbox, researchField, researchLabel, researchButton);
         hideNodes(inputLabel, inputField, inputButton);
     }
@@ -402,6 +404,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void changeToCrucibleType() {
         typeDropdown.setText("Crucible");
         editorRecipe.setType("crucible");
+        visLabel.setText("Vis Amount");
         showNodes(inputLabel, inputField, inputButton, aspectLabel, aspectsButton, aspectListview, researchField, researchLabel, researchButton);
         hideNodes(visField, visLabel, ingredientsLabel, ingredientsButton, ingredientsListview, shapeButton, shapelessCheckbox);
     }
@@ -413,8 +416,9 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void changeToInfusionType() {
         typeDropdown.setText("Infusion");
         editorRecipe.setType("infusion");
-        showNodes(inputLabel, inputField, inputButton, ingredientsLabel, ingredientsButton, ingredientsListview, aspectLabel, aspectsButton, aspectListview, researchField, researchLabel, researchButton);
-        hideNodes(visLabel, visField, shapeButton, shapelessCheckbox);
+        visLabel.setText("Instability");
+        showNodes(visLabel, visField, inputLabel, inputField, inputButton, ingredientsLabel, ingredientsButton, ingredientsListview, aspectLabel, aspectsButton, aspectListview, researchField, researchLabel, researchButton);
+        hideNodes(shapeButton, shapelessCheckbox);
     }
 
     /**
