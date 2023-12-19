@@ -70,6 +70,11 @@ public class ThaumicRecipeUI {
                         alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/SceneWarningUI.fxml"))));
 
                         break;
+                    case MISSING:
+                        alert.setTitle("Missing Fields");
+                        alert.setDialogPane(FXMLLoader.load(Objects.requireNonNull(ThaumicRecipeUI.class.getResource("warnings/MissingWarningUI.fxml"))));
+
+                        break;
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -123,6 +128,6 @@ public class ThaumicRecipeUI {
 
 
     public enum WarningType {
-        CLOSE, PARSE, SAVE, LOAD, SCENE, DIRECTORY
+        CLOSE, PARSE, SAVE, LOAD, SCENE, DIRECTORY, MISSING
     }
 }
