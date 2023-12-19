@@ -27,7 +27,6 @@ public class ThaumicRecipeConstants {
     public static HashMap<String, Scene> cachedScenes;
     public static List<String> aspectList, tempAspectList, ingredientsList, researchList;
     public static HashMap<String, Recipe> recipeList;
-    public static HashMap<String, Integer> ingredientsMap, aspectMap;
 
 
     /**
@@ -62,8 +61,6 @@ public class ThaumicRecipeConstants {
         ingredientsList = new ArrayList<>();
         tempAspectList = new ArrayList<>();
         recipeList = new HashMap<>();
-        aspectMap = new HashMap<>();
-        ingredientsMap = new HashMap<>();
         Thread fileThread = new Thread(() -> {
             try {
                 getListsFromFile();
