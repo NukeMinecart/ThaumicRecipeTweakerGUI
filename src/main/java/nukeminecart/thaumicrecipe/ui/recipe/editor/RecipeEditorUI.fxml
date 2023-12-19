@@ -36,7 +36,8 @@
             <Font size="13.0"/>
         </font>
     </TextField>
-    <TextField fx:id="visField" layoutX="291.0" layoutY="358.0" prefHeight="25.0" prefWidth="77.0" promptText="Vis">
+    <TextField fx:id="visField" layoutX="291.0" layoutY="358.0" prefHeight="25.0" prefWidth="77.0" promptText="Vis"
+               text="0">
         <font>
             <Font size="13.0"/>
         </font>

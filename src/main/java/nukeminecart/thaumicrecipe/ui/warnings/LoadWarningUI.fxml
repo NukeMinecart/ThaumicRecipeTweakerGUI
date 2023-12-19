@@ -13,14 +13,14 @@
                     style="-fx-background-color: #111112;">
             <Button layoutX="134.0" layoutY="110.0" mnemonicParsing="false" onAction="#cancelExit"
                     style="-fx-background-color: #222428;" text="Ok"/>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#222428" height="26.0" stroke="BLACK" strokeType="INSIDE"
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#222428" height="30.0" stroke="BLACK" strokeType="INSIDE"
                        style="-fx-fill: #181716;" width="300.0"/>
             <Label layoutX="7.0" layoutY="4.0" text="Files Loaded Incorrectly">
                 <font>
                     <Font size="14.0"/>
                 </font>
             </Label>
-            <Button layoutX="275.0" layoutY="-1.0" mnemonicParsing="false" onAction="#cancelExit"
+            <Button layoutX="275.0" layoutY="1.0" mnemonicParsing="false" onAction="#cancelExit"
                     style="-fx-background-color: #181716;" styleClass="button" text="X"/>
 
             <Label layoutX="12.0" layoutY="26.0" prefHeight="68.0" prefWidth="276.0"
