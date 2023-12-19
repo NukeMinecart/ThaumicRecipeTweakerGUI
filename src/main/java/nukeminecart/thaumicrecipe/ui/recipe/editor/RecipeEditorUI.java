@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.UnaryOperator;
 
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
 import static main.java.nukeminecart.thaumicrecipe.ui.UIManager.stage;
@@ -62,10 +63,10 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      */
     public void launchEditor() throws IOException {
         instanceRecipeEditorUI = this;
-        if (!cachedScenes.containsKey("editor-" + editorRecipe.getName().replace(" ", ""))) {
-            UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName().replace(" ", ""));
+        if (!cachedScenes.containsKey("editor-" + editorRecipe.getName())) {
+            UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName());
         } else {
-            UIManager.loadScreen(cachedScenes.get("editor-" + editorRecipe.getName().replace(" ", "")));
+            UIManager.loadScreen(cachedScenes.get("editor-" + editorRecipe.getName()));
         }
     }
 
@@ -145,15 +146,9 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
                 changeToInfusionType();
                 break;
         }
-        visField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                visField.setText(newValue.replaceAll("\\D", ""));
-            }
-            if (!visField.getText().isEmpty()) {
-                int vis = Integer.parseInt(visField.getText());
-                editorRecipe.setVis(vis);
-            }
-        });
+        UnaryOperator<TextFormatter.Change> integerFilter = change -> change.getControlNewText().matches("^([0-9]\\d*)?$") ? change : null;
+        visField.setTextFormatter(new TextFormatter<>(integerFilter));
+
         visField.setOnKeyPressed(this::changeVisValue);
     }
 
@@ -163,18 +158,35 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      * @param event the {@link KeyEvent}
      */
     private void changeVisValue(KeyEvent event) {
-        int vis = editorRecipe.getVis();
-        if (vis >= 0) {
-            switch (event.getCode()) {
-                case UP:
-                    visField.setText(String.valueOf(vis + 1));
-                    break;
-                case DOWN:
-                    visField.setText(String.valueOf((vis - 1) == -1 ? 0 : vis - 1));
-                    break;
-            }
+        int vis;
+        try {
+            vis = Integer.parseInt(visField.getText());
+        } catch (NumberFormatException e) {
+            vis = 0;
         }
 
+        switch (event.getCode()) {
+            case UP:
+                vis = vis + 1;
+                visField.setText(String.valueOf(vis));
+                break;
+
+            case DOWN:
+                vis = vis - 1 == -1 ? 0 : vis - 1;
+                visField.setText(String.valueOf(vis));
+                break;
+
+            case BACK_SPACE:
+                visField.deletePreviousChar();
+                break;
+
+            case DELETE:
+                visField.deleteNextChar();
+                break;
+        }
+        if (vis < 0) vis = 0;
+        editorRecipe.setVis(vis);
+        event.consume();
     }
 
     /**
@@ -183,8 +195,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
     private void openShapeEditor() {
         try {
-            cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             saveRecipe();
+            cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             new RecipeShapeUI().launchShapeEditor();
         } catch (IOException e) {
             throwAlert(WarningType.SCENE);
@@ -236,8 +248,8 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
     private void openIngredientsList() {
         try {
-            cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             saveRecipe();
+            cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             new RecipeListUI().launchListEditor("ingredients", false);
         } catch (IOException e) {
             throwAlert(WarningType.SCENE);
@@ -250,11 +262,12 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     @FXML
     private void openAspectsList() {
         try {
-            cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             saveRecipe();
+            cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             new RecipeListUI().launchListEditor("aspects", typeDropdown.getText().equalsIgnoreCase("arcane"));
         } catch (IOException e) {
-            throwAlert(WarningType.SCENE);
+            throw new RuntimeException(e);
+//            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -277,42 +290,28 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
      */
     @FXML
     private void saveRecipeAndReturn() {
-        Alert alert = new Alert(Alert.AlertType.ERROR, "One or more field(s) are missing", ButtonType.CLOSE);
-        DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.setHeaderText("Invalid inputs");
-        dialogPane.getStylesheets().add(Objects.requireNonNull(ThaumicRecipeConstants.class.getResource("resources/Dark.css")).toExternalForm());
-        dialogPane.setStyle("-fx-background-color: -fx-color");
-        alert.initOwner(stage.getOwner());
+        boolean showAlert = checkIfEmpty(nameField.getText(), outputField.getText());
 
-        if (checkIfEmpty(nameField.getText(), outputField.getText())) {
-            alert.show();
-            return;
-        }
         switch (editorRecipe.getType()) {
             case "normal":
-                if (editorRecipe.getIngredients() == null || (editorRecipe.getShape() == null && !shapelessCheckbox.isSelected())) {
-                    alert.show();
-                    return;
-                }
+                if (editorRecipe.getIngredients() == null || (editorRecipe.getShape() == null && !shapelessCheckbox.isSelected()))
+                    showAlert = true;
                 break;
             case "arcane":
-                if (checkIfEmpty(visField.getText()) || ingredientsListview.getItems().isEmpty() || aspectListview.getItems().isEmpty() || editorRecipe.getShape() == null) {
-                    alert.show();
-                    return;
-                }
+                if (checkIfEmpty(visField.getText()) || ingredientsListview.getItems().isEmpty() || editorRecipe.getShape() == null)
+                    showAlert = true;
                 break;
             case "crucible":
-                if (checkIfEmpty(inputField.getText()) || aspectListview.getItems().isEmpty()) {
-                    alert.show();
-                    return;
-                }
+                if (checkIfEmpty(inputField.getText()) || aspectListview.getItems().isEmpty()) showAlert = true;
                 break;
             case "infusion":
-                if (checkIfEmpty(inputField.getText()) || ingredientsListview.getItems().isEmpty() || aspectListview.getItems().isEmpty()) {
-                    alert.show();
-                    return;
-                }
+                if (checkIfEmpty(inputField.getText()) || ingredientsListview.getItems().isEmpty() || aspectListview.getItems().isEmpty())
+                    showAlert = true;
                 break;
+        }
+        if (showAlert) {
+            throwAlert(WarningType.MISSING);
+            return;
         }
         saveRecipe();
         RecipeManagerUI.recipeEditorMap.put(editorRecipe.getName(), editorRecipe);

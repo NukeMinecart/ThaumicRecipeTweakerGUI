@@ -50,7 +50,7 @@ public class Recipe {
         this.modid = MOD_ID;
         this.ingredients = null;
         this.output = null;
-        this.vis = -1;
+        this.vis = 0;
         this.aspects = null;
         this.shape = null;
     }

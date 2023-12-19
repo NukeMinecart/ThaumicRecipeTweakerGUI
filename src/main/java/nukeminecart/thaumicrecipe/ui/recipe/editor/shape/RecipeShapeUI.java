@@ -55,10 +55,10 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         if (editorRecipe.getIngredients() != null) {
             ingredientList.addAll(editorRecipe.getIngredients().keySet());
         }
-        if (!cachedScenes.containsKey("shape")) {
-            UIManager.loadScreen(getScene(), "shape");
+        if (!cachedScenes.containsKey("shape-" + editorRecipe.getName())) {
+            UIManager.loadScreen(getScene(), "shape-" + editorRecipe.getName());
         } else {
-            UIManager.loadScreen(cachedScenes.get("shape"));
+            UIManager.loadScreen(cachedScenes.get("shape" + editorRecipe.getName()));
         }
         updateShape();
     }
