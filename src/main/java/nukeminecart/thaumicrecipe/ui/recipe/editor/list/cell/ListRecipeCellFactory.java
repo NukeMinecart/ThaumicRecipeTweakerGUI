@@ -3,20 +3,18 @@ package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.cell;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
-import main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.function.UnaryOperator;
 
-import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
+import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.mapSeparator;
+import static main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI.staticCurrentList;
 
 /**
  * Class that contains the cell factory for {@link RecipeListUI}
@@ -25,7 +23,7 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
 
 
     private static String item;
-    private static int amount;
+    private int amount;
     @FXML
     private Label searchItem;
     @FXML
@@ -48,14 +46,8 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
         searchItem.setText(item.split(mapSeparator)[0]);
         itemAmount.setText(item.split(mapSeparator)[1]);
         amount = Integer.parseInt(itemAmount.getText());
-        itemAmount.textProperty().addListener((observable, oldValue, newValue) -> {
-            itemAmount.setText(newValue.replaceAll("[^0-9]", ""));
-            if (!itemAmount.getText().isEmpty()) {
-                amount = Integer.parseInt(itemAmount.getText());
-                instanceRecipeListUI.amountMap.put(item.split(mapSeparator)[0], amount);
-            }
-
-        });
+        UnaryOperator<TextFormatter.Change> integerFilter = change -> change.getControlNewText().matches("^([1-9]\\d*)?$") ? change : null;
+        itemAmount.setTextFormatter(new TextFormatter<>(integerFilter));
         itemAmount.setOnKeyPressed(this::changeItemAmount);
     }
 
@@ -65,22 +57,52 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
      * @param event the {@link KeyEvent}
      */
     private void changeItemAmount(KeyEvent event) {
-        itemAmount.setText(itemAmount.getText().replaceAll("[^0-9]", ""));
-
-        if (amount >= 0) {
-            switch (event.getCode()) {
-                case UP:
-                    itemAmount.setText(String.valueOf(amount + 1));
-                    break;
-                case DOWN:
-                    itemAmount.setText(String.valueOf((amount - 1) == 0 ? 1 : amount - 1));
-                    break;
-            }
+        try {
+            amount = Integer.parseInt(itemAmount.getText());
+        } catch (NumberFormatException e) {
+            amount = 0;
         }
-        amount = Integer.parseInt(itemAmount.getText());
-        instanceRecipeListUI.amountMap.put(item.split(mapSeparator)[0], amount);
+
+        switch (event.getCode()) {
+            case UP:
+                amount = amount + 1;
+                itemAmount.setText(String.valueOf(amount));
+                break;
+
+            case DOWN:
+                amount = amount - 1 == -1 ? 0 : amount - 1;
+                itemAmount.setText(String.valueOf(amount));
+                break;
+
+            case BACK_SPACE:
+                itemAmount.deletePreviousChar();
+                break;
+
+            case DELETE:
+                itemAmount.deleteNextChar();
+                break;
+        }
+        if (amount < 1) amount = 1;
+        updateListValues(item, item.split(mapSeparator)[0] + mapSeparator + amount);
+        event.consume();
     }
 
+
+    /**
+     * Updates the {@link ListView} with new items
+     *
+     * @param oldItem the old item to delete
+     * @param newItem the new item to add
+     */
+
+    public void updateListValues(String oldItem, String newItem) {
+        //TODO FIX ADDING BUG
+        System.out.println(staticCurrentList.getItems());
+        staticCurrentList.getItems().remove(oldItem);
+        System.out.println(staticCurrentList.getItems());
+        staticCurrentList.getItems().add(newItem);
+        System.out.println(staticCurrentList.getItems());
+    }
 
     /**
      * Recipe Cell formatting and layout
@@ -91,17 +113,20 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
          */
         @Override
         protected void updateItem(String string, boolean empty) {
-
+            if (!empty && item != null && string.split(mapSeparator)[0].equals(item.split(mapSeparator)[0]))
+                string = item;
+            else item = string;
             super.updateItem(string, empty);
+
             if (empty) {
                 setText(null);
                 setGraphic(null);
             } else {
                 try {
-                    item = string;
                     setGraphic(ListRecipeCellFactory.getScene());
                 } catch (IOException e) {
-                    instanceRecipeEditorUI.throwAlert(ThaumicRecipeUI.WarningType.SCENE);
+                    throw new RuntimeException(e);
+                    //instanceRecipeEditorUI.throwAlert(ThaumicRecipeUI.WarningType.SCENE);
                 }
             }
         }

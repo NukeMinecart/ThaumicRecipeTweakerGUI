@@ -20,10 +20,7 @@ import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.cell.ListRecip
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.file.Recipe;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -35,8 +32,9 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
  */
 
 public class RecipeListUI extends ThaumicRecipeUI {
-    public HashMap<String, Integer> amountMap = new HashMap<>();
-    private String type;
+    public static ListView<String> staticCurrentList;
+    private static HashMap<String, Integer> amountMap = new HashMap<>();
+    private static String type;
     private static List<String> set;
     @FXML
     private ListView<String> searchList, currentList;
@@ -64,13 +62,15 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     public void launchListEditor(String type, boolean restricted) throws IOException {
         instanceRecipeListUI = this;
-        this.type = type;
-        amountMap = type.equals("ingredients") ? ingredientsMap : aspectMap;
-        if (restricted)
-            set = tempAspectList;
-        else
-            set = type.equals("ingredients") ? ingredientsList : aspectList;
-        UIManager.loadScreen(getScene(), "list-"+type);
+        RecipeListUI.type = type;
+        amountMap = type.equals("ingredients") ? editorRecipe.getIngredients() : editorRecipe.getAspects();
+        if (amountMap == null) amountMap = new HashMap<>();
+
+        if (restricted) set = tempAspectList;
+        else set = type.equals("ingredients") ? ingredientsList : aspectList;
+        if (!cachedScenes.containsKey("list-" + type + ":" + restricted))
+            UIManager.loadScreen(getScene(), "list-" + editorRecipe.getName() + ":" + type + ":" + restricted);
+        else UIManager.loadScreen(cachedScenes.get("list-" + editorRecipe.getName() + ":" + type + ":" + restricted));
     }
 
     /**
@@ -79,20 +79,17 @@ public class RecipeListUI extends ThaumicRecipeUI {
      * @param filterText the text to filter the {@link ListView}
      */
     private void filterAndSortData(String filterText) {
-        Pattern pattern = filterText == null || filterText.isEmpty() ? null :
-                Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
+        Pattern pattern = filterText == null || filterText.isEmpty() ? null : Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
 
-        ObservableList<String> items = FXCollections.observableArrayList(set.stream()
-                .filter(item -> pattern == null || pattern.matcher(item).find())
-                .sorted((item1, item2) -> {
-                    int score1 = getMatchScore(item1, filterText);
-                    int score2 = getMatchScore(item2, filterText);
-                    if (score1 == score2) {
-                        return item1.compareToIgnoreCase(item2);
-                    }
-                    return Integer.compare(score2, score1);
-                })
-                .collect(Collectors.toList()));
+        ObservableList<String> items = FXCollections.observableArrayList(set.stream().filter(item -> pattern == null || pattern.matcher(item).find()).sorted((item1, item2) -> {
+            int score1 = getMatchScore(item1, filterText);
+            int score2 = getMatchScore(item2, filterText);
+            if (score1 == score2) {
+                return item1.compareToIgnoreCase(item2);
+            }
+            return Integer.compare(score2, score1);
+        }).collect(Collectors.toList()));
+        items.forEach(StringUtils::capitalize);
         Platform.runLater(() -> searchList.setItems(items));
     }
 
@@ -110,8 +107,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
         int score = 0;
         Pattern pattern = Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(itemName);
-        if (matcher.find())
-            score += 100 - matcher.start();
+        if (matcher.find()) score += 100 - matcher.start();
 
         return score;
     }
@@ -125,7 +121,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
     private void setUpDragAndDrop(ListView<String> source, ListView<String> target) {
         source.setOnDragDetected(event -> onDragDetected(event, source));
         target.setOnDragOver(event -> allowDragOver(event, target));
-        target.setOnDragDropped(event -> handleDrop(event, target));
+        target.setOnDragDropped(this::handleDrop);
         target.setOnMouseClicked(event -> handleRemoveDoubleClick(event, target));
     }
 
@@ -140,7 +136,6 @@ public class RecipeListUI extends ThaumicRecipeUI {
             String selectedItem = listView.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
                 listView.getItems().remove(selectedItem);
-                amountMap.remove(selectedItem);
             }
         }
     }
@@ -155,7 +150,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
         if (!listView.getSelectionModel().isEmpty()) {
             Dragboard db = listView.startDragAndDrop(TransferMode.COPY);
             ClipboardContent cc = new ClipboardContent();
-            String selectedItem = listView.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0];
+            String selectedItem = listView.getSelectionModel().getSelectedItem().split(mapSeparator)[0];
             cc.putString(selectedItem);
             db.setContent(cc);
             event.consume();
@@ -170,40 +165,24 @@ public class RecipeListUI extends ThaumicRecipeUI {
      * @param listView the {@link ListView} to allow the drag over for
      */
     private void allowDragOver(DragEvent event, ListView<String> listView) {
-        if (event.getGestureSource() != listView && event.getDragboard().hasString()) {
-            if (type.equals("ingredients") && (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))) {
-                if (listView.getItems().size() < 9) {
-                    event.acceptTransferModes(TransferMode.COPY);
-                }
-            } else {
+        if (event.getGestureSource() != listView && event.getDragboard().hasString())
+            if (allowAdd(event.getDragboard().getString()))
                 event.acceptTransferModes(TransferMode.COPY);
-            }
-        }
+
         event.consume();
     }
 
     /**
      * Handle the drop event
      *
-     * @param event    the {@link DragEvent}
-     * @param listView the {@link ListView} to allow the drop for
+     * @param event the {@link DragEvent}
      */
 
-    private void handleDrop(DragEvent event, ListView<String> listView) {
+    private void handleDrop(DragEvent event) {
         Dragboard db = event.getDragboard();
         boolean success = false;
         if (db.hasString()) {
-            String selectedItem = db.getString();
-            if (!amountMap.containsKey(selectedItem)) {
-                amountMap.put(selectedItem, 1);
-                selectedItem = selectedItem + mapSeparator + 1;
-            } else {
-                int amount = amountMap.get(selectedItem);
-                amountMap.put(selectedItem, amount + 1);
-                listView.getItems().remove(selectedItem + mapSeparator + amount);
-                selectedItem = selectedItem + mapSeparator + (amount + 1);
-            }
-            listView.getItems().add(selectedItem);
+            currentList.getItems().add(db.getString() + mapSeparator + "1");
             success = true;
         }
         event.setDropCompleted(success);
@@ -215,9 +194,10 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     @FXML
     public void initialize() {
-        //TODO FIX LIST SCENE NOT LOADING
+        instanceRecipeListUI = this;
         searchList.setCellFactory(new EditorRecipeCellFactory());
         currentList.setCellFactory(new ListRecipeCellFactory());
+        staticCurrentList = currentList;
         title.setText("Recipe Editor: " + StringUtils.capitalize(type));
         setUpDragAndDrop(searchList, currentList);
         searchList.setItems(FXCollections.observableArrayList());
@@ -244,42 +224,60 @@ public class RecipeListUI extends ThaumicRecipeUI {
             }
             currentList.setItems(FXCollections.observableArrayList(aspectsList));
         }
-
+        currentList.getItems().sort(Comparator.comparing(String::toString));
+        updateList();
         currentList.setTooltip(new Tooltip("The current list of ingredients \n Double click to remove"));
         searchList.setTooltip(new Tooltip("The list of " + type + " currently loaded"));
         searchField.setTooltip(new Tooltip("Filter the list of " + type));
     }
 
     /**
-     * Adds the selected {@link javafx.scene.control.ListCell} to the current {@link ListView}
+     * Updates the {@link ListView} with values from the amountMap {@link HashMap}
+     */
+    public void updateList() {
+        List<String> tempList = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : amountMap.entrySet())
+            tempList.add(entry.getKey() + mapSeparator + entry.getValue());
+        currentList.setItems(FXCollections.observableArrayList(tempList));
+    }
+
+    /**
+     * Adds an item to the {@link ListView} if it matches the criteria of allowAdd
      *
      * @param event the {@link MouseEvent}
      */
-
     @FXML
     private void handleAddDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
-            String selectedItem = searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0];
-
-            if (type.equals("ingredients") && (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))) {
-                if (currentList.getItems().size() < 9) {
-                    if (!amountMap.containsKey(selectedItem)) amountMap.put(selectedItem, 1);
-                    else {
-                        int amount = amountMap.get(selectedItem);
-                        currentList.getItems().remove(selectedItem + mapSeparator + amount);
-                        amountMap.put(selectedItem, amount + 1);
-                    }
-                } else return;
-            } else {
-                if (!amountMap.containsKey(selectedItem)) amountMap.put(selectedItem, 1);
-                else {
-                    int amount = amountMap.get(selectedItem);
-                    currentList.getItems().remove(selectedItem + mapSeparator + amount);
-                    amountMap.put(selectedItem, amount + 1);
-                }
-            }
-            currentList.getItems().add(selectedItem + mapSeparator + amountMap.get(selectedItem));
+            String selectedItem = searchList.getSelectionModel().getSelectedItem().split(mapSeparator)[0];
+            if (allowAdd(selectedItem))
+                currentList.getItems().add(selectedItem + mapSeparator + "1");
         }
+    }
+
+
+    /**
+     * Checks if an item should be allowed to be added to the {@link ListView}
+     *
+     * @param selectedItem the item to check
+     * @return if it can be added
+     */
+    private boolean allowAdd(String selectedItem) {
+        boolean add = true;
+        if (type.equals("ingredients") && (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))) {
+            if (currentList.getItems().size() < 9)
+                for (String item : currentList.getItems())
+                    if (item.split(mapSeparator)[0].equals(selectedItem)) {
+                        add = false;
+                        break;
+                    }
+        } else
+            for (String item : currentList.getItems())
+                if (item.split(mapSeparator)[0].equals(selectedItem)) {
+                    add = false;
+                    break;
+                }
+        return add;
     }
 
     /**
@@ -287,6 +285,9 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
 
     public void saveList() {
+        for (String item : currentList.getItems())
+            amountMap.put(item.split(mapSeparator)[0], Integer.parseInt(item.split(mapSeparator)[1]));
+
         if (type.equals("ingredients")) editorRecipe.setIngredients(amountMap);
         else editorRecipe.setAspects(amountMap);
 
