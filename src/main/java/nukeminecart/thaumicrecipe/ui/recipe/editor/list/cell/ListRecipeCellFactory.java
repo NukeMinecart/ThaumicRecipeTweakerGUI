@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.function.UnaryOperator;
 
 import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.mapSeparator;
-import static main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI.staticCurrentList;
+import static main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.list.RecipeListUI.amountMap;
 
 /**
  * Class that contains the cell factory for {@link RecipeListUI}
@@ -49,6 +49,8 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
         UnaryOperator<TextFormatter.Change> integerFilter = change -> change.getControlNewText().matches("^([1-9]\\d*)?$") ? change : null;
         itemAmount.setTextFormatter(new TextFormatter<>(integerFilter));
         itemAmount.setOnKeyPressed(this::changeItemAmount);
+        itemAmount.setPromptText(item.split(mapSeparator)[0]);
+
     }
 
     /**
@@ -57,12 +59,13 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
      * @param event the {@link KeyEvent}
      */
     private void changeItemAmount(KeyEvent event) {
+        String changeItem = itemAmount.getPromptText();
         try {
-            amount = Integer.parseInt(itemAmount.getText());
+            amountMap.put(changeItem, Integer.valueOf(itemAmount.getText()));
+            amount = amountMap.get(changeItem);
         } catch (NumberFormatException e) {
             amount = 0;
         }
-
         switch (event.getCode()) {
             case UP:
                 amount = amount + 1;
@@ -81,28 +84,17 @@ public class ListRecipeCellFactory implements Callback<ListView<String>, ListCel
             case DELETE:
                 itemAmount.deleteNextChar();
                 break;
+
+            default:
+                try {
+                    amount = Integer.parseInt(amount + event.getText());
+                } catch (NumberFormatException ignored) {
+                }
         }
         if (amount < 1) amount = 1;
-        updateListValues(item, item.split(mapSeparator)[0] + mapSeparator + amount);
-        event.consume();
+        amountMap.put(changeItem, amount);
     }
 
-
-    /**
-     * Updates the {@link ListView} with new items
-     *
-     * @param oldItem the old item to delete
-     * @param newItem the new item to add
-     */
-
-    public void updateListValues(String oldItem, String newItem) {
-        //TODO FIX ADDING BUG
-        System.out.println(staticCurrentList.getItems());
-        staticCurrentList.getItems().remove(oldItem);
-        System.out.println(staticCurrentList.getItems());
-        staticCurrentList.getItems().add(newItem);
-        System.out.println(staticCurrentList.getItems());
-    }
 
     /**
      * Recipe Cell formatting and layout

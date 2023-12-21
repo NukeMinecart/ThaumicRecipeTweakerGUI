@@ -266,8 +266,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
             cachedScenes.put("editor-" + editorRecipe.getName(), stage.getScene());
             new RecipeListUI().launchListEditor("aspects", typeDropdown.getText().equalsIgnoreCase("arcane"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
-//            throwAlert(WarningType.SCENE);
+            throwAlert(WarningType.SCENE);
         }
     }
 
@@ -329,8 +328,11 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void saveRecipe() {
         if (editorRecipe.getType().equals("normal") || editorRecipe.getType().equals("arcane"))
             editorRecipe.setShape(shapelessCheckbox.isSelected() ? new String[0] : editorRecipe.getShape());
-        editorRecipe.setName(nameField.getText());
+        editorRecipe.setName(nameField.getText().isEmpty() ? "" : nameField.getText());
         editorRecipe.setResearch(researchField.getText());
+        editorRecipe.setInput(inputField.getText().isEmpty() ? "" : inputField.getText());
+        editorRecipe.setOutput(outputField.getText().isEmpty() ? "" : outputField.getText());
+        editorRecipe.setVis(Integer.parseInt(visField.getText().isEmpty() ? "0" : visField.getText()));
     }
 
     /**

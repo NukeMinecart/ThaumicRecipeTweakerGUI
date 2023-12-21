@@ -15,7 +15,7 @@
         </font>
     </Label>
     <TextField fx:id="itemAmount" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-               nodeOrientation="LEFT_TO_RIGHT" prefHeight="22.0" prefWidth="36.0">
+               nodeOrientation="LEFT_TO_RIGHT" prefHeight="22.0" prefWidth="45.0">
         <padding>
             <Insets top="1.0"/>
         </padding>

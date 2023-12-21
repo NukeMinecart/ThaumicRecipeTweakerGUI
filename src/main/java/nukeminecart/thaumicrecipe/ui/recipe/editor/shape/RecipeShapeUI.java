@@ -58,7 +58,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
         if (!cachedScenes.containsKey("shape-" + editorRecipe.getName())) {
             UIManager.loadScreen(getScene(), "shape-" + editorRecipe.getName());
         } else {
-            UIManager.loadScreen(cachedScenes.get("shape" + editorRecipe.getName()));
+            UIManager.loadScreen(cachedScenes.get("shape-" + editorRecipe.getName()));
         }
         updateShape();
     }

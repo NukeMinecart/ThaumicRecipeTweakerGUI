@@ -20,6 +20,7 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.sta
  */
 public class UIManager extends Application {
 
+    //TODO RUN TESTS ON ALL ASPECTS OF THE PROGRAM
     public static Stage stage;
 
     /**

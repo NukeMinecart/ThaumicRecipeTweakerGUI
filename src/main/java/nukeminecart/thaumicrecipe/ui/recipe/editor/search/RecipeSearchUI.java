@@ -131,6 +131,7 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         });
         searchThread[0] = new Thread(() -> filterAndSortData(""));
         searchThread[0].start();
+        searchField.requestFocus();
         searchList.setTooltip(new Tooltip("Double click an item to select it"));
         searchField.setTooltip(new Tooltip("Filter the list of " + (searchType.equals("research") ? "research" : "items")));
         title.setText(searchType.equals("research") ? "Recipe Research Search" : "Recipe Item Search");

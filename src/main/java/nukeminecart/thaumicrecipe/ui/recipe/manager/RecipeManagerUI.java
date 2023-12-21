@@ -163,6 +163,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
             }
         } else {
             nameField.setVisible(true);
+            nameField.requestFocus();
         }
     }
 

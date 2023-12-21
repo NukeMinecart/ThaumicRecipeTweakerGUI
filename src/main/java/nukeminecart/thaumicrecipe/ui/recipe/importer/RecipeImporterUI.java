@@ -149,6 +149,7 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
         });
         searchThread[0] = new Thread(() -> filterAndSortData(""));
         searchThread[0].start();
+        searchField.requestFocus();
         searchField.setTooltip(new Tooltip("Double click an recipe to import it"));
         searchList.setCellFactory(new EditorRecipeCellFactory());
         searchList.setTooltip(new Tooltip("Double click a recipe to import it"));

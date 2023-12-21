@@ -61,6 +61,7 @@ public class HomeUI extends ThaumicRecipeUI {
             if (event.getCode().equals(KeyCode.ENTER))
                 newRecipe();
         });
+        newField.requestFocus();
         loadField.setOnKeyPressed(event -> {
             if (event.getCode().equals(KeyCode.ENTER)) loadRecipe();
         });

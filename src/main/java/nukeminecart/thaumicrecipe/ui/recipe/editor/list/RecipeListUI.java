@@ -32,8 +32,7 @@ import static main.java.nukeminecart.thaumicrecipe.ui.ThaumicRecipeConstants.*;
  */
 
 public class RecipeListUI extends ThaumicRecipeUI {
-    public static ListView<String> staticCurrentList;
-    private static HashMap<String, Integer> amountMap = new HashMap<>();
+    public static HashMap<String, Integer> amountMap = new HashMap<>();
     private static String type;
     private static List<String> set;
     @FXML
@@ -182,7 +181,8 @@ public class RecipeListUI extends ThaumicRecipeUI {
         Dragboard db = event.getDragboard();
         boolean success = false;
         if (db.hasString()) {
-            currentList.getItems().add(db.getString() + mapSeparator + "1");
+            amountMap.put(db.getString(), 1);
+            updateList();
             success = true;
         }
         event.setDropCompleted(success);
@@ -197,7 +197,6 @@ public class RecipeListUI extends ThaumicRecipeUI {
         instanceRecipeListUI = this;
         searchList.setCellFactory(new EditorRecipeCellFactory());
         currentList.setCellFactory(new ListRecipeCellFactory());
-        staticCurrentList = currentList;
         title.setText("Recipe Editor: " + StringUtils.capitalize(type));
         setUpDragAndDrop(searchList, currentList);
         searchList.setItems(FXCollections.observableArrayList());
@@ -210,6 +209,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
         });
         searchThread[0] = new Thread(() -> filterAndSortData(""));
         searchThread[0].start();
+        searchField.requestFocus();
         if ((type.equals("ingredients") && editorRecipe.getIngredients() != null)) {
             List<String> ingredientList = new ArrayList<>();
             for (String key : editorRecipe.getIngredients().keySet()) {
@@ -239,6 +239,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
         for (Map.Entry<String, Integer> entry : amountMap.entrySet())
             tempList.add(entry.getKey() + mapSeparator + entry.getValue());
         currentList.setItems(FXCollections.observableArrayList(tempList));
+        currentList.getItems().sort(Comparator.comparing(String::toString));
     }
 
     /**
@@ -250,8 +251,11 @@ public class RecipeListUI extends ThaumicRecipeUI {
     private void handleAddDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
             String selectedItem = searchList.getSelectionModel().getSelectedItem().split(mapSeparator)[0];
-            if (allowAdd(selectedItem))
-                currentList.getItems().add(selectedItem + mapSeparator + "1");
+            if (allowAdd(selectedItem)) {
+                amountMap.put(selectedItem, 1);
+                updateList();
+            }
+
         }
     }
 
@@ -285,6 +289,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
 
     public void saveList() {
+        updateList();
         for (String item : currentList.getItems())
             amountMap.put(item.split(mapSeparator)[0], Integer.parseInt(item.split(mapSeparator)[1]));
 
