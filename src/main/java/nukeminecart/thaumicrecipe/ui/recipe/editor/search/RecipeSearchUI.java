@@ -70,7 +70,7 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
     @FXML
     private void handleDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
-            instanceRecipeEditorUI.launchEditorFromSearch(searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0], searchType);
+            instanceRecipeEditorUI.launchEditorFromSearch(searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0] + " x"+1, searchType);
         }
     }
 

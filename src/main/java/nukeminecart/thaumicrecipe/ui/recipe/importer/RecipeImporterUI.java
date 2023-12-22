@@ -66,7 +66,7 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
 
         List<Map.Entry<String, Recipe>> toSort = new ArrayList<>();
         for (Map.Entry<String, Recipe> entry : recipeList.entrySet()) {
-            if (pattern == null || pattern.matcher(entry.getKey()).find()) {
+            if (pattern == null || pattern.matcher(entry.getKey().split(";")[0]).find()) {
                 toSort.add(entry);
             }
         }
@@ -74,7 +74,7 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
             int score1 = getMatchScore(entry1.getKey().split(";")[0], filterText);
             int score2 = getMatchScore(entry2.getKey().split(";")[0], filterText);
             if (score1 == score2) {
-                return entry1.getKey().compareToIgnoreCase(entry2.getKey());
+                return entry1.getKey().split(";")[0].compareToIgnoreCase(entry2.getKey().split(";")[0]);
             }
             return Integer.compare(score2, score1);
         });
