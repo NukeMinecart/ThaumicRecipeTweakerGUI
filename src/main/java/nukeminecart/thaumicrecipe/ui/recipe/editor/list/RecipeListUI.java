@@ -249,7 +249,7 @@ public class RecipeListUI extends ThaumicRecipeUI {
      */
     @FXML
     private void handleAddDoubleClick(MouseEvent event) {
-        if (event.getClickCount() == 2) {
+        if (event.getClickCount() == 2 && !searchList.getSelectionModel().isEmpty()) {
             String selectedItem = searchList.getSelectionModel().getSelectedItem().split(mapSeparator)[0];
             if (allowAdd(selectedItem)) {
                 amountMap.put(selectedItem, 1);
@@ -324,5 +324,13 @@ public class RecipeListUI extends ThaumicRecipeUI {
         if (!items.isEmpty()) {
             items.remove(items.size() - 1);
         }
+    }
+
+    /**
+     * Sets the current focus to the search bar
+     */
+    @FXML
+    private void setSearchFocus() {
+        searchField.requestFocus();
     }
 }

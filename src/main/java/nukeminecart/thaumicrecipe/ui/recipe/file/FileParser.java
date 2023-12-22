@@ -233,12 +233,8 @@ public class FileParser {
     public static void setConfigOptions(String activeRecipe, boolean openGUI) throws IOException {
         File configFile = new File(recipeDirectory, "recipe.cfg");
         List<String> contents = new ArrayList<>();
-        if (checkExists(configFile)) {
+        if (!configFile.createNewFile()) {
             contents = readFile(configFile);
-        } else {
-            if (!configFile.createNewFile()) {
-                return;
-            }
         }
         if (contents.isEmpty()) {
             contents.add(activeRecipe.isEmpty() ? null : ("active-recipe:" + activeRecipe));

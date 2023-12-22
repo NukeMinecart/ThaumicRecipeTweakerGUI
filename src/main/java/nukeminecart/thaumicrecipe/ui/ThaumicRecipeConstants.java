@@ -1,5 +1,6 @@
 package main.java.nukeminecart.thaumicrecipe.ui;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import javafx.scene.Scene;
 import main.java.nukeminecart.thaumicrecipe.ui.home.HomeUI;
 import main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.RecipeEditorUI;
@@ -83,6 +84,7 @@ public class ThaumicRecipeConstants {
 
         File aspectsFile = new File(recipeDirectory, "aspects.lst");
         if (aspectsFile.exists()) aspectList = FileParser.parseList(aspectsFile);
+        aspectList.forEach(StringUtils::capitalize);
         File researchFile = new File(recipeDirectory, "research.lst");
         if (researchFile.exists()) researchList = FileParser.parseList(researchFile);
 

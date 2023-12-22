@@ -157,4 +157,12 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
 
     }
 
+    /**
+     * Sets the current focus to the search bar
+     */
+    @FXML
+    private void setSearchFocus() {
+        searchField.requestFocus();
+    }
+
 }

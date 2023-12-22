@@ -137,4 +137,12 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         title.setText(searchType.equals("research") ? "Recipe Research Search" : "Recipe Item Search");
         filterAndSortData("");
     }
+
+    /**
+     * Sets the current focus to the search bar
+     */
+    @FXML
+    private void setSearchFocus() {
+        searchField.requestFocus();
+    }
 }
