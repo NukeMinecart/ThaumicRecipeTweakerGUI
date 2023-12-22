@@ -71,8 +71,8 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
             }
         }
         toSort.sort((entry1, entry2) -> {
-            int score1 = getMatchScore(entry1.getKey(), filterText);
-            int score2 = getMatchScore(entry2.getKey(), filterText);
+            int score1 = getMatchScore(entry1.getKey().split(";")[0], filterText);
+            int score2 = getMatchScore(entry2.getKey().split(";")[0], filterText);
             if (score1 == score2) {
                 return entry1.getKey().compareToIgnoreCase(entry2.getKey());
             }
@@ -80,9 +80,9 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
         });
         List<String> list = new ArrayList<>();
         for (Map.Entry<String, Recipe> entry : toSort) {
-            String key = entry.getKey();
-            list.add(key + stringArraySeparator + entry.getValue().getModid());
+            list.add(entry.getKey().replace(";",stringArraySeparator));
         }
+
         searchList.setItems(FXCollections.observableArrayList(list));
     }
 
@@ -127,7 +127,8 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
         if (event.getClickCount() == 2) {
             String selectedItem = searchList.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
-                Recipe changeRecipe = recipeList.get(selectedItem.split(stringArraySeparator)[0]);
+                Recipe changeRecipe = recipeList.get(selectedItem.replace(stringArraySeparator, ";"));
+                changeRecipe.setName(changeRecipe.getName().split(";")[0]);
                 changeEditorRecipe(changeRecipe.copy());
                 try {
                     new RecipeEditorUI().launchEditor();

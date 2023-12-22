@@ -107,7 +107,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         inputField.setText(editorRecipe.getInput() == null ? "" : editorRecipe.getInput());
         visField.setText(String.valueOf(editorRecipe.getVis()));
         outputField.setText(editorRecipe.getOutput() == null ? "" : editorRecipe.getOutput());
-        nameField.setText(editorRecipe.getName());
+        nameField.setText(editorRecipe.getName().split(";")[0]);
         researchField.setText(editorRecipe.getResearch() == null ? "" : editorRecipe.getResearch());
         shapelessCheckbox.setSelected((editorRecipe.getShape() == null || editorRecipe.getShape().length == 0) && editorRecipeExisted);
         shapeButton.setVisible(!shapelessCheckbox.isSelected());
