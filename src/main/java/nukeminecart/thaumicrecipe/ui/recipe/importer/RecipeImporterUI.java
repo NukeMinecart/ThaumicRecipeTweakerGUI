@@ -80,7 +80,7 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
         });
         List<String> list = new ArrayList<>();
         for (Map.Entry<String, Recipe> entry : toSort) {
-            list.add(entry.getKey().replace(";",stringArraySeparator));
+            list.add(entry.getKey().replace(";", stringArraySeparator));
         }
 
         searchList.setItems(FXCollections.observableArrayList(list));

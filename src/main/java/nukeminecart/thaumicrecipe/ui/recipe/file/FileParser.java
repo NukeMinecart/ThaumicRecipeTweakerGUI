@@ -160,7 +160,7 @@ public class FileParser {
 
 
             for (String shapeElement : compressedRecipe[9].split(stringArraySeparator)) {
-                for(int i = 0; i < countOccurrences(shapeElement, "null"); i++)
+                for (int i = 0; i < countOccurrences(shapeElement, "null"); i++)
                     shape.add("");
 
                 shapeElement = shapeElement.replace("null", "");
@@ -177,7 +177,7 @@ public class FileParser {
     /**
      * Returns the count of how many times a substring appears in the given string.
      *
-     * @param str The string to search in.
+     * @param str    The string to search in.
      * @param subStr The substring to find in the string.
      * @return The count of occurrences of the substring.
      */
@@ -192,6 +192,7 @@ public class FileParser {
 
         return count;
     }
+
     /**
      * Returns all the recipes from a list of strings
      *
