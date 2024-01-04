@@ -172,6 +172,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
      */
     @FXML
     private void saveRecipeToFolder() {
+        if (recipeDirectory == null || recipeDirectory.isEmpty() || recipeDirectory.contains("true\\")) return;
         try {
             FileParser.saveRecipesToFile(new File(recipeDirectory, stringTitle), recipes);
         } catch (IOException e) {
@@ -191,6 +192,7 @@ public class RecipeManagerUI extends ThaumicRecipeUI {
         chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
 
         File directoryChosen = chooser.showDialog(UIManager.stage.getOwner());
+        if (directoryChosen == null) return;
         try {
             FileParser.saveRecipesToFile(new File(directoryChosen, stringTitle), recipes);
         } catch (IOException e) {
