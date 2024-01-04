@@ -70,7 +70,7 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
     @FXML
     private void handleDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
-            instanceRecipeEditorUI.launchEditorFromSearch(searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0] + " x"+1, searchType);
+            instanceRecipeEditorUI.launchEditorFromSearch(searchList.getSelectionModel().getSelectedItem().split(stringArraySeparator)[0] + (searchType.equals("research") ? "" : " x1"), searchType);
         }
     }
 
@@ -83,19 +83,15 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
     }
 
     private void filterAndSortData(String filterText) {
-        Pattern pattern = filterText == null || filterText.isEmpty() ? null :
-                Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
-        ObservableList<String> items = FXCollections.observableArrayList((searchType.equals("research") ? researchList : ingredientsList).stream()
-                .filter(item -> pattern == null || pattern.matcher(item).find())
-                .sorted((item1, item2) -> {
-                    int score1 = getMatchScore(item1, filterText);
-                    int score2 = getMatchScore(item2, filterText);
-                    if (score1 == score2) {
-                        return item1.compareToIgnoreCase(item2);
-                    }
-                    return Integer.compare(score2, score1);
-                })
-                .collect(Collectors.toList()));
+        Pattern pattern = filterText == null || filterText.isEmpty() ? null : Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
+        ObservableList<String> items = FXCollections.observableArrayList((searchType.equals("research") ? researchList : ingredientsList).stream().filter(item -> pattern == null || pattern.matcher(item).find()).sorted((item1, item2) -> {
+            int score1 = getMatchScore(item1, filterText);
+            int score2 = getMatchScore(item2, filterText);
+            if (score1 == score2) {
+                return item1.compareToIgnoreCase(item2);
+            }
+            return Integer.compare(score2, score1);
+        }).collect(Collectors.toList()));
         Platform.runLater(() -> searchList.setItems(items));
     }
 
@@ -113,8 +109,7 @@ public class RecipeSearchUI extends ThaumicRecipeUI {
         int score = 0;
         Pattern pattern = Pattern.compile(Pattern.quote(filterText), Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(itemName);
-        if (matcher.find())
-            score += 100 - matcher.start();
+        if (matcher.find()) score += 100 - matcher.start();
         return score;
     }
 

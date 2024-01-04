@@ -78,12 +78,15 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
             if (type.equalsIgnoreCase("input")) editorRecipe.setInput(item);
             else if (type.equalsIgnoreCase("output")) editorRecipe.setOutput(item);
             else editorRecipe.setResearch(item);
-        }
-        try {
-            UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName());
-        } catch (IOException e) {
-            throwAlert(WarningType.SCENE);
-        }
+            try {
+                UIManager.loadScreen(getScene(), "editor-" + editorRecipe.getName());
+            } catch (IOException e) {
+                throwAlert(WarningType.SCENE);
+            }
+        }else
+            UIManager.loadScreen(cachedScenes.get("editor-" + editorRecipe.getName()));
+
+
     }
 
     /**
@@ -104,9 +107,9 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
     private void initialize() {
         title.setText("Recipe Editor: " + editorRecipe.getName());
         typeDropdown.setText(StringUtils.capitalize(editorRecipe.getType()));
-        inputField.setText(editorRecipe.getInput() == null ? "" : editorRecipe.getInput().split(mapSeparator)[0]+" x"+editorRecipe.getInput().split(mapSeparator)[1]);
+        inputField.setText(editorRecipe.getInput() == null ? "" : editorRecipe.getInput().replace(mapSeparator," x"));
         visField.setText(String.valueOf(editorRecipe.getVis()));
-        outputField.setText(editorRecipe.getOutput() == null ? "" : editorRecipe.getOutput().split(mapSeparator)[0]+" x"+editorRecipe.getOutput().split(mapSeparator)[1]);
+        outputField.setText(editorRecipe.getOutput() == null ? "" : editorRecipe.getOutput().replace(mapSeparator," x"));
         nameField.setText(editorRecipe.getName().split(";")[0]);
         researchField.setText(editorRecipe.getResearch() == null ? "" : editorRecipe.getResearch());
         shapelessCheckbox.setSelected((editorRecipe.getShape() == null || editorRecipe.getShape().length == 0) && editorRecipeExisted);
