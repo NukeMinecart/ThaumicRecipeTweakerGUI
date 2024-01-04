@@ -147,7 +147,7 @@ public class FileParser {
             ingredients = new HashMap<>();
             if (!compressedRecipe[5].isEmpty())
                 for (String ingredient : compressedRecipe[5].split(stringArraySeparator))
-                    ingredients.put(ingredient.split(mapSeparator)[0], Integer.parseInt(ingredient.split(mapSeparator)[1]));
+                    ingredients.put(ingredient.split(mapSeparator)[0], Integer.parseInt(ingredient.split(mapSeparator)[2]));
             output = compressedRecipe[6];
             try {
                 vis = Integer.parseInt(compressedRecipe[7]);
@@ -160,10 +160,10 @@ public class FileParser {
 
 
             for (String shapeElement : compressedRecipe[9].split(stringArraySeparator)) {
-                if (shapeElement.contains("null")) {
-                    shapeElement = shapeElement.replace("null", "");
+                for(int i = 0; i < countOccurrences(shapeElement, "null"); i++)
                     shape.add("");
-                }
+
+                shapeElement = shapeElement.replace("null", "");
                 shape.add(shapeElement);
             }
         } catch (ArrayIndexOutOfBoundsException exception) {
@@ -174,6 +174,24 @@ public class FileParser {
         return new Recipe(name, type, research, modid, input, ingredients, output, vis, aspects, shape.toArray(new String[0]));
     }
 
+    /**
+     * Returns the count of how many times a substring appears in the given string.
+     *
+     * @param str The string to search in.
+     * @param subStr The substring to find in the string.
+     * @return The count of occurrences of the substring.
+     */
+    public static int countOccurrences(String str, String subStr) {
+        int count = 0;
+        int idx = 0;
+
+        while ((idx = str.indexOf(subStr, idx)) != -1) {
+            count++;
+            idx += subStr.length();
+        }
+
+        return count;
+    }
     /**
      * Returns all the recipes from a list of strings
      *
