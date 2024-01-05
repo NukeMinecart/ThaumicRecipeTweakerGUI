@@ -137,8 +137,8 @@ public class RecipeImporterUI extends ThaumicRecipeUI {
                     throw new RuntimeException(FileParser.compressRecipe(editorRecipe));
                 }
             }
-
         }
+        event.consume();
     }
 
     @FXML

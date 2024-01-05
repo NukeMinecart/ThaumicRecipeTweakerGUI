@@ -189,7 +189,6 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
         }
         if (vis < 0) vis = 0;
         editorRecipe.setVis(vis);
-        event.consume();
     }
 
     /**
@@ -300,7 +299,7 @@ public class RecipeEditorUI extends ThaumicRecipeUI {
                     showAlert = true;
                 break;
             case "arcane":
-                if (checkIfEmpty(visField.getText()) || ingredientsListview.getItems().isEmpty() || editorRecipe.getShape() == null)
+                if (checkIfEmpty(visField.getText()) || ingredientsListview.getItems().isEmpty() || (editorRecipe.getShape() == null && !shapelessCheckbox.isSelected()))
                     showAlert = true;
                 break;
             case "crucible":

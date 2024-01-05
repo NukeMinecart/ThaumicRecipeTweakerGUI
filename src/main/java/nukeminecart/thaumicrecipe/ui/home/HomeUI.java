@@ -58,8 +58,7 @@ public class HomeUI extends ThaumicRecipeUI {
         newField.setTooltip(new Tooltip("The name of the recipe"));
         loadField.setTooltip(new Tooltip("The filepath of a .rcp file"));
         newField.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER))
-                newRecipe();
+            if (event.getCode().equals(KeyCode.ENTER)) newRecipe();
         });
         newField.requestFocus();
         loadField.setOnKeyPressed(event -> {

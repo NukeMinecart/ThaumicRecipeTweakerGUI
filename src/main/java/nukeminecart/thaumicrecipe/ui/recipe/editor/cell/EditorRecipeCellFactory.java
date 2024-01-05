@@ -1,5 +1,6 @@
 package main.java.nukeminecart.thaumicrecipe.ui.recipe.editor.cell;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -53,7 +54,7 @@ public class EditorRecipeCellFactory implements Callback<ListView<String>, ListC
          */
         @Override
         protected void updateItem(String string, boolean empty) {
-
+            if(!Platform.isFxApplicationThread()) return;
             super.updateItem(string, empty);
             if (empty) {
                 setText(null);

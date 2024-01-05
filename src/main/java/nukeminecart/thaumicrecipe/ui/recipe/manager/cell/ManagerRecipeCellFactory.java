@@ -72,8 +72,8 @@ public class ManagerRecipeCellFactory implements Callback<ListView<Recipe>, List
                     ClipboardContent content = new ClipboardContent();
                     content.putString(getItem().getName());
                     db.setContent(content);
-                    event.consume();
                 }
+                event.consume();
             });
             /*
             Check when an item is dragged over the list

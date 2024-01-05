@@ -198,6 +198,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
                 listView.getItems().remove(selectedItem);
             }
         }
+        event.consume();
     }
 
     /**
@@ -229,6 +230,7 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
                 event.acceptTransferModes(TransferMode.COPY, TransferMode.MOVE);
             }
         }
+        event.consume();
     }
 
     /**
@@ -251,5 +253,6 @@ public class RecipeShapeUI extends ThaumicRecipeUI {
                 targetList.add(draggedItem);
             }
         }
+        event.consume();
     }
 }

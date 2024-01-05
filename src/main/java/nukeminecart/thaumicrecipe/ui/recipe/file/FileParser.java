@@ -79,16 +79,21 @@ public class FileParser {
         returnRecipe.append(recipe.getType()).append(stringSeparator);
         returnRecipe.append(recipe.getResearch()).append(stringSeparator);
         returnRecipe.append(recipe.getModid()).append(stringSeparator);
-        returnRecipe.append(recipe.getInput()).append(stringSeparator);
-
-        for (String ingredient : recipe.getIngredients().keySet())
-            returnRecipe.append(ingredient).append(mapSeparator).append(recipe.getIngredients().get(ingredient)).append(stringArraySeparator);
-
+        if (!recipe.getInput().contains(" x"))
+            returnRecipe.append(recipe.getInput()).append(mapSeparator).append(1).append(stringSeparator);
+        else
+            returnRecipe.append(recipe.getInput().replace(" x",mapSeparator)).append(stringSeparator);
+        if(recipe.getIngredients() != null && !recipe.getIngredients().isEmpty())
+            for (String ingredient : recipe.getIngredients().keySet())
+                returnRecipe.append(ingredient).append(mapSeparator).append(recipe.getIngredients().get(ingredient)).append(stringArraySeparator);
         returnRecipe.append(stringSeparator);
-        returnRecipe.append(recipe.getOutput()).append(stringSeparator);
+        if (!recipe.getOutput().contains(" x"))
+            returnRecipe.append(recipe.getOutput()).append(mapSeparator).append(1).append(stringSeparator);
+        else
+            returnRecipe.append(recipe.getOutput().replace(" x",mapSeparator)).append(stringSeparator);
 
         returnRecipe.append(recipe.getVis()).append(stringSeparator);
-        if (recipe.getAspects() != null) for (String aspect : recipe.getAspects().keySet())
+        if (recipe.getAspects() != null && !recipe.getAspects().isEmpty()) for (String aspect : recipe.getAspects().keySet())
             returnRecipe.append(aspect).append(mapSeparator).append(recipe.getAspects().get(aspect)).append(stringArraySeparator);
 
         returnRecipe.append(stringSeparator);

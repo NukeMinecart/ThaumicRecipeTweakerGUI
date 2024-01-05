@@ -134,9 +134,11 @@ public class RecipeListUI extends ThaumicRecipeUI {
         if (event.getClickCount() == 2) {
             String selectedItem = listView.getSelectionModel().getSelectedItem();
             if (selectedItem != null) {
+                amountMap.remove(selectedItem.split(mapSeparator)[0]);
                 listView.getItems().remove(selectedItem);
             }
         }
+        event.consume();
     }
 
     /**
@@ -152,8 +154,8 @@ public class RecipeListUI extends ThaumicRecipeUI {
             String selectedItem = listView.getSelectionModel().getSelectedItem().split(mapSeparator)[0];
             cc.putString(selectedItem);
             db.setContent(cc);
-            event.consume();
         }
+        event.consume();
     }
 
 
@@ -255,8 +257,8 @@ public class RecipeListUI extends ThaumicRecipeUI {
                 amountMap.put(selectedItem, 1);
                 updateList();
             }
-
         }
+        event.consume();
     }
 
 

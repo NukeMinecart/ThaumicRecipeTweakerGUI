@@ -97,6 +97,7 @@ public class ThaumicRecipeUI {
     private void panePressed(MouseEvent me) {
         offsetX = stage.getX() - me.getScreenX();
         offsetY = stage.getY() - me.getScreenY();
+        me.consume();
     }
 
     /**
@@ -108,6 +109,7 @@ public class ThaumicRecipeUI {
     private void paneDragged(MouseEvent me) {
         stage.setX(offsetX + me.getScreenX());
         stage.setY(offsetY + me.getScreenY());
+        me.consume();
     }
 
     /**
