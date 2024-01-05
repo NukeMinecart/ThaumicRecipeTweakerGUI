@@ -54,7 +54,7 @@ public class EditorRecipeCellFactory implements Callback<ListView<String>, ListC
          */
         @Override
         protected void updateItem(String string, boolean empty) {
-            if(!Platform.isFxApplicationThread()) return;
+            if (!Platform.isFxApplicationThread()) return;
             super.updateItem(string, empty);
             if (empty) {
                 setText(null);
