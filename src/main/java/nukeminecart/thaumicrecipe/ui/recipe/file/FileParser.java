@@ -153,7 +153,7 @@ public class FileParser {
             ingredients = new HashMap<>();
             if (!compressedRecipe[5].isEmpty())
                 for (String ingredient : compressedRecipe[5].split(stringArraySeparator))
-                    ingredients.put(ingredient.split(mapSeparator)[0], Integer.parseInt(ingredient.split(mapSeparator)[2]));
+                    ingredients.put(ingredient.split(mapSeparator)[0], Integer.parseInt(ingredient.split(mapSeparator)[1]));
             output = compressedRecipe[6];
             try {
                 vis = Integer.parseInt(compressedRecipe[7]);
