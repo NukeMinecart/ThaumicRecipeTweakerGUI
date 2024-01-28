@@ -258,15 +258,15 @@ public class FileParser {
     public static void setConfigOptions(String activeRecipe, boolean openGUI) throws IOException {
         File configFile = new File(recipeDirectory, "recipe.cfg");
         List<String> contents = new ArrayList<>();
-        if (!configFile.createNewFile()) {
+        if (configFile.exists() || !configFile.createNewFile() ) {
             contents = readFile(configFile);
         }
         if (contents.isEmpty()) {
-            contents.add(activeRecipe.isEmpty() ? null : ("active-recipe:" + activeRecipe));
+            contents.add((activeRecipe != null && activeRecipe.isEmpty()) ? null : ("active-recipe:" + activeRecipe));
         } else {
             String currentActiveRecipe = contents.get(0).replace("active-recipe:", "");
             contents.clear();
-            contents.add("active-recipe:" + (activeRecipe.isEmpty() ? currentActiveRecipe : activeRecipe));
+            contents.add("active-recipe:" + ((activeRecipe != null && activeRecipe.isEmpty()) ? currentActiveRecipe : activeRecipe));
         }
         contents.add("open-gui:" + openGUI);
         saveToFile(configFile, contents);
